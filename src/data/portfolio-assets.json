@@ -1,0 +1,738 @@
+{
+  "blend": [
+    {
+      "id": "blend-01",
+      "src": "/images/ashbi/gallery/blend-01-1643.webp",
+      "srcset": "/images/ashbi/gallery/blend-01-640.webp 640w, /images/ashbi/gallery/blend-01-1200.webp 1200w, /images/ashbi/gallery/blend-01-1643.webp 1643w",
+      "width": 1643,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/08/159-coffee-beans-pouch-mockup.png"
+    },
+    {
+      "id": "blend-02",
+      "src": "/images/ashbi/gallery/blend-02-1620.webp",
+      "srcset": "/images/ashbi/gallery/blend-02-640.webp 640w, /images/ashbi/gallery/blend-02-1200.webp 1200w, /images/ashbi/gallery/blend-02-1620.webp 1620w",
+      "width": 1620,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Vintage-Food-Truck-Mockup.png"
+    },
+    {
+      "id": "blend-03",
+      "src": "/images/ashbi/gallery/blend-03-1620.webp",
+      "srcset": "/images/ashbi/gallery/blend-03-640.webp 640w, /images/ashbi/gallery/blend-03-1200.webp 1200w, /images/ashbi/gallery/blend-03-1620.webp 1620w",
+      "width": 1620,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Blend-Bag.png"
+    },
+    {
+      "id": "blend-04",
+      "src": "/images/ashbi/gallery/blend-04-1620.webp",
+      "srcset": "/images/ashbi/gallery/blend-04-640.webp 640w, /images/ashbi/gallery/blend-04-1200.webp 1200w, /images/ashbi/gallery/blend-04-1620.webp 1620w",
+      "width": 1620,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Hand-Holding-Coffee-Cup-Mockup.png"
+    }
+  ],
+  "cocofro": [
+    {
+      "id": "cocofro-01",
+      "src": "/images/ashbi/gallery/cocofro-01-1800.webp",
+      "srcset": "/images/ashbi/gallery/cocofro-01-640.webp 640w, /images/ashbi/gallery/cocofro-01-1200.webp 1200w, /images/ashbi/gallery/cocofro-01-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/10/ahjsk.jpg"
+    },
+    {
+      "id": "cocofro-02",
+      "src": "/images/ashbi/gallery/cocofro-02-1800.webp",
+      "srcset": "/images/ashbi/gallery/cocofro-02-640.webp 640w, /images/ashbi/gallery/cocofro-02-1200.webp 1200w, /images/ashbi/gallery/cocofro-02-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/10/Smokey_Story-18.jpg"
+    },
+    {
+      "id": "cocofro-03",
+      "src": "/images/ashbi/gallery/cocofro-03-1800.webp",
+      "srcset": "/images/ashbi/gallery/cocofro-03-640.webp 640w, /images/ashbi/gallery/cocofro-03-1200.webp 1200w, /images/ashbi/gallery/cocofro-03-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/10/Smokey_Story-11.png"
+    },
+    {
+      "id": "cocofro-04",
+      "src": "/images/ashbi/gallery/cocofro-04-1800.webp",
+      "srcset": "/images/ashbi/gallery/cocofro-04-640.webp 640w, /images/ashbi/gallery/cocofro-04-1200.webp 1200w, /images/ashbi/gallery/cocofro-04-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/10/Smokey_Story-22.jpg"
+    },
+    {
+      "id": "cocofro-05",
+      "src": "/images/ashbi/gallery/cocofro-05-1800.webp",
+      "srcset": "/images/ashbi/gallery/cocofro-05-640.webp 640w, /images/ashbi/gallery/cocofro-05-1200.webp 1200w, /images/ashbi/gallery/cocofro-05-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/10/Smokey_Story-19.jpg"
+    },
+    {
+      "id": "cocofro-06",
+      "src": "/images/ashbi/gallery/cocofro-06-1800.webp",
+      "srcset": "/images/ashbi/gallery/cocofro-06-640.webp 640w, /images/ashbi/gallery/cocofro-06-1200.webp 1200w, /images/ashbi/gallery/cocofro-06-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/10/Smokey_Story-17.jpg"
+    },
+    {
+      "id": "cocofro-07",
+      "src": "/images/ashbi/gallery/cocofro-07-1800.webp",
+      "srcset": "/images/ashbi/gallery/cocofro-07-640.webp 640w, /images/ashbi/gallery/cocofro-07-1200.webp 1200w, /images/ashbi/gallery/cocofro-07-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/10/Smokey_Story-23.jpg"
+    },
+    {
+      "id": "cocofro-08",
+      "src": "/images/ashbi/gallery/cocofro-08-1800.webp",
+      "srcset": "/images/ashbi/gallery/cocofro-08-640.webp 640w, /images/ashbi/gallery/cocofro-08-1200.webp 1200w, /images/ashbi/gallery/cocofro-08-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/09/Coco-Fro-Teaser.jpg"
+    },
+    {
+      "id": "cocofro-09",
+      "src": "/images/ashbi/gallery/cocofro-09-1800.webp",
+      "srcset": "/images/ashbi/gallery/cocofro-09-640.webp 640w, /images/ashbi/gallery/cocofro-09-1200.webp 1200w, /images/ashbi/gallery/cocofro-09-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/10/Smokey_Story-16.jpg"
+    },
+    {
+      "id": "cocofro-10",
+      "src": "/images/ashbi/gallery/cocofro-10-1800.webp",
+      "srcset": "/images/ashbi/gallery/cocofro-10-640.webp 640w, /images/ashbi/gallery/cocofro-10-1200.webp 1200w, /images/ashbi/gallery/cocofro-10-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/10/Smokey_Story-24.jpg"
+    },
+    {
+      "id": "cocofro-11",
+      "src": "/images/ashbi/gallery/cocofro-11-1800.webp",
+      "srcset": "/images/ashbi/gallery/cocofro-11-640.webp 640w, /images/ashbi/gallery/cocofro-11-1200.webp 1200w, /images/ashbi/gallery/cocofro-11-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/10/Smokey_Story-20.jpg"
+    },
+    {
+      "id": "cocofro-12",
+      "src": "/images/ashbi/gallery/cocofro-12-1800.webp",
+      "srcset": "/images/ashbi/gallery/cocofro-12-640.webp 640w, /images/ashbi/gallery/cocofro-12-1200.webp 1200w, /images/ashbi/gallery/cocofro-12-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/10/Smokey_Story-21.jpg"
+    },
+    {
+      "id": "cocofro-13",
+      "src": "/images/ashbi/gallery/cocofro-13-1800.webp",
+      "srcset": "/images/ashbi/gallery/cocofro-13-640.webp 640w, /images/ashbi/gallery/cocofro-13-1200.webp 1200w, /images/ashbi/gallery/cocofro-13-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/10/Smokey_Story-25.jpg"
+    },
+    {
+      "id": "cocofro-14",
+      "src": "/images/ashbi/gallery/cocofro-14-1800.webp",
+      "srcset": "/images/ashbi/gallery/cocofro-14-640.webp 640w, /images/ashbi/gallery/cocofro-14-1200.webp 1200w, /images/ashbi/gallery/cocofro-14-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/10/fanbh.jpg"
+    }
+  ],
+  "durabuild": [
+    {
+      "id": "durabuild-01",
+      "src": "/images/ashbi/gallery/durabuild-01-1620.webp",
+      "srcset": "/images/ashbi/gallery/durabuild-01-640.webp 640w, /images/ashbi/gallery/durabuild-01-1200.webp 1200w, /images/ashbi/gallery/durabuild-01-1620.webp 1620w",
+      "width": 1620,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/HM_Construction_02.png"
+    },
+    {
+      "id": "durabuild-02",
+      "src": "/images/ashbi/gallery/durabuild-02-1620.webp",
+      "srcset": "/images/ashbi/gallery/durabuild-02-640.webp 640w, /images/ashbi/gallery/durabuild-02-1200.webp 1200w, /images/ashbi/gallery/durabuild-02-1620.webp 1620w",
+      "width": 1620,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/HM_Construction_04.png"
+    },
+    {
+      "id": "durabuild-03",
+      "src": "/images/ashbi/gallery/durabuild-03-1800.webp",
+      "srcset": "/images/ashbi/gallery/durabuild-03-640.webp 640w, /images/ashbi/gallery/durabuild-03-1200.webp 1200w, /images/ashbi/gallery/durabuild-03-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-24.png"
+    },
+    {
+      "id": "durabuild-04",
+      "src": "/images/ashbi/gallery/durabuild-04-1800.webp",
+      "srcset": "/images/ashbi/gallery/durabuild-04-640.webp 640w, /images/ashbi/gallery/durabuild-04-1200.webp 1200w, /images/ashbi/gallery/durabuild-04-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-22.png"
+    },
+    {
+      "id": "durabuild-05",
+      "src": "/images/ashbi/gallery/durabuild-05-842.webp",
+      "srcset": "/images/ashbi/gallery/durabuild-05-640.webp 640w, /images/ashbi/gallery/durabuild-05-842.webp 842w",
+      "width": 842,
+      "height": 596,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-13.png"
+    },
+    {
+      "id": "durabuild-06",
+      "src": "/images/ashbi/gallery/durabuild-06-842.webp",
+      "srcset": "/images/ashbi/gallery/durabuild-06-640.webp 640w, /images/ashbi/gallery/durabuild-06-842.webp 842w",
+      "width": 842,
+      "height": 596,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-16.png"
+    },
+    {
+      "id": "durabuild-07",
+      "src": "/images/ashbi/gallery/durabuild-07-843.webp",
+      "srcset": "/images/ashbi/gallery/durabuild-07-640.webp 640w, /images/ashbi/gallery/durabuild-07-843.webp 843w",
+      "width": 843,
+      "height": 596,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-129-copy.png"
+    }
+  ],
+  "gemzy": [
+    {
+      "id": "gemzy-01",
+      "src": "/images/ashbi/gallery/gemzy-01-1620.webp",
+      "srcset": "/images/ashbi/gallery/gemzy-01-640.webp 640w, /images/ashbi/gallery/gemzy-01-1200.webp 1200w, /images/ashbi/gallery/gemzy-01-1620.webp 1620w",
+      "width": 1620,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Free-Retail-Storefront-Mockup.png"
+    },
+    {
+      "id": "gemzy-02",
+      "src": "/images/ashbi/gallery/gemzy-02-1800.webp",
+      "srcset": "/images/ashbi/gallery/gemzy-02-640.webp 640w, /images/ashbi/gallery/gemzy-02-1200.webp 1200w, /images/ashbi/gallery/gemzy-02-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-59.png"
+    },
+    {
+      "id": "gemzy-03",
+      "src": "/images/ashbi/gallery/gemzy-03-1800.webp",
+      "srcset": "/images/ashbi/gallery/gemzy-03-640.webp 640w, /images/ashbi/gallery/gemzy-03-1200.webp 1200w, /images/ashbi/gallery/gemzy-03-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-63.png"
+    },
+    {
+      "id": "gemzy-04",
+      "src": "/images/ashbi/gallery/gemzy-04-1800.webp",
+      "srcset": "/images/ashbi/gallery/gemzy-04-640.webp 640w, /images/ashbi/gallery/gemzy-04-1200.webp 1200w, /images/ashbi/gallery/gemzy-04-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-61-1.png"
+    },
+    {
+      "id": "gemzy-05",
+      "src": "/images/ashbi/gallery/gemzy-05-1800.webp",
+      "srcset": "/images/ashbi/gallery/gemzy-05-640.webp 640w, /images/ashbi/gallery/gemzy-05-1200.webp 1200w, /images/ashbi/gallery/gemzy-05-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-62.png"
+    },
+    {
+      "id": "gemzy-06",
+      "src": "/images/ashbi/gallery/gemzy-06-1800.webp",
+      "srcset": "/images/ashbi/gallery/gemzy-06-640.webp 640w, /images/ashbi/gallery/gemzy-06-1200.webp 1200w, /images/ashbi/gallery/gemzy-06-1800.webp 1800w",
+      "width": 1800,
+      "height": 1014,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-65.png"
+    }
+  ],
+  "hopscotch": [
+    {
+      "id": "hopscotch-01",
+      "src": "/images/ashbi/gallery/hopscotch-01-1620.webp",
+      "srcset": "/images/ashbi/gallery/hopscotch-01-640.webp 640w, /images/ashbi/gallery/hopscotch-01-1200.webp 1200w, /images/ashbi/gallery/hopscotch-01-1620.webp 1620w",
+      "width": 1620,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/08/Wall-Poster-Mockup.jpg"
+    },
+    {
+      "id": "hopscotch-02",
+      "src": "/images/ashbi/gallery/hopscotch-02-1800.webp",
+      "srcset": "/images/ashbi/gallery/hopscotch-02-640.webp 640w, /images/ashbi/gallery/hopscotch-02-1200.webp 1200w, /images/ashbi/gallery/hopscotch-02-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/09/Frame-37.jpg"
+    },
+    {
+      "id": "hopscotch-03",
+      "src": "/images/ashbi/gallery/hopscotch-03-1440.webp",
+      "srcset": "/images/ashbi/gallery/hopscotch-03-640.webp 640w, /images/ashbi/gallery/hopscotch-03-1200.webp 1200w, /images/ashbi/gallery/hopscotch-03-1440.webp 1440w",
+      "width": 1440,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/08/Hopscotch_16-oz-2.jpg"
+    },
+    {
+      "id": "hopscotch-04",
+      "src": "/images/ashbi/gallery/hopscotch-04-1440.webp",
+      "srcset": "/images/ashbi/gallery/hopscotch-04-640.webp 640w, /images/ashbi/gallery/hopscotch-04-1200.webp 1200w, /images/ashbi/gallery/hopscotch-04-1440.webp 1440w",
+      "width": 1440,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/08/Hopscotch_8oz-render.jpg"
+    },
+    {
+      "id": "hopscotch-05",
+      "src": "/images/ashbi/gallery/hopscotch-05-1536.webp",
+      "srcset": "/images/ashbi/gallery/hopscotch-05-640.webp 640w, /images/ashbi/gallery/hopscotch-05-1200.webp 1200w, /images/ashbi/gallery/hopscotch-05-1536.webp 1536w",
+      "width": 1536,
+      "height": 1024,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/08/Design_Challenge_Hopscotch-2.jpg"
+    },
+    {
+      "id": "hopscotch-06",
+      "src": "/images/ashbi/gallery/hopscotch-06-1800.webp",
+      "srcset": "/images/ashbi/gallery/hopscotch-06-640.webp 640w, /images/ashbi/gallery/hopscotch-06-1200.webp 1200w, /images/ashbi/gallery/hopscotch-06-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/09/Mockios.jpg"
+    },
+    {
+      "id": "hopscotch-07",
+      "src": "/images/ashbi/gallery/hopscotch-07-1440.webp",
+      "srcset": "/images/ashbi/gallery/hopscotch-07-640.webp 640w, /images/ashbi/gallery/hopscotch-07-1200.webp 1200w, /images/ashbi/gallery/hopscotch-07-1440.webp 1440w",
+      "width": 1440,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/08/Hopscotch_16-Oz.jpg"
+    }
+  ],
+  "marin-food": [
+    {
+      "id": "marin-food-01",
+      "src": "/images/ashbi/gallery/marin-food-01-1620.webp",
+      "srcset": "/images/ashbi/gallery/marin-food-01-640.webp 640w, /images/ashbi/gallery/marin-food-01-1200.webp 1200w, /images/ashbi/gallery/marin-food-01-1620.webp 1620w",
+      "width": 1620,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/09/Wall-Poster-Mockup.jpg"
+    },
+    {
+      "id": "marin-food-02",
+      "src": "/images/ashbi/gallery/marin-food-02-1800.webp",
+      "srcset": "/images/ashbi/gallery/marin-food-02-640.webp 640w, /images/ashbi/gallery/marin-food-02-1200.webp 1200w, /images/ashbi/gallery/marin-food-02-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/09/Smokey_Story-7.jpg"
+    },
+    {
+      "id": "marin-food-03",
+      "src": "/images/ashbi/gallery/marin-food-03-1800.webp",
+      "srcset": "/images/ashbi/gallery/marin-food-03-640.webp 640w, /images/ashbi/gallery/marin-food-03-1200.webp 1200w, /images/ashbi/gallery/marin-food-03-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/09/Smokey_Story-9.jpg"
+    },
+    {
+      "id": "marin-food-04",
+      "src": "/images/ashbi/gallery/marin-food-04-1620.webp",
+      "srcset": "/images/ashbi/gallery/marin-food-04-640.webp 640w, /images/ashbi/gallery/marin-food-04-1200.webp 1200w, /images/ashbi/gallery/marin-food-04-1620.webp 1620w",
+      "width": 1620,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/09/Cotton-Shopping-Bags-Mockup.jpg"
+    },
+    {
+      "id": "marin-food-05",
+      "src": "/images/ashbi/gallery/marin-food-05-1800.webp",
+      "srcset": "/images/ashbi/gallery/marin-food-05-640.webp 640w, /images/ashbi/gallery/marin-food-05-1200.webp 1200w, /images/ashbi/gallery/marin-food-05-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/09/Smokey_Story-18-2.jpg"
+    },
+    {
+      "id": "marin-food-06",
+      "src": "/images/ashbi/gallery/marin-food-06-1800.webp",
+      "srcset": "/images/ashbi/gallery/marin-food-06-640.webp 640w, /images/ashbi/gallery/marin-food-06-1200.webp 1200w, /images/ashbi/gallery/marin-food-06-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/09/Smokey_Story-19.jpg"
+    },
+    {
+      "id": "marin-food-07",
+      "src": "/images/ashbi/gallery/marin-food-07-1800.webp",
+      "srcset": "/images/ashbi/gallery/marin-food-07-640.webp 640w, /images/ashbi/gallery/marin-food-07-1200.webp 1200w, /images/ashbi/gallery/marin-food-07-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/09/Smokey_Story-8.jpg"
+    },
+    {
+      "id": "marin-food-08",
+      "src": "/images/ashbi/gallery/marin-food-08-1800.webp",
+      "srcset": "/images/ashbi/gallery/marin-food-08-640.webp 640w, /images/ashbi/gallery/marin-food-08-1200.webp 1200w, /images/ashbi/gallery/marin-food-08-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/09/Smokey_Story-11-1.png"
+    },
+    {
+      "id": "marin-food-09",
+      "src": "/images/ashbi/gallery/marin-food-09-1620.webp",
+      "srcset": "/images/ashbi/gallery/marin-food-09-640.webp 640w, /images/ashbi/gallery/marin-food-09-1200.webp 1200w, /images/ashbi/gallery/marin-food-09-1620.webp 1620w",
+      "width": 1620,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/09/Urban-Downtown-Bus-Stop-Mockup-on-Street-PSD.jpg"
+    },
+    {
+      "id": "marin-food-10",
+      "src": "/images/ashbi/gallery/marin-food-10-1656.webp",
+      "srcset": "/images/ashbi/gallery/marin-food-10-640.webp 640w, /images/ashbi/gallery/marin-food-10-1200.webp 1200w, /images/ashbi/gallery/marin-food-10-1656.webp 1656w",
+      "width": 1656,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/09/Mockstar-Packaging-Tape-Box-_1.jpg"
+    },
+    {
+      "id": "marin-food-11",
+      "src": "/images/ashbi/gallery/marin-food-11-1800.webp",
+      "srcset": "/images/ashbi/gallery/marin-food-11-640.webp 640w, /images/ashbi/gallery/marin-food-11-1200.webp 1200w, /images/ashbi/gallery/marin-food-11-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/09/Smokey_Story-17-1.jpg"
+    },
+    {
+      "id": "marin-food-12",
+      "src": "/images/ashbi/gallery/marin-food-12-1800.webp",
+      "srcset": "/images/ashbi/gallery/marin-food-12-640.webp 640w, /images/ashbi/gallery/marin-food-12-1200.webp 1200w, /images/ashbi/gallery/marin-food-12-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/09/Smokey_Story-20.jpg"
+    }
+  ],
+  "natural-matcha": [
+    {
+      "id": "natural-matcha-01",
+      "src": "/images/ashbi/gallery/natural-matcha-01-1620.webp",
+      "srcset": "/images/ashbi/gallery/natural-matcha-01-640.webp 640w, /images/ashbi/gallery/natural-matcha-01-1200.webp 1200w, /images/ashbi/gallery/natural-matcha-01-1620.webp 1620w",
+      "width": 1620,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/08/Street-Mural-Building-Mockup.jpg"
+    },
+    {
+      "id": "natural-matcha-02",
+      "src": "/images/ashbi/gallery/natural-matcha-02-1077.webp",
+      "srcset": "/images/ashbi/gallery/natural-matcha-02-640.webp 640w, /images/ashbi/gallery/natural-matcha-02-1077.webp 1077w",
+      "width": 1077,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Box-PSD-Mockupl-copy-2.png"
+    },
+    {
+      "id": "natural-matcha-03",
+      "src": "/images/ashbi/gallery/natural-matcha-03-1517.webp",
+      "srcset": "/images/ashbi/gallery/natural-matcha-03-640.webp 640w, /images/ashbi/gallery/natural-matcha-03-1200.webp 1200w, /images/ashbi/gallery/natural-matcha-03-1517.webp 1517w",
+      "width": 1517,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/08/dghn.jpg"
+    },
+    {
+      "id": "natural-matcha-04",
+      "src": "/images/ashbi/gallery/natural-matcha-04-1800.webp",
+      "srcset": "/images/ashbi/gallery/natural-matcha-04-640.webp 640w, /images/ashbi/gallery/natural-matcha-04-1200.webp 1200w, /images/ashbi/gallery/natural-matcha-04-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/09/Frame-41.jpg"
+    }
+  ],
+  "production-work": [
+    {
+      "id": "production-work-01",
+      "src": "/images/ashbi/gallery/production-work-01-1800.webp",
+      "srcset": "/images/ashbi/gallery/production-work-01-640.webp 640w, /images/ashbi/gallery/production-work-01-1200.webp 1200w, /images/ashbi/gallery/production-work-01-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/09/Mockios.jpg"
+    },
+    {
+      "id": "production-work-02",
+      "src": "/images/ashbi/gallery/production-work-02-1440.webp",
+      "srcset": "/images/ashbi/gallery/production-work-02-640.webp 640w, /images/ashbi/gallery/production-work-02-1200.webp 1200w, /images/ashbi/gallery/production-work-02-1440.webp 1440w",
+      "width": 1440,
+      "height": 1080,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/09/Hopscotch_Sales-Page-A.jpg"
+    },
+    {
+      "id": "production-work-03",
+      "src": "/images/ashbi/gallery/production-work-03-1800.webp",
+      "srcset": "/images/ashbi/gallery/production-work-03-640.webp 640w, /images/ashbi/gallery/production-work-03-1200.webp 1200w, /images/ashbi/gallery/production-work-03-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/09/Smokey_Story-20.jpg"
+    },
+    {
+      "id": "production-work-04",
+      "src": "/images/ashbi/gallery/production-work-04-1800.webp",
+      "srcset": "/images/ashbi/gallery/production-work-04-640.webp 640w, /images/ashbi/gallery/production-work-04-1200.webp 1200w, /images/ashbi/gallery/production-work-04-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/09/Smokey_Story-19.jpg"
+    },
+    {
+      "id": "production-work-05",
+      "src": "/images/ashbi/gallery/production-work-05-1620.webp",
+      "srcset": "/images/ashbi/gallery/production-work-05-640.webp 640w, /images/ashbi/gallery/production-work-05-1200.webp 1200w, /images/ashbi/gallery/production-work-05-1620.webp 1620w",
+      "width": 1620,
+      "height": 1080,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/08/phone.png"
+    },
+    {
+      "id": "production-work-06",
+      "src": "/images/ashbi/gallery/production-work-06-1800.webp",
+      "srcset": "/images/ashbi/gallery/production-work-06-640.webp 640w, /images/ashbi/gallery/production-work-06-1200.webp 1200w, /images/ashbi/gallery/production-work-06-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/08/33-1.jpg"
+    },
+    {
+      "id": "production-work-07",
+      "src": "/images/ashbi/gallery/production-work-07-1800.webp",
+      "srcset": "/images/ashbi/gallery/production-work-07-640.webp 640w, /images/ashbi/gallery/production-work-07-1200.webp 1200w, /images/ashbi/gallery/production-work-07-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/06/Artboard-4-1.png"
+    },
+    {
+      "id": "production-work-08",
+      "src": "/images/ashbi/gallery/production-work-08-1800.webp",
+      "srcset": "/images/ashbi/gallery/production-work-08-640.webp 640w, /images/ashbi/gallery/production-work-08-1200.webp 1200w, /images/ashbi/gallery/production-work-08-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/06/Artboard-63.png"
+    },
+    {
+      "id": "production-work-09",
+      "src": "/images/ashbi/gallery/production-work-09-1440.webp",
+      "srcset": "/images/ashbi/gallery/production-work-09-640.webp 640w, /images/ashbi/gallery/production-work-09-1200.webp 1200w, /images/ashbi/gallery/production-work-09-1440.webp 1440w",
+      "width": 1440,
+      "height": 1080,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/09/Clusters_Newsletter.jpg"
+    },
+    {
+      "id": "production-work-10",
+      "src": "/images/ashbi/gallery/production-work-10-1800.webp",
+      "srcset": "/images/ashbi/gallery/production-work-10-640.webp 640w, /images/ashbi/gallery/production-work-10-1200.webp 1200w, /images/ashbi/gallery/production-work-10-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://www.ashbi.ca/wp-content/uploads/2024/06/Artboard-31.png"
+    }
+  ],
+  "shongoni-skin": [
+    {
+      "id": "shongoni-skin-01",
+      "src": "/images/ashbi/gallery/shongoni-skin-01-1620.webp",
+      "srcset": "/images/ashbi/gallery/shongoni-skin-01-640.webp 640w, /images/ashbi/gallery/shongoni-skin-01-1200.webp 1200w, /images/ashbi/gallery/shongoni-skin-01-1620.webp 1620w",
+      "width": 1620,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/08/phone.png"
+    },
+    {
+      "id": "shongoni-skin-02",
+      "src": "/images/ashbi/gallery/shongoni-skin-02-1800.webp",
+      "srcset": "/images/ashbi/gallery/shongoni-skin-02-640.webp 640w, /images/ashbi/gallery/shongoni-skin-02-1200.webp 1200w, /images/ashbi/gallery/shongoni-skin-02-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/08/33-2.jpg"
+    },
+    {
+      "id": "shongoni-skin-03",
+      "src": "/images/ashbi/gallery/shongoni-skin-03-1080.webp",
+      "srcset": "/images/ashbi/gallery/shongoni-skin-03-640.webp 640w, /images/ashbi/gallery/shongoni-skin-03-1080.webp 1080w",
+      "width": 1080,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/08/image-from-rawpixel-id-7437493-original.jpg"
+    },
+    {
+      "id": "shongoni-skin-04",
+      "src": "/images/ashbi/gallery/shongoni-skin-04-1800.webp",
+      "srcset": "/images/ashbi/gallery/shongoni-skin-04-640.webp 640w, /images/ashbi/gallery/shongoni-skin-04-1200.webp 1200w, /images/ashbi/gallery/shongoni-skin-04-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/08/35-2.jpg"
+    },
+    {
+      "id": "shongoni-skin-05",
+      "src": "/images/ashbi/gallery/shongoni-skin-05-1620.webp",
+      "srcset": "/images/ashbi/gallery/shongoni-skin-05-640.webp 640w, /images/ashbi/gallery/shongoni-skin-05-1200.webp 1200w, /images/ashbi/gallery/shongoni-skin-05-1620.webp 1620w",
+      "width": 1620,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/08/dispenser-bottle-mockup-04.png"
+    },
+    {
+      "id": "shongoni-skin-06",
+      "src": "/images/ashbi/gallery/shongoni-skin-06-1620.webp",
+      "srcset": "/images/ashbi/gallery/shongoni-skin-06-640.webp 640w, /images/ashbi/gallery/shongoni-skin-06-1200.webp 1200w, /images/ashbi/gallery/shongoni-skin-06-1620.webp 1620w",
+      "width": 1620,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/08/design-1724118603128-1.png"
+    },
+    {
+      "id": "shongoni-skin-07",
+      "src": "/images/ashbi/gallery/shongoni-skin-07-1800.webp",
+      "srcset": "/images/ashbi/gallery/shongoni-skin-07-640.webp 640w, /images/ashbi/gallery/shongoni-skin-07-1200.webp 1200w, /images/ashbi/gallery/shongoni-skin-07-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/08/34-1.jpg"
+    },
+    {
+      "id": "shongoni-skin-08",
+      "src": "/images/ashbi/gallery/shongoni-skin-08-1620.webp",
+      "srcset": "/images/ashbi/gallery/shongoni-skin-08-640.webp 640w, /images/ashbi/gallery/shongoni-skin-08-1200.webp 1200w, /images/ashbi/gallery/shongoni-skin-08-1620.webp 1620w",
+      "width": 1620,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/08/dropper-bottle-mockup-04.jpg"
+    }
+  ],
+  "the-octavia-fund": [
+    {
+      "id": "the-octavia-fund-01",
+      "src": "/images/ashbi/gallery/the-octavia-fund-01-1800.webp",
+      "srcset": "/images/ashbi/gallery/the-octavia-fund-01-640.webp 640w, /images/ashbi/gallery/the-octavia-fund-01-1200.webp 1200w, /images/ashbi/gallery/the-octavia-fund-01-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/09/Frame-39.jpg"
+    },
+    {
+      "id": "the-octavia-fund-02",
+      "src": "/images/ashbi/gallery/the-octavia-fund-02-1800.webp",
+      "srcset": "/images/ashbi/gallery/the-octavia-fund-02-640.webp 640w, /images/ashbi/gallery/the-octavia-fund-02-1200.webp 1200w, /images/ashbi/gallery/the-octavia-fund-02-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/09/Frame-400.jpg"
+    },
+    {
+      "id": "the-octavia-fund-03",
+      "src": "/images/ashbi/gallery/the-octavia-fund-03-1800.webp",
+      "srcset": "/images/ashbi/gallery/the-octavia-fund-03-640.webp 640w, /images/ashbi/gallery/the-octavia-fund-03-1200.webp 1200w, /images/ashbi/gallery/the-octavia-fund-03-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/09/Artboard-19-4.46.37-PM.png"
+    }
+  ],
+  "tres": [
+    {
+      "id": "tres-01",
+      "src": "/images/ashbi/gallery/tres-01-1800.webp",
+      "srcset": "/images/ashbi/gallery/tres-01-640.webp 640w, /images/ashbi/gallery/tres-01-1200.webp 1200w, /images/ashbi/gallery/tres-01-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-29.png"
+    },
+    {
+      "id": "tres-02",
+      "src": "/images/ashbi/gallery/tres-02-1800.webp",
+      "srcset": "/images/ashbi/gallery/tres-02-640.webp 640w, /images/ashbi/gallery/tres-02-1200.webp 1200w, /images/ashbi/gallery/tres-02-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-31.png"
+    },
+    {
+      "id": "tres-03",
+      "src": "/images/ashbi/gallery/tres-03-1800.webp",
+      "srcset": "/images/ashbi/gallery/tres-03-640.webp 640w, /images/ashbi/gallery/tres-03-1200.webp 1200w, /images/ashbi/gallery/tres-03-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-28.png"
+    },
+    {
+      "id": "tres-04",
+      "src": "/images/ashbi/gallery/tres-04-1800.webp",
+      "srcset": "/images/ashbi/gallery/tres-04-640.webp 640w, /images/ashbi/gallery/tres-04-1200.webp 1200w, /images/ashbi/gallery/tres-04-1800.webp 1800w",
+      "width": 1800,
+      "height": 1014,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-32.png"
+    },
+    {
+      "id": "tres-05",
+      "src": "/images/ashbi/gallery/tres-05-1800.webp",
+      "srcset": "/images/ashbi/gallery/tres-05-640.webp 640w, /images/ashbi/gallery/tres-05-1200.webp 1200w, /images/ashbi/gallery/tres-05-1800.webp 1800w",
+      "width": 1800,
+      "height": 1014,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-27.png"
+    },
+    {
+      "id": "tres-06",
+      "src": "/images/ashbi/gallery/tres-06-1620.webp",
+      "srcset": "/images/ashbi/gallery/tres-06-640.webp 640w, /images/ashbi/gallery/tres-06-1200.webp 1200w, /images/ashbi/gallery/tres-06-1620.webp 1620w",
+      "width": 1620,
+      "height": 1080,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/09/REPLACE-THIS-SCREEN111121111011211111.jpg"
+    },
+    {
+      "id": "tres-07",
+      "src": "/images/ashbi/gallery/tres-07-1800.webp",
+      "srcset": "/images/ashbi/gallery/tres-07-640.webp 640w, /images/ashbi/gallery/tres-07-1200.webp 1200w, /images/ashbi/gallery/tres-07-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-30.png"
+    }
+  ],
+  "waagbag": [
+    {
+      "id": "waagbag-01",
+      "src": "/images/ashbi/gallery/waagbag-01-1800.webp",
+      "srcset": "/images/ashbi/gallery/waagbag-01-640.webp 640w, /images/ashbi/gallery/waagbag-01-1200.webp 1200w, /images/ashbi/gallery/waagbag-01-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-4-1.png"
+    },
+    {
+      "id": "waagbag-02",
+      "src": "/images/ashbi/gallery/waagbag-02-1800.webp",
+      "srcset": "/images/ashbi/gallery/waagbag-02-640.webp 640w, /images/ashbi/gallery/waagbag-02-1200.webp 1200w, /images/ashbi/gallery/waagbag-02-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-5.png"
+    },
+    {
+      "id": "waagbag-03",
+      "src": "/images/ashbi/gallery/waagbag-03-1800.webp",
+      "srcset": "/images/ashbi/gallery/waagbag-03-640.webp 640w, /images/ashbi/gallery/waagbag-03-1200.webp 1200w, /images/ashbi/gallery/waagbag-03-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/08/Artboard-6@2x.jpg"
+    },
+    {
+      "id": "waagbag-04",
+      "src": "/images/ashbi/gallery/waagbag-04-1800.webp",
+      "srcset": "/images/ashbi/gallery/waagbag-04-640.webp 640w, /images/ashbi/gallery/waagbag-04-1200.webp 1200w, /images/ashbi/gallery/waagbag-04-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-2.png"
+    },
+    {
+      "id": "waagbag-05",
+      "src": "/images/ashbi/gallery/waagbag-05-1800.webp",
+      "srcset": "/images/ashbi/gallery/waagbag-05-640.webp 640w, /images/ashbi/gallery/waagbag-05-1200.webp 1200w, /images/ashbi/gallery/waagbag-05-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-1-1.png"
+    },
+    {
+      "id": "waagbag-06",
+      "src": "/images/ashbi/gallery/waagbag-06-1800.webp",
+      "srcset": "/images/ashbi/gallery/waagbag-06-640.webp 640w, /images/ashbi/gallery/waagbag-06-1200.webp 1200w, /images/ashbi/gallery/waagbag-06-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-3.png"
+    },
+    {
+      "id": "waagbag-07",
+      "src": "/images/ashbi/gallery/waagbag-07-1800.webp",
+      "srcset": "/images/ashbi/gallery/waagbag-07-640.webp 640w, /images/ashbi/gallery/waagbag-07-1200.webp 1200w, /images/ashbi/gallery/waagbag-07-1800.webp 1800w",
+      "width": 1800,
+      "height": 1013,
+      "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-7-1.png"
+    }
+  ]
+}
