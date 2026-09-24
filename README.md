@@ -1,6 +1,6 @@
 # Ashbi Design local redesign
 
-Astro implementation of Ashbi's brand and web studio site, adapted from the Aeline template. This project is local for review; no deployment target or automatic deploy workflow is configured.
+Astro implementation of Ashbi's brand and web studio site, adapted from the Aeline template. Pushes to `main` run CI and deploy the verified static build to `https://preview.ashbi.ca`. The main `ashbi.ca` domain and the separate enquiry service are outside this workflow.
 
 ## Run locally
 
@@ -29,7 +29,7 @@ The homepage selects CocoFro, Blend, and Clypse Beauty for its detailed stories.
 - Verify the “30 min with Bianca” Google Calendar event on preview and after launch.
 - Confirm all project descriptions, team details, and testimonial attribution with Ashbi.
 - Review privacy/legal copy against the final hosting, analytics, booking, and email setup.
-- Decide production hosting and redirects for historical URLs, then run full staging QA. This folder contains no deploy automation.
+- Decide production hosting and redirects for historical URLs, then run full staging QA. Preview deployment is documented in [the VPS preview runbook](docs/preview-deployment.md).
 
 ## Content expansion and checks
 

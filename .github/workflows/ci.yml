@@ -5,11 +5,12 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   verify:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -20,4 +21,61 @@ jobs:
       - run: npm run astro -- sync
       - run: npm run typecheck
       - run: npm test
+      - run: python3 -m unittest discover -s ops/tests
       - run: npm run build
+      - name: Package verified preview build
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          printf '{"commit":"%s"}\n' "$GITHUB_SHA" > dist/_release.json
+          tar -C dist -czf site.tar.gz .
+          sha256sum site.tar.gz > site.tar.gz.sha256
+      - uses: actions/upload-artifact@v4
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        with:
+          name: ashbi-preview-${{ github.sha }}
+          path: |
+            site.tar.gz
+            site.tar.gz.sha256
+          if-no-files-found: error
+          retention-days: 7
+
+  deploy-preview:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    environment:
+      name: preview
+      url: https://preview.ashbi.ca
+    concurrency:
+      group: ashbi-preview
+      cancel-in-progress: false
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: ashbi-preview-${{ github.sha }}
+      - name: Deploy verified build to VPS preview
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEPLOY_KEY: ${{ secrets.PREVIEW_DEPLOY_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.PREVIEW_DEPLOY_KNOWN_HOSTS }}
+          DEPLOY_HOST: ${{ vars.PREVIEW_DEPLOY_HOST }}
+        run: |
+          set -euo pipefail
+          test -n "$DEPLOY_KEY"
+          test -n "$DEPLOY_KNOWN_HOSTS"
+          test -n "$DEPLOY_HOST"
+          current_main="$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main" --jq '.object.sha')"
+          if [ "$current_main" != "$GITHUB_SHA" ]; then
+            echo "A newer main commit superseded this preview build."
+            exit 0
+          fi
+          sha256sum -c site.tar.gz.sha256
+          install -m 700 -d "$HOME/.ssh"
+          printf '%s\n' "$DEPLOY_KEY" > "$HOME/.ssh/ashbi_preview_deploy"
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/ashbi_preview_deploy" "$HOME/.ssh/known_hosts"
+          archive_sha="$(cut -d ' ' -f 1 site.tar.gz.sha256)"
+          { printf '%s %s\n' "$GITHUB_SHA" "$archive_sha"; cat site.tar.gz; } |
+            ssh -i "$HOME/.ssh/ashbi_preview_deploy" \
+              -o BatchMode=yes -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes \
+              ashbi-preview-deploy@"$DEPLOY_HOST"
