@@ -1,0 +1,36 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  article: CollectionEntry<"articles">;
+}
+const { article } = Astro.props;
+---
+<section class="sec_internal-blog">
+  <div class="padding-section-medium"></div>
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="vertical-center">
+        <div class="max-width-xlarge is-61rem">
+          <div data-hero-wrap>
+            <div>
+              <div class="tag">
+                <div class="dot-square"></div>
+                <div></div>
+              </div>
+            </div>
+            <div class="spacer-large"></div>
+            <div class="max-title is-40rem">
+              <h1 hero-text class="h2 text-color-primary">{article.data.name}</h1>
+            </div>
+            <div class="spacer-large"></div>
+            <div hero-text class="text-base text-color-secondary">{article.data.summary}</div>
+          </div>
+        </div>
+        <div class="spacer-section-medium"></div>
+        <div data-hero-visual class="internal-blog_img"><img src={article.data.thumbnail} loading="lazy" alt="" class="img"></div>
+      </div>
+    </div>
+  </div>
+  <div class="padding-section-medium"></div>
+</section>

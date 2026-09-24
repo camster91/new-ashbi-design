@@ -1,0 +1,5 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {projects} from '../../data/site';
+---
+<BaseLayout title="Web Design Projects | Ashbi Design" description="Explore selected website design work by Ashbi Design."><main id="main"><section class="interior-hero container"><span class="eyebrow">WEB DESIGN PROJECTS</span><h1>Digital presence <em>with purpose.</em></h1><p>Selected website work from Ashbi Design.</p></section><section class="section container project-grid">{projects.filter(p=>p.categories.includes('Websites')).map(p=><a class="project-tile" href={`/work/${p.slug}/`}><img src={p.image} alt="" /><span>{p.category}</span><h2>{p.name} ↗</h2></a>)}</section></main></BaseLayout>

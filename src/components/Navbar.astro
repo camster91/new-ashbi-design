@@ -1,0 +1,125 @@
+---
+// Navbar — Aeline (shared across all pages).
+// Desktop (≥992): uses the base classes .navbar / .navbar_content /
+//   .nav_links / .button.
+// Variants:
+//   base      → home: transparent, position:absolute over the hero, white text + logo.
+//   secondary → other pages: in flow (relative), black text + logo on a light background.
+// Mobile/tablet (≤991): scaling hamburger menu — a pill that expands to a card,
+//   CSS-only via <html data-navigation-status>, fully accessible. Driven by
+//   src/scripts/navbar.ts; styles in src/styles/hamburger-nav.css; themed in components.css.
+// A single `navLinks` array feeds both desktop and hamburger. Home is omitted (logo → /)
+// and Contact is omitted (the "Contact Us" button already links to /contact).
+
+interface Props {
+  variant?: "base" | "secondary";
+}
+const { variant = "base" } = Astro.props;
+const V = "w-variant-b70328b2-1dfd-ba7a-c1d1-5c2a5b388d0d";
+const vc = variant === "secondary" ? ` ${V}` : "";
+
+const navLinks = [
+  { href: "/services", label: "Services" },
+  { href: "/about", label: "About Us" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/blog", label: "Blog" },
+];
+
+const current = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isCurrent = (href: string) => current === (href.replace(/\/$/, "") || "/");
+---
+
+<div class={`navbar${vc}`} data-navbar role="banner">
+  <div class={`padding-global is-navbar${vc}`}>
+    <div class="container-large">
+      <div class="navbar_content">
+        <a href="/" aria-label="Aeline, home" class={`navbar_logo-link w-inline-block${vc}`}>
+          <img src="/images/aeline-logo.svg" loading="lazy" alt="" class={`navbar_logo${vc}`} />
+          <img src="/images/aeline.-black.svg" loading="lazy" alt="" class={`navbar_logo is-black${vc}`} />
+        </a>
+
+        <!-- Desktop links (≥992) -->
+        <div class="nav_wrap">
+          <nav role="navigation" class={`nav_mobile${vc}`} aria-label="Primary">
+            <div class={`navbar_list${vc}`}>
+              {
+                navLinks.map((l) => (
+                  <a
+                    href={l.href}
+                    aria-current={isCurrent(l.href) ? "page" : undefined}
+                    class="nav_links"
+                  >
+                    {l.label}
+                  </a>
+                ))
+              }
+            </div>
+          </nav>
+        </div>
+
+        <div class="nav_buttons-wrap">
+          <div class="login-wrap hide-mobile-landscape">
+            <a href="/contact" class="button w-inline-block">
+              <div class="text-button-wrap">
+                <div>Contact Us</div>
+              </div>
+            </a>
+          </div>
+
+          <!-- Hamburger (≤991) — pill that scales to a card. CSS-only via data-navigation-status. -->
+          <div class="hamburger-anchor">
+            <div class="hamburger-nav">
+              <div class="hamburger-nav__bg" aria-hidden="true"></div>
+              <div class="hamburger-nav__group">
+                <p class="hamburger-nav__menu-p">Menu</p>
+                <ul class="hamburger-nav__ul">
+                  {
+                    navLinks.map((l) => (
+                      <li class="hamburger-nav__li">
+                        <a
+                          href={l.href}
+                          aria-current={isCurrent(l.href) ? "page" : undefined}
+                          class="hamburger-nav__a"
+                        >
+                          <p class="hamburger-nav__p">{l.label}</p>
+                          <div class="hamburger-nav__dot" aria-hidden="true"></div>
+                        </a>
+                      </li>
+                    ))
+                  }
+                  <li class="hamburger-nav__li">
+                    <a
+                      href="/contact"
+                      aria-current={isCurrent("/contact") ? "page" : undefined}
+                      class="hamburger-nav__a"
+                    >
+                      <p class="hamburger-nav__p">Contact Us</p>
+                      <div class="hamburger-nav__dot" aria-hidden="true"></div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <button
+                type="button"
+                data-navigation-toggle="toggle"
+                aria-label="Toggle menu"
+                aria-expanded="false"
+                class="hamburger-nav__toggle"
+              >
+                <div class="hamburger-nav__toggle-bar"></div>
+                <div class="hamburger-nav__toggle-bar"></div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Dim backdrop (fixed sibling): darkens the page while the menu is open; click to close. -->
+<div data-navigation-toggle="close" class="navigation__dark-bg" aria-hidden="true"></div>
+
+<script>
+  import "../scripts/navbar.ts";
+</script>

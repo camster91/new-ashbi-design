@@ -1,0 +1,535 @@
+{
+  "documentType": "codex-security.findings",
+  "findings": [
+    {
+      "attackPath": {
+        "dataFlow": {
+          "summary": "An unauthenticated caller reaching a broad proxy route or backend port can hold many connections with /adminfoo."
+        },
+        "reachability": {
+          "summary": "An unauthenticated caller reaching a broad proxy route or backend port can hold many connections with /adminfoo."
+        }
+      },
+      "codeEvidence": [
+        {
+          "code": "if(req.url?.startsWith('/admin')){void admin(req,res);return;}",
+          "explanation": "The outer router dispatches every URL beginning /admin, while the inner handler returns false for unmatched paths without responding.",
+          "id": "source",
+          "label": "Relevant source",
+          "path": "server/index.mjs",
+          "startLine": 33
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "Independent reviewers traced the request path and state transition in the source."
+      },
+      "findingId": "csf_6f81d5dc9ae8c1b31392c52a",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:3fcff2701d9379c023c31728e7ed04e7527567cb7a46fc6f405773934d1038eb"
+      },
+      "identity": {
+        "anchor": "unmatched-admin-prefixes-can-leave-connections-open"
+      },
+      "locations": [
+        {
+          "path": "server/index.mjs",
+          "role": "root cause",
+          "startLine": 33
+        }
+      ],
+      "occurrenceId": "occ_c52c2fde78d0f85cd0ceeeea",
+      "provenance": {
+        "source": "local_plugin"
+      },
+      "remediation": "Use exact parsed admin route boundaries and ensure every request receives a 404 or other bounded response.",
+      "rootCause": {
+        "summary": "The outer router dispatches every URL beginning /admin, while the inner handler returns false for unmatched paths without responding."
+      },
+      "ruleId": "routing.unanswered-admin-prefix",
+      "severity": {
+        "level": "medium",
+        "rationale": "Source-backed reachable flaw in the reviewed server snapshot."
+      },
+      "summary": "The outer router dispatches every URL beginning /admin, while the inner handler returns false for unmatched paths without responding.",
+      "taxonomy": {
+        "category": "routing",
+        "cwe": [
+          "CWE-400"
+        ]
+      },
+      "title": "Unmatched admin prefixes can leave connections open",
+      "validation": {
+        "counterEvidence": [
+          "The deployment document requires a private HTTPS proxy and edge limits, but those controls are not yet verified."
+        ],
+        "summary": "Validated by independent source review; runtime proxy controls were not inspected."
+      }
+    },
+    {
+      "attackPath": {
+        "dataFlow": {
+          "summary": "An unauthenticated caller sends five matching-Origin requests through a shared reverse proxy socket, causing legitimate users to receive 429."
+        },
+        "reachability": {
+          "summary": "An unauthenticated caller sends five matching-Origin requests through a shared reverse proxy socket, causing legitimate users to receive 429."
+        }
+      },
+      "codeEvidence": [
+        {
+          "code": "const key = req.socket.remoteAddress || 'unknown';",
+          "explanation": "The five-request quota keys on the proxy socket address; one visitor can exhaust the common bucket and prevent other briefs.",
+          "id": "source",
+          "label": "Relevant source",
+          "path": "server/enquiry-handler.mjs",
+          "startLine": 31
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "Independent reviewers traced the request path and state transition in the source."
+      },
+      "findingId": "csf_0347c69dc10871f4b50cec1a",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:0c2b10c3b7e1a7345e488926a73b6c8533ceda44e91e0d1c68ab9042b03b6d92"
+      },
+      "identity": {
+        "anchor": "proxy-shared-enquiry-quota-can-block-all-visitors"
+      },
+      "locations": [
+        {
+          "path": "server/enquiry-handler.mjs",
+          "role": "root cause",
+          "startLine": 31
+        }
+      ],
+      "occurrenceId": "occ_b6ba7691fa0ac040c787a8e3",
+      "provenance": {
+        "source": "local_plugin"
+      },
+      "remediation": "Use trusted edge per-client limits and a separate bounded global delivery budget; do not trust arbitrary forwarding headers.",
+      "rootCause": {
+        "summary": "The five-request quota keys on the proxy socket address; one visitor can exhaust the common bucket and prevent other briefs."
+      },
+      "ruleId": "availability.shared-public-quota",
+      "severity": {
+        "level": "medium",
+        "rationale": "Source-backed reachable flaw in the reviewed server snapshot."
+      },
+      "summary": "The five-request quota keys on the proxy socket address; one visitor can exhaust the common bucket and prevent other briefs.",
+      "taxonomy": {
+        "category": "availability",
+        "cwe": [
+          "CWE-400"
+        ]
+      },
+      "title": "Proxy-shared enquiry quota can block all visitors",
+      "validation": {
+        "counterEvidence": [
+          "The deployment document requires a private HTTPS proxy and edge limits, but those controls are not yet verified."
+        ],
+        "summary": "Validated by independent source review; runtime proxy controls were not inspected."
+      }
+    },
+    {
+      "attackPath": {
+        "dataFlow": {
+          "summary": "An unauthenticated caller makes nine Origin-valid login requests via the shared proxy address before Cameron signs in."
+        },
+        "reachability": {
+          "summary": "An unauthenticated caller makes nine Origin-valid login requests via the shared proxy address before Cameron signs in."
+        }
+      },
+      "codeEvidence": [
+        {
+          "code": "const key=req.socket.remoteAddress||'unknown',time=now();",
+          "explanation": "The admin login throttle keys only on the proxy socket address and charges successful attempts, allowing one caller to exhaust Cameron's bucket.",
+          "id": "source",
+          "label": "Relevant source",
+          "path": "server/admin.mjs",
+          "startLine": 74
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "Independent reviewers traced the request path and state transition in the source."
+      },
+      "findingId": "csf_965e84c6200584f3e4dda23b",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:868821b92ac9dbcab135931260c7852d09717fc168491606a0f1be318d8c4ccd"
+      },
+      "identity": {
+        "anchor": "proxy-shared-login-quota-can-lock-out-cameron"
+      },
+      "locations": [
+        {
+          "path": "server/admin.mjs",
+          "role": "root cause",
+          "startLine": 74
+        }
+      ],
+      "occurrenceId": "occ_3020336c544e082655f5293d",
+      "provenance": {
+        "source": "local_plugin"
+      },
+      "remediation": "Use a trusted client identity or edge per-client limit plus a separate bounded global defense; count failed attempts only.",
+      "rootCause": {
+        "summary": "The admin login throttle keys only on the proxy socket address and charges successful attempts, allowing one caller to exhaust Cameron's bucket."
+      },
+      "ruleId": "authentication.shared-login-quota",
+      "severity": {
+        "level": "medium",
+        "rationale": "Source-backed reachable flaw in the reviewed server snapshot."
+      },
+      "summary": "The admin login throttle keys only on the proxy socket address and charges successful attempts, allowing one caller to exhaust Cameron's bucket.",
+      "taxonomy": {
+        "category": "authentication",
+        "cwe": [
+          "CWE-307"
+        ]
+      },
+      "title": "Proxy-shared login quota can lock out Cameron",
+      "validation": {
+        "counterEvidence": [
+          "The deployment document requires a private HTTPS proxy and edge limits, but those controls are not yet verified."
+        ],
+        "summary": "Validated by independent source review; runtime proxy controls were not inspected."
+      }
+    },
+    {
+      "attackPath": {
+        "dataFlow": {
+          "summary": "Two authenticated tabs save settings and test concurrently; the test of old settings finishes after new settings are saved."
+        },
+        "reachability": {
+          "summary": "Two authenticated tabs save settings and test concurrently; the test of old settings finishes after new settings are saved."
+        }
+      },
+      "codeEvidence": [
+        {
+          "code": "await sendTest(state.mailgun,ADMIN_EMAIL);",
+          "explanation": "The test uses a state snapshot for Mailgun, then stamps lastTestAt after a concurrent settings save can replace the configuration.",
+          "id": "source",
+          "label": "Relevant source",
+          "path": "server/admin.mjs",
+          "startLine": 123
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "Independent reviewers traced the request path and state transition in the source."
+      },
+      "findingId": "csf_0b0419dba270223045fe3121",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:2288926d5ab59b8296935d419365afef2bb1e55d2ece9bd32f55c238bbd0a831"
+      },
+      "identity": {
+        "anchor": "a-mailgun-test-can-attest-to-newer-untested-settings"
+      },
+      "locations": [
+        {
+          "path": "server/admin.mjs",
+          "role": "root cause",
+          "startLine": 123
+        }
+      ],
+      "occurrenceId": "occ_da79380377344061724d4493",
+      "provenance": {
+        "source": "local_plugin"
+      },
+      "remediation": "Compare a current configuration fingerprint inside the serialized update before marking the test accepted.",
+      "rootCause": {
+        "summary": "The test uses a state snapshot for Mailgun, then stamps lastTestAt after a concurrent settings save can replace the configuration."
+      },
+      "ruleId": "state.test-configuration-race",
+      "severity": {
+        "level": "medium",
+        "rationale": "Source-backed reachable flaw in the reviewed server snapshot."
+      },
+      "summary": "The test uses a state snapshot for Mailgun, then stamps lastTestAt after a concurrent settings save can replace the configuration.",
+      "taxonomy": {
+        "category": "state",
+        "cwe": [
+          "CWE-362"
+        ]
+      },
+      "title": "A Mailgun test can attest to newer untested settings",
+      "validation": {
+        "counterEvidence": [
+          "The deployment document requires a private HTTPS proxy and edge limits, but those controls are not yet verified."
+        ],
+        "summary": "Validated by independent source review; runtime proxy controls were not inspected."
+      }
+    },
+    {
+      "attackPath": {
+        "dataFlow": {
+          "summary": "Two authenticated settings saves overlap, and the later commit uses an older key snapshot."
+        },
+        "reachability": {
+          "summary": "Two authenticated settings saves overlap, and the later commit uses an older key snapshot."
+        }
+      },
+      "codeEvidence": [
+        {
+          "code": "const config=validateMailgunSettings({region:value('region'),domain:value('domain'),from:value('from'),apiKey:value('apiKey')||state.mailgun?.apiKey});",
+          "explanation": "A blank key resolves from the request's earlier state snapshot before the queued state update.",
+          "id": "source",
+          "label": "Relevant source",
+          "path": "server/admin.mjs",
+          "startLine": 118
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "Independent reviewers traced the request path and state transition in the source."
+      },
+      "findingId": "csf_c37cf2511fc5e81edd57bdaf",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:2b95b3c958315ad6773a76b39efb4ed0e1c6f7169ed5b8ee1b60b3f64c6982cc"
+      },
+      "identity": {
+        "anchor": "concurrent-saves-can-restore-a-stale-mailgun-key"
+      },
+      "locations": [
+        {
+          "path": "server/admin.mjs",
+          "role": "root cause",
+          "startLine": 118
+        }
+      ],
+      "occurrenceId": "occ_fae99528ae23f8a948b33931",
+      "provenance": {
+        "source": "local_plugin"
+      },
+      "remediation": "Resolve the blank key inside the queued state update and reject stale form versions.",
+      "rootCause": {
+        "summary": "A blank key resolves from the request's earlier state snapshot before the queued state update."
+      },
+      "ruleId": "state.stale-settings-save",
+      "severity": {
+        "level": "low",
+        "rationale": "Source-backed reachable flaw in the reviewed server snapshot."
+      },
+      "summary": "A blank key resolves from the request's earlier state snapshot before the queued state update.",
+      "taxonomy": {
+        "category": "state",
+        "cwe": [
+          "CWE-362"
+        ]
+      },
+      "title": "Concurrent saves can restore a stale Mailgun key",
+      "validation": {
+        "counterEvidence": [
+          "The deployment document requires a private HTTPS proxy and edge limits, but those controls are not yet verified."
+        ],
+        "summary": "Validated by independent source review; runtime proxy controls were not inspected."
+      }
+    },
+    {
+      "attackPath": {
+        "dataFlow": {
+          "summary": "A stolen authenticated request begins before password rotation and completes after sessions.clear."
+        },
+        "reachability": {
+          "summary": "A stolen authenticated request begins before password rotation and completes after sessions.clear."
+        }
+      },
+      "codeEvidence": [
+        {
+          "code": "const value=await formBody(req);",
+          "explanation": "Session validity is captured before body reading and is not checked again before subsequent privileged mutations.",
+          "id": "source",
+          "label": "Relevant source",
+          "path": "server/admin.mjs",
+          "startLine": 111
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "Independent reviewers traced the request path and state transition in the source."
+      },
+      "findingId": "csf_8b9773a627d868617e871e1b",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:5421f39a275f1b2dd5bb157744c6fdeb0695cf0575945054ea6e73c13edac1c7"
+      },
+      "identity": {
+        "anchor": "in-flight-requests-can-outlive-password-rotation"
+      },
+      "locations": [
+        {
+          "path": "server/admin.mjs",
+          "role": "root cause",
+          "startLine": 111
+        }
+      ],
+      "occurrenceId": "occ_bd710843dde0960fc3991252",
+      "provenance": {
+        "source": "local_plugin"
+      },
+      "remediation": "Revalidate the current session immediately before mutations, use a session generation, and bound request-body reading time.",
+      "rootCause": {
+        "summary": "Session validity is captured before body reading and is not checked again before subsequent privileged mutations."
+      },
+      "ruleId": "session.rotation-inflight",
+      "severity": {
+        "level": "medium",
+        "rationale": "Source-backed reachable flaw in the reviewed server snapshot."
+      },
+      "summary": "Session validity is captured before body reading and is not checked again before subsequent privileged mutations.",
+      "taxonomy": {
+        "category": "session",
+        "cwe": [
+          "CWE-613"
+        ]
+      },
+      "title": "In-flight requests can outlive password rotation",
+      "validation": {
+        "counterEvidence": [
+          "The deployment document requires a private HTTPS proxy and edge limits, but those controls are not yet verified."
+        ],
+        "summary": "Validated by independent source review; runtime proxy controls were not inspected."
+      }
+    },
+    {
+      "attackPath": {
+        "dataFlow": {
+          "summary": "Many distinct source identities repeatedly reach login/setup through a broad deployment."
+        },
+        "reachability": {
+          "summary": "Many distinct source identities repeatedly reach login/setup through a broad deployment."
+        }
+      },
+      "codeEvidence": [
+        {
+          "code": "const sessions=new Map(),attempts=new Map();",
+          "explanation": "The login/setup attempt map never evicts expired keys, allowing memory growth over the process lifetime.",
+          "id": "source",
+          "label": "Relevant source",
+          "path": "server/admin.mjs",
+          "startLine": 59
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "Independent reviewers traced the request path and state transition in the source."
+      },
+      "findingId": "csf_17c3d1bbdb7a4ad86fd1793c",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:3287ed2065bf6e0be6ab90b08b0536a4682a142f4e5f2ed9bec37f8a40836d6c"
+      },
+      "identity": {
+        "anchor": "admin-attempt-buckets-retain-stale-entries"
+      },
+      "locations": [
+        {
+          "path": "server/admin.mjs",
+          "role": "root cause",
+          "startLine": 59
+        }
+      ],
+      "occurrenceId": "occ_fc414eacbcae8fd15570cdc7",
+      "provenance": {
+        "source": "local_plugin"
+      },
+      "remediation": "Expire stale records and cap map size or use a bounded store.",
+      "rootCause": {
+        "summary": "The login/setup attempt map never evicts expired keys, allowing memory growth over the process lifetime."
+      },
+      "ruleId": "availability.unbounded-login-map",
+      "severity": {
+        "level": "low",
+        "rationale": "Source-backed reachable flaw in the reviewed server snapshot."
+      },
+      "summary": "The login/setup attempt map never evicts expired keys, allowing memory growth over the process lifetime.",
+      "taxonomy": {
+        "category": "availability",
+        "cwe": [
+          "CWE-770"
+        ]
+      },
+      "title": "Admin attempt buckets retain stale entries",
+      "validation": {
+        "counterEvidence": [
+          "The deployment document requires a private HTTPS proxy and edge limits, but those controls are not yet verified."
+        ],
+        "summary": "Validated by independent source review; runtime proxy controls were not inspected."
+      }
+    },
+    {
+      "attackPath": {
+        "dataFlow": {
+          "summary": "An unauthenticated caller sends an endless or very large body through a proxy without a read deadline."
+        },
+        "reachability": {
+          "summary": "An unauthenticated caller sends an endless or very large body through a proxy without a read deadline."
+        }
+      },
+      "codeEvidence": [
+        {
+          "code": "req.resume();",
+          "explanation": "The gateway has no explicit body-read deadline and resumes an over-limit stream after returning 413.",
+          "id": "source",
+          "label": "Relevant source",
+          "path": "server/enquiry-handler.mjs",
+          "startLine": 44
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "Independent reviewers traced the request path and state transition in the source."
+      },
+      "findingId": "csf_db42796d4e30b41320cf8d80",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:335dbdc1eb618af9392934518c7f2771df865529ac9b4f348d62bc49077b22d7"
+      },
+      "identity": {
+        "anchor": "slow-or-oversized-public-request-bodies-can-occupy-handlers"
+      },
+      "locations": [
+        {
+          "path": "server/enquiry-handler.mjs",
+          "role": "root cause",
+          "startLine": 44
+        }
+      ],
+      "occurrenceId": "occ_cfb408669a96a0b0eba81b4d",
+      "provenance": {
+        "source": "local_plugin"
+      },
+      "remediation": "Apply explicit server/proxy read timeouts and stop over-limit body processing.",
+      "rootCause": {
+        "summary": "The gateway has no explicit body-read deadline and resumes an over-limit stream after returning 413."
+      },
+      "ruleId": "availability.unbounded-request-body",
+      "severity": {
+        "level": "low",
+        "rationale": "Source-backed reachable flaw in the reviewed server snapshot."
+      },
+      "summary": "The gateway has no explicit body-read deadline and resumes an over-limit stream after returning 413.",
+      "taxonomy": {
+        "category": "availability",
+        "cwe": [
+          "CWE-400"
+        ]
+      },
+      "title": "Slow or oversized public request bodies can occupy handlers",
+      "validation": {
+        "counterEvidence": [
+          "The deployment document requires a private HTTPS proxy and edge limits, but those controls are not yet verified."
+        ],
+        "summary": "Validated by independent source review; runtime proxy controls were not inspected."
+      }
+    }
+  ],
+  "scanId": "8b525df0-a194-4378-a2c9-453ba955d870",
+  "schemaVersion": "1.0"
+}

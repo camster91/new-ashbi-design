@@ -1,0 +1,72 @@
+---
+import { getCollection } from "astro:content";
+const services = await getCollection("services");
+const positions = ["is-first", "is-second", "is-third"];
+---
+<section class="section_services">
+  <div class="padding-section-large"></div>
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="vertical-center">
+        <div data-reveal class="tag">
+          <div class="dot-square"></div>
+          <div>Services</div>
+        </div>
+        <div class="spacer-large"></div>
+        <div data-reveal class="max-width-medium is-41rem">
+          <h2 class="text-align-center">Comprehensive consulting and intelligent innovation</h2>
+        </div>
+        <div class="spacer-large"></div>
+        <div data-reveal class="max-width-medium">
+          <div class="text-base text-align-center text-color-secondary">Whether you’re optimizing today or building for tomorrow  we help you move faster with confidence.</div>
+        </div>
+        <div class="spacer-large"></div>
+        <a data-reveal href="/services" class="button-arrow is-black w-inline-block">
+          <div class="button-arrow_wrap">
+            <div class="button-arrow_text">
+              <div class="text_button">Get Started</div>
+            </div>
+            <div class="button_container-arrow is-black"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 20 20" fill="none" class="icon-1x1-main">
+                <path d="M13.0457 8.13128L5.8733 15.3037L4.69479 14.1252L11.8672 6.95277L5.54568 6.95277L5.54568 5.28636H14.7121V14.4528L13.0457 14.4528V8.13128Z" fill="currentColor"></path>
+              </svg></div>
+            <div class="button-arrow_bg is-black"></div>
+          </div>
+        </a>
+      </div>
+      <div class="spacer-section-medium"></div>
+      <div class="services_cards swiper">
+        <div class="service_cards-wrapper swiper-wrapper">
+          {services.map((service, i) => (
+            <div class={`service_card ${positions[i % positions.length]} swiper-slide`}>
+              <div role="list" class="service_list">
+                <div role="listitem" class="services_card">
+                  <a href={`/services/${service.id}`} class="service_container w-inline-block">
+                    <div class="service_content">
+                      <div class="container-icon bg-green"><img src={service.data.icon} loading="lazy" alt="" class="icon-1x1-medium"></div>
+                      <div>
+                        <h3 class="text-xl">{service.data.name}</h3>
+                        <div class="spacer-xsmall"></div>
+                        <div class="text-base text-color-secondary">{service.data.summary}</div>
+                      </div>
+                    </div>
+                    <div class={`service_img ${positions[i % positions.length]}`}><img src={service.data.card} loading="lazy" alt="" class="img"></div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <!-- Slider arrows — shown ≤991 only (tablet 2-up / mobile 1-up); desktop keeps the hover accordion -->
+      <div class="arrows_wrap is-services">
+        <div class="arrow_container slide_prev"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 24 24" fill="none" class="icon-1x1-medium">
+            <path d="M7.828 13.0007L20 13.0007L20 11.0007L7.828 11.0007L13.192 5.63666L11.778 4.22266L4 12.0007L11.778 19.7787L13.192 18.3647L7.828 13.0007Z" fill="currentColor"></path>
+          </svg></div>
+        <div class="arrow_container slide_next"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 24 24" fill="none" class="icon-1x1-medium">
+            <path d="M16.172 13.0007L4 13.0007L4 11.0007L16.172 11.0007L10.808 5.63666L12.222 4.22266L20 12.0007L12.222 19.7787L10.808 18.3647L16.172 13.0007Z" fill="currentColor"></path>
+          </svg></div>
+      </div>
+    </div>
+  </div>
+  <div class="padding-section-large"></div>
+</section>

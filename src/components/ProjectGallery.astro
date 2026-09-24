@@ -1,0 +1,7 @@
+---
+import type {GalleryImage} from '../data/site';
+interface Props {images:GalleryImage[];name:string;}
+const {images,name}=Astro.props;
+const rows=Array.from({length:Math.ceil(images.length/2)},(_,i)=>images.slice(i*2,i*2+2));
+---
+<section class="container portfolio-gallery" aria-label={`${name} project gallery`}>{rows.map((row,i)=><div class:list={['gallery-pair',{'gallery-pair-reverse':i%2===1,'gallery-pair-single':row.length===1}]}>{row.map(img=><figure class="reveal"><img src={img.src} srcset={img.srcset} sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1488px) 56vw, 820px" width={img.width} height={img.height} alt={img.alt} loading="lazy" decoding="async" /></figure>)}</div>)}</section>

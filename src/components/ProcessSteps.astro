@@ -1,0 +1,4 @@
+---
+import {process} from '../data/site';
+---
+<ol class="collaboration-steps">{process.map(step=><li class="reveal"><span class="step-number">{step.number}</span><div><h3>{step.name}</h3><p>{step.copy}</p></div><dl><div><dt>Your part</dt><dd>{step.input}</dd></div><div><dt>What moves forward</dt><dd>{step.output}</dd></div></dl></li>)}</ol>

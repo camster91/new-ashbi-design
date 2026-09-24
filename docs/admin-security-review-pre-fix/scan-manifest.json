@@ -1,0 +1,91 @@
+{
+  "documentType": "codex-security.scan-manifest",
+  "scan": {
+    "artifacts": [
+      {
+        "mediaType": "application/json",
+        "path": "findings.json",
+        "sha256": "f48e58ea1019e697695e7b884304c65ce18f40971589875e2ab8d78889631e42"
+      },
+      {
+        "mediaType": "application/json",
+        "path": "coverage.json",
+        "sha256": "7b70ba79fc6f18d403a5696b49b1c3ea81029da34cb3d9966251dbc9b6d144c9"
+      }
+    ],
+    "completedAt": "2026-09-24T16:21:38.427709Z",
+    "coverageRef": "coverage.json",
+    "findingsRef": "findings.json",
+    "id": "8b525df0-a194-4378-a2c9-453ba955d870",
+    "preservedSources": {
+      "checkpoints/0a3358493acb6b40f9e460ed29945772074e91a57c6dde4e4d7748c7a87fde8b.json": "f7f107fdc93129fbbe28c04ac25dff8e1068813d7f29f99973d1df5f5faf5da9",
+      "checkpoints/28903ef2ecf713149d180bfdbf8126b07afce1d204a0756a4dadc785b098ca42.json": "01f5e8c43c9c27c09ef05293fdd725ece7fb9f4eb6b5ab3000e842ea9018d3da",
+      "checkpoints/53934f6c6704bddb50888569967b0c0b150a47aa10187d0ab87b48f96d7725a9.json": "781505cd3a33b1feb6a9529a658802b17ce2d4c88e2cd712b6c2c74ce3f39abf",
+      "checkpoints/7742814ecd465b1c9f4375135f4f580d7cf702c52ebc48c13a7148444fb423a7.json": "7742814ecd465b1c9f4375135f4f580d7cf702c52ebc48c13a7148444fb423a7"
+    },
+    "producer": {
+      "name": "codex-security-plugin",
+      "version": "0.1.30"
+    },
+    "scope": {
+      "artifactsReviewed": [
+        "server/admin.mjs",
+        "server/index.mjs",
+        "server/enquiry-handler.mjs",
+        "server/mailgun.mjs",
+        "server/state.mjs",
+        "server/Dockerfile",
+        "server/Dockerfile.dockerignore"
+      ],
+      "excludePaths": [],
+      "includePaths": [
+        "server"
+      ],
+      "limitations": [
+        "No real credentials or Mailgun calls.",
+        "Proxy and deployment controls unverified."
+      ],
+      "runtimeStatus": "Local tests only; preview infrastructure not verified.",
+      "summary": "Source-only review of the new Ashbi admin and enquiry backend.",
+      "validationMode": "Independent source review and local tests"
+    },
+    "sealedAt": "2026-09-24T16:21:38.427709Z",
+    "startedAt": "2026-09-24T16:04:39.347138Z",
+    "status": "completed",
+    "target": {
+      "displayName": "aeline",
+      "kind": "directory_snapshot",
+      "snapshotDigest": "codex-security-snapshot/v1:sha256:788a297a5f70c4c1f25473bc303c1db98145795a7ae257937faa50b73647ce13",
+      "targetId": "target_sha256_9e9106f7f12346c0faa25c57b58c15a3e2e0daca6988868a87d58beca8d95e4c"
+    },
+    "threatModel": {
+      "assets": [
+        "Admin password and sessions",
+        "Mailgun API key and delivery state",
+        "Visitor project briefs"
+      ],
+      "assumptions": [
+        "Single private backend instance behind HTTPS proxy is documented but not runtime verified."
+      ],
+      "attackerCapabilities": [
+        "Make unauthenticated requests to exposed routes",
+        "Supply visitor input and HTTP headers",
+        "Open concurrent authenticated requests if a session is compromised"
+      ],
+      "securityObjectives": [
+        "Keep keys and sessions private",
+        "Prevent unauthorized state changes",
+        "Keep contact and admin paths available",
+        "Send only intended briefs to the fixed recipient"
+      ],
+      "summary": "Public visitors can reach the enquiry gateway and admin login through a proxy; authenticated Cameron can change Mailgun settings. Secrets and delivery state are persisted in an encrypted local state file and Mailgun is an external network boundary.",
+      "trustBoundaries": [
+        "Public client to proxy to Node backend",
+        "Admin browser to authenticated backend",
+        "Node process to state volume",
+        "Node process to Mailgun HTTPS API"
+      ]
+    }
+  },
+  "schemaVersion": "1.0"
+}

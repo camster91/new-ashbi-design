@@ -1,0 +1,6 @@
+---
+import {projects} from '../../data/site';
+import ProjectPage from '../../components/ProjectPage.astro';
+const project=projects.find(p=>p.slug==='durabuild')!;
+---
+<ProjectPage project={project} />

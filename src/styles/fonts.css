@@ -1,0 +1,9 @@
+/* @fontsource imports — Plus Jakarta Sans (body + headers) + Inter (alternate), non-variable.
+   Geistmono is declared via @font-face in webflow.css using /fonts/GeistMono-Medium.ttf. */
+@import "@fontsource/plus-jakarta-sans/300.css";
+@import "@fontsource/plus-jakarta-sans/400.css";
+@import "@fontsource/plus-jakarta-sans/500.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
+@import "@fontsource/plus-jakarta-sans/700.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";

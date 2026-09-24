@@ -1,0 +1,88 @@
+---
+// Service detail testimonial slider — section_testimonia.
+// Four static testimonials (not CMS — identical on every service page). The CMS `quote`
+// is used by the Benefits section, not here. Cross-fade powered by Swiper effect:"fade"
+// (initFadeSlider in swiper-init.ts): crossFade, speed 500, loop, no autoplay, manual arrows.
+// Markup uses the Swiper structure (.swiper/.swiper-wrapper/.swiper-slide); the card classes
+// (.testimonia_card*) keep their original CSS.
+const quoteSvg = "/images/ai-big-quote.svg";
+const slides = [
+  {
+    greenIcon: false,
+    quote: "“They brought clarity to complex problems, breaking down barriers and delivering innovative solutions.”",
+    author: "- John Doe Tech Innovations",
+    img: "testi-card-1",
+    srcset: "/images/testi-card-1-p-500.avif 500w, /images/testi-card-1-p-800.avif 800w, /images/testi-card-1.avif 1112w",
+  },
+  {
+    greenIcon: true,
+    quote: "“Their insight solved every tough hurdle, opening new paths and creating highly effective strategies.”",
+    author: "— Sarah Jenkins Global Creative Studio",
+    img: "testi-card-2",
+    srcset: "/images/testi-card-2-p-500.avif 500w, /images/testi-card-2-p-800.avif 800w, /images/testi-card-2.avif 1112w",
+  },
+  {
+    greenIcon: true,
+    quote: "“We found focus for tricky requirements, cutting through noise and providing truly advanced responses.”",
+    author: "— Alex Rivera Nexus Software Systems",
+    img: "testi-card-3",
+    srcset: "/images/testi-card-3-p-500.avif 500w, /images/testi-card-3.avif 1112w",
+  },
+  {
+    greenIcon: true,
+    quote: "“They gave simple paths to hard puzzles, removing all delays while building fresh, brilliant projects.”",
+    author: "— Elena Rossi Lead Designer at Creative Pulse",
+    img: "testi-card-4",
+    srcset: "/images/testi-card-4-p-500.avif 500w, /images/testi-card-4.avif 1112w",
+  },
+];
+---
+<section class="section_testimonia">
+  <div class="padding-section-medium"></div>
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="vertical-center">
+        <div data-wf--tag-section--variant="base" class="tag">
+          <div class="dot-square"></div>
+          <div>Testimonials</div>
+        </div>
+        <div class="spacer-large"></div>
+        <h2>What they say about us?</h2>
+        <div class="spacer-large"></div>
+        <div class="text-color-secondary">Here’s what they shared about their experience working with our team.</div>
+      </div>
+      <div class="spacer-section-medium"></div>
+      <div class="slider_two swiper">
+        <div class="swiper-wrapper">
+          {slides.map((s) => (
+            <div class="swiper-slide">
+              <div class="testimonia_card">
+                <div class="testimonia_card-content">
+                  <div>
+                    <div class={s.greenIcon ? "container-big-icon bg-green" : "container-big-icon"}><img loading="lazy" src={quoteSvg} alt="" class="icon-1x1-xlarge"></div>
+                    <div class="spacer-xxhuge"></div>
+                    <div class="text-xl text-style-3lines">{s.quote}</div>
+                    <div class="spacer-small"></div>
+                    <div class="text-base">{s.author}</div>
+                  </div>
+                </div>
+                <div class="testimonia_card-img"><img sizes="100vw" srcset={s.srcset} alt="" src={`/images/${s.img}.avif`} loading="lazy" class="img"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div class="testimonial_arrow w-slider-arrow-left">
+          <div class="container-arrow bg-black"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 24 24" fill="none" class="icon-1x1-medium">
+              <path d="M7.828 13.0007L20 13.0007L20 11.0007L7.828 11.0007L13.192 5.63666L11.778 4.22266L4 12.0007L11.778 19.7787L13.192 18.3647L7.828 13.0007Z" fill="currentColor"></path>
+            </svg></div>
+        </div>
+        <div class="testimonial_arrow is-right w-slider-arrow-right">
+          <div class="container-arrow bg-black"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 24 24" fill="none" class="icon-1x1-medium">
+              <path d="M16.172 13.0007L4 13.0007L4 11.0007L16.172 11.0007L10.808 5.63666L12.222 4.22266L20 12.0007L12.222 19.7787L10.808 18.3647L16.172 13.0007Z" fill="currentColor"></path>
+            </svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="padding-section-medium"></div>
+</section>

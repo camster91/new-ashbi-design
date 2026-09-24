@@ -1,0 +1,88 @@
+---
+// Service benefits — sec_benefits section, CMS-bound.
+// Bind: h2 → headline; subtext → subtext; benefit_item h3/text → features[].title/detail;
+// benefit_img → card; is-large quote block → quote/author/role/avatar.
+// Layout order: feature[0], feature[1], image, quote, feature[2], feature[3].
+// Icon comes from the CMS icon field.
+import type { CollectionEntry } from "astro:content";
+interface Props { service: CollectionEntry<"services"> }
+const { service } = Astro.props;
+const { headline, subtext, features, card, quote, author, role, avatar, icon } = service.data;
+const quoteSvg = "M3.33203 6.66797H14.6654V16.868L8.68936 25.3346H5.0587L8.61336 17.3346H3.33203V6.66797ZM17.332 6.66797H28.6654V16.868L22.6894 25.3346H19.0587L22.6134 17.3346H17.332V6.66797Z";
+---
+<section class="sec_benefits">
+  <div class="padding-section-medium"></div>
+  <div class="padding-global">
+    <div class="container-large">
+      <div data-reveal class="vertical-center">
+        <div data-wf--tag-section--variant="base" class="tag">
+          <div class="dot-square"></div>
+          <div>Benefits</div>
+        </div>
+        <div class="spacer-large"></div>
+        <h2 class="text-align-center" set:html={headline}></h2>
+        <div class="spacer-large"></div>
+        <div class="max-width-medium">
+          <div class="text-base text-color-secondary text-align-center">{subtext}</div>
+        </div>
+      </div>
+      <div class="spacer-section-medium"></div>
+      <div data-reveal class="benefits_layout">
+        {features[0] && (
+          <div class="benefit_item">
+            <div class="container-icon bg-green"><img src={icon} loading="lazy" alt="" class="icon-1x1-medium"></div>
+            <div class="spacer-xlarge"></div>
+            <h3 set:html={features[0].title}></h3>
+            <div class="spacer-xsmall"></div>
+            <div class="text-base text-color-secondary">{features[0].detail}</div>
+          </div>
+        )}
+        {features[1] && (
+          <div class="benefit_item">
+            <div class="container-icon bg-green"><img src={icon} loading="lazy" alt="" class="icon-1x1-medium"></div>
+            <div class="spacer-xlarge"></div>
+            <h3 set:html={features[1].title}></h3>
+            <div class="spacer-xsmall"></div>
+            <div class="text-base text-color-secondary">{features[1].detail}</div>
+          </div>
+        )}
+        <div class="benefit_img"><img src={card} loading="lazy" alt="" class="img"></div>
+        <div class="benefit_item is-large">
+          <div><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 32 32" fill="none" class="icon-1x1-large">
+              <path d={quoteSvg} fill="currentColor"></path>
+            </svg>
+            <div class="spacer-huge"></div>
+            <div class="text-xl" set:html={quote}></div>
+          </div>
+          <div class="author_layout">
+            <div class="author_img"><img src={avatar} loading="lazy" alt=""></div>
+            <div>
+              <div class="text-base" set:html={author}></div>
+              <div class="spacer-xxsmall"></div>
+              <div class="text-color-secondary" set:html={role}></div>
+            </div>
+          </div>
+        </div>
+        {features[2] && (
+          <div class="benefit_item">
+            <div class="container-icon bg-green"><img src={icon} loading="lazy" alt="" class="icon-1x1-medium"></div>
+            <div class="spacer-xlarge"></div>
+            <h3 set:html={features[2].title}></h3>
+            <div class="spacer-xsmall"></div>
+            <div class="text-base text-color-secondary">{features[2].detail}</div>
+          </div>
+        )}
+        {features[3] && (
+          <div class="benefit_item">
+            <div class="container-icon bg-green"><img src={icon} loading="lazy" alt="" class="icon-1x1-medium"></div>
+            <div class="spacer-xlarge"></div>
+            <h3 set:html={features[3].title}></h3>
+            <div class="spacer-xsmall"></div>
+            <div class="text-base text-color-secondary">{features[3].detail}</div>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+  <div class="padding-section-medium"></div>
+</section>

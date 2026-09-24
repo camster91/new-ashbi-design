@@ -1,0 +1,72 @@
+---
+const quoteIcon = "M3.33398 6.66797H14.6673V16.868L8.69132 25.3346H5.06065L8.61532 17.3346H3.33398V6.66797ZM17.334 6.66797H28.6673V16.868L22.6913 25.3346H19.0607L22.6153 17.3346H17.334V6.66797Z";
+
+const testimonials = [
+  { img: "/images/testimonials-img-1.avif", srcset: "/images/testimonials-img-1-p-500.avif 500w, /images/testimonials-img-1.avif 752w", logo: "/images/logo-testimonials-2.svg", quote: "&quot;They brought clarity to complex problems, breaking down barriers and delivering innovative solutions.”", author: "- John Doe Tech Innovations " },
+  { img: "/images/testimonials-img-2.avif", srcset: "/images/testimonials-img-2-p-500.avif 500w, /images/testimonials-img-2.avif 752w", logo: "/images/logo-testimonials-3.svg", quote: "&quot;Their insight resolved difficult hurdles, opening new paths and creating highly effective strategies.&quot;", author: "- John Doe Tech Innovations " },
+  { img: "/images/testimonials-img-3.avif", srcset: null, logo: "/images/logo-testimonials-1.svg", quote: "&quot;We found focus for tricky requirements, cutting through noise and providing truly advanced responses.&quot;", author: "- John Doe Tech Innovations " },
+  { img: "/images/testimonials-img-4.avif", srcset: null, logo: "/images/ipsum-logo.svg", quote: "&quot;They gave simple paths to hard puzzles, removing all delays while building fresh, brilliant projects.&quot;", author: "- John Doe Tech Innovations " },
+];
+---
+<section class="section_testimonials">
+  <div class="padding-section-medium"></div>
+  <div class="padding-global">
+    <div class="container-large">
+      <div>
+        <div data-reveal="right" class="tag">
+          <div class="dot-square"></div>
+          <div>Testimonials</div>
+        </div>
+        <div class="spacer-medium"></div>
+        <h2 data-reveal="right">What they say about us?</h2>
+        <div class="spacer-medium"></div>
+        <div class="testi_wrap">
+          <div data-reveal="right" class="text-color-secondary">Here’s what they shared about their experience working with our team.</div>
+          <div class="arrows_wrap is-testimonals hide-mobile-landscape">
+            <div class="arrow_container slide_prev"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 24 24" fill="none" class="icon-1x1-medium">
+                <path d="M7.828 13.0007L20 13.0007L20 11.0007L7.828 11.0007L13.192 5.63666L11.778 4.22266L4 12.0007L11.778 19.7787L13.192 18.3647L7.828 13.0007Z" fill="currentColor"></path>
+              </svg></div>
+            <div class="arrow_container slide_next"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 24 24" fill="none" class="icon-1x1-medium">
+                <path d="M16.172 13.0007L4 13.0007L4 11.0007L16.172 11.0007L10.808 5.63666L12.222 4.22266L20 12.0007L12.222 19.7787L10.808 18.3647L16.172 13.0007Z" fill="currentColor"></path>
+              </svg></div>
+          </div>
+        </div>
+      </div>
+      <div class="spacer-section-medium"></div>
+      <div class="testi_swiper">
+        <div class="swiper">
+          <div class="testimonials_cards swiper-wrapper">
+            {testimonials.map((t) => (
+              <div class="testimonials_card swiper-slide">
+                {t.srcset
+                  ? <img src={t.img} loading="lazy" sizes="100vw" srcset={t.srcset} alt="" class="img" />
+                  : <img src={t.img} loading="lazy" alt="" class="img" />}
+                <div class="testimonials_logo-container"><img src={t.logo} loading="lazy" alt="" class="testimonials-logo"></div>
+                <div class="blur-card"></div>
+                <div class="testimonial_card-container">
+                  <div class="card-black-gradient"></div>
+                  <div class="relative text-color-on-primary"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 32 32" fill="none" class="icon-1x1-large">
+                      <path d={quoteIcon} fill="currentColor"></path>
+                    </svg>
+                    <div class="text-lg text-style-3lines" set:html={t.quote}></div>
+                    <div class="spacer-large"></div>
+                    <div class="text-align-right">{t.author}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="arrows_wrap is-testimonals-phone">
+          <div class="arrow_container slide_prev"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 24 24" fill="none" class="icon-1x1-medium">
+              <path d="M7.828 13.0007L20 13.0007L20 11.0007L7.828 11.0007L13.192 5.63666L11.778 4.22266L4 12.0007L11.778 19.7787L13.192 18.3647L7.828 13.0007Z" fill="currentColor"></path>
+            </svg></div>
+          <div class="arrow_container slide_next"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 24 24" fill="none" class="icon-1x1-medium">
+              <path d="M16.172 13.0007L4 13.0007L4 11.0007L16.172 11.0007L10.808 5.63666L12.222 4.22266L20 12.0007L12.222 19.7787L10.808 18.3647L16.172 13.0007Z" fill="currentColor"></path>
+            </svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="padding-section-medium"></div>
+</section>

@@ -1,0 +1,121 @@
+---
+// Footer — Aeline (shared across all pages).
+// Structure: footer_wrap dark card + footer_top 2-col + footer_right 3-col.
+// Nav links point to the site pages. Newsletter form is a stub (no action).
+// Privacy/Terms links currently resolve to "/"; year is rendered dynamically.
+
+const pages = [
+  { href: "/", label: "Home" },
+  { href: "/services", label: "Services" },
+  { href: "/about", label: "About Us" },
+];
+const company = [
+  { href: "/pricing", label: "Pricing" },
+  { href: "/blog", label: "Blog" },
+  { href: "/contact", label: "Contact" },
+];
+// Social links — shared with the profiles used in ContactHero.
+const social = [
+  { href: "https://instagram.com/temlis_design/", label: "Instagram" },
+  { href: "https://x.com/aldgallardo", label: "X / Twitter" },
+  { href: "https://linkedin.com/company/produlis-webflow-wized-xano/", label: "LinkedIn" },
+];
+const year = 2026;
+---
+
+<footer class="footer">
+  <div class="padding-global is-footer">
+    <div class="container-full">
+      <div class="footer_wrap">
+        <div class="footer_top">
+          <div class="footer_content">
+            <div class="footer_content-wrap">
+              <a href="/" aria-label="Aeline, home" class="w-inline-block">
+                <img src="/images/aeline-logo.svg" loading="lazy" alt="" class="footer_logo" />
+              </a>
+              <div>
+                Easily adapt to changes and scale your operations with our flexible
+                infrastructure, designed to support your business growth.
+              </div>
+            </div>
+            <div class="footer_content-wrap">
+              <div>Subscribe our newsletter</div>
+              <div class="form-block w-form">
+                <form name="email-form" data-name="Email Form" class="footer-form">
+                  <input
+                    class="text-field w-input"
+                    maxlength="256"
+                    name="email"
+                    placeholder="Enter your email"
+                    type="email"
+                    required
+                  />
+                  <button type="submit" class="button-arrow" aria-label="Subscribe">
+                    <div class="button-arrow_wrap">
+                      <div class="button-arrow_text hide-mobile-portrait">
+                        <div class="text_button">Submit</div>
+                      </div>
+                      <div class="button_container-arrow">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 20 20" fill="none" class="icon-1x1-main">
+                          <path
+                            d="M13.0457 8.13128L5.8733 15.3037L4.69479 14.1252L11.8672 6.95277L5.54568 6.95277L5.54568 5.28636H14.7121V14.4528L13.0457 14.4528V8.13128Z"
+                            fill="currentColor"></path>
+                        </svg>
+                      </div>
+                      <div class="button-arrow_bg"></div>
+                    </div>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="footer_right">
+            <div class="footer_links">
+              {
+                pages.map((l) => (
+                  <a href={l.href} class="footer_link w-inline-block">
+                    <div>{l.label}</div>
+                  </a>
+                ))
+              }
+            </div>
+            <div class="footer_links">
+              {
+                company.map((l) => (
+                  <a href={l.href} class="footer_link w-inline-block">
+                    <div>{l.label}</div>
+                  </a>
+                ))
+              }
+            </div>
+            <div class="footer_links">
+              {
+                social.map((l) => (
+                  <a
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener"
+                    class="footer_link w-inline-block"
+                  >
+                    <div>{l.label}</div>
+                  </a>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+        <div class="footer_bottom">
+          <div class="footer_bottom-links">
+            <a href="/" class="footer_bottom-link w-inline-block">
+              <div class="text-sm">Privacy Policy</div>
+            </a>
+            <a href="/" class="footer_bottom-link w-inline-block">
+              <div class="text-sm">Terms of Service</div>
+            </a>
+          </div>
+          <div class="text-color-on-secondary">© {year} Aeline Inc. All rights reserved.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

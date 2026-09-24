@@ -1,0 +1,84 @@
+---
+const minusPath = "M18 12.9961H6C5.73478 12.9961 5.48043 12.8907 5.29289 12.7032C5.10536 12.5157 5 12.2613 5 11.9961C5 11.7309 5.10536 11.4765 5.29289 11.289C5.48043 11.1015 5.73478 10.9961 6 10.9961H18C18.2652 10.9961 18.5196 11.1015 18.7071 11.289C18.8946 11.4765 19 11.7309 19 11.9961C19 12.2613 18.8946 12.5157 18.7071 12.7032C18.5196 12.8907 18.2652 12.9961 18 12.9961Z";
+
+const faqs = [
+  {
+    q: "What types of businesses do you work with?",
+    a: "We partner with organizations of all sizes — from startups to established enterprises — across industries like retail, technology, finance, manufacturing, and professional services. Our approach is flexible and tailored to fit your business model and growth stag",
+  },
+  {
+    q: "How does your consulting process work?",
+    a: "We begin with a deep discovery phase to fully understand your core challenges. Then, we design a custom strategy roadmap. Finally, we execute and monitor the results. Our method ensures that every step is transparent, measurable, and aligned with your unique need",
+  },
+  {
+    q: "What makes your AI solutions different?",
+    a: "We focus on practicality over hype. Unlike generic tools, our solutions are built on your specific data and workflows. We prioritize seamless integration and clear ROI, ensuring the technology solves real business problems rather than just being a shiny new toy.",
+  },
+  {
+    q: "Do I need to have technical knowledge to work with you?",
+    a: "Not at all. We handle the technical heavy lifting for you. We explain every concept in plain English so you make informed decisions without needing to code. Our team bridges the gap between complex tech and business goals, making the process smooth and accessible",
+  },
+  {
+    q: "How long does it take to see results?",
+    a: "Timelines vary by project scope. However, we structure our work to deliver quick wins early on while building toward long-term success. Typically, clients see initial impact within the first few weeks, with substantial ROI developing over the following few months.",
+  },
+];
+---
+<section class="section_faq">
+  <div class="padding-section-large"></div>
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="vertical-center">
+        <div data-reveal class="vertical-center">
+          <div data-wf--tag-section--variant="base" class="tag">
+            <div class="dot-square"></div>
+            <div>FAQ</div>
+          </div>
+          <div class="spacer-large"></div>
+          <h2 class="text-align-center">Frequently asked questions</h2>
+          <div class="spacer-large"></div>
+          <div class="max-width-medium is-34rem">
+            <div class="text-base text-align-center text-color-secondary">Everything you need to know about our consulting and AI solutions — from strategy to implementation.</div>
+          </div>
+        </div>
+        <div class="spacer-section-medium"></div>
+        <div class="faq_items max-width-large" data-faq data-stagger=".faq_item">
+          {faqs.map((item) => (
+            <div class="faq_item scroll-right">
+              <div class="faq_top">
+                <div class="text-xl">{item.q}</div>
+                <div class="container-icon bg-default"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 24 24" fill="none" class="icon-1x1-medium">
+                    <path d={minusPath} fill="currentColor"></path>
+                  </svg><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 24 24" fill="none" class="icon-1x1-medium is-animated">
+                    <path d={minusPath} fill="currentColor"></path>
+                  </svg></div>
+              </div>
+              <div class="faq_bottom">
+                <div class="faq_bottom-inner">
+                  <div class="text-base text-color-secondary">{item.a}</div>
+                  <div class="spacer-large"></div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="padding-section-large"></div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-faq]").forEach((group) => {
+    const items = Array.from(group.querySelectorAll<HTMLElement>(".faq_item"));
+    items.forEach((item) => {
+      const top = item.querySelector<HTMLElement>(".faq_top");
+      if (!top) return;
+      top.addEventListener("click", () => {
+        const willOpen = !item.classList.contains("is-open");
+        items.forEach((other) => other.classList.remove("is-open"));
+        if (willOpen) item.classList.add("is-open");
+      });
+    });
+  });
+</script>

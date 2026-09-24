@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BookingCta from '../../components/BookingCta.astro';
+import OfferGrid from '../../components/OfferGrid.astro';
+import OngoingPlans from '../../components/OngoingPlans.astro';
+import ProcessSteps from '../../components/ProcessSteps.astro';
+import QuoteGrid from '../../components/QuoteGrid.astro';
+import ConnectedWork from '../../components/ConnectedWork.astro';
+import {services,projects} from '../../data/site';
+const selected=['cocofro','clypse-beauty','blend'].map(slug=>projects.find(project=>project.slug===slug)!);
+---
+<BaseLayout title="Branding, Web & Packaging Services | Ashbi Design" description="Explore brand identity, web design, packaging, and ongoing creative support from Ashbi Design.">
+<main id="main">
+  <section class="interior-hero container services-overview-hero"><div><span class="eyebrow">WHAT WE DO</span><h1>The right idea, <em>fully realised.</em></h1><p>From the first mark to the everyday details, we shape brand, packaging, and digital work around the people it needs to reach.</p><div class="services-overview-actions"><a class="button button-lime" href="/contact/">Book a call ↗</a><a class="text-link" href="#explore-services">Explore services ↓</a></div></div><div class="services-overview-art" aria-label="Examples of Ashbi work"><img src="/images/ashbi/cocofro-main.webp" alt="CocoFro packaging and identity" width="640" height="480" /><img src="/images/ashbi/clypse-main.webp" alt="Clypse Beauty website" width="640" height="480" /></div></section>
+  <section class="section container service-list" id="explore-services" aria-label="Explore Ashbi services">{services.map((service,index)=><a class="service-list-row reveal" href={`/services/${service.slug}/`}><span>0{index+1}</span><div><h2>{service.name}</h2><p>{service.summary}</p><small>{service.fit}</small></div><img src={service.image} alt="" loading="lazy" width="150" height="100" /><span aria-hidden="true">↗</span></a>)}</section>
+  <ConnectedWork />
+  <section class="section container" aria-labelledby="services-offers-heading"><div class="section-heading"><span class="eyebrow">WAYS TO WORK TOGETHER</span><h2 id="services-offers-heading">Start with a <em>clear scope.</em></h2><p>Choose the closest starting point. We’ll shape the deliverables, timing, and budget around your project after a conversation.</p></div><OfferGrid /></section>
+  <OngoingPlans />
+  <section class="section container services-work" aria-labelledby="services-work-heading"><div class="section-heading"><span class="eyebrow">REAL WORK, DIFFERENT FORMS</span><h2 id="services-work-heading">See the thinking <em>in practice.</em></h2></div><div class="project-grid service-projects">{selected.map(project=><a class="project-tile" href={`/work/${project.slug}/`}><img src={project.image} alt={`${project.name} project by Ashbi`} loading="lazy" width="800" height="560" /><span>{project.categories.join(' · ')}</span><h3>{project.name} ↗</h3><p>{project.intro}</p></a>)}</div></section>
+  <section class="section process-section"><div class="container"><div class="section-heading"><span class="eyebrow">HOW WE WORK</span><h2>From first thought <em>to finished work.</em></h2><p>Clear review points and useful deliverables keep the project moving.</p></div><ProcessSteps /></div></section>
+  <section class="section container" aria-label="Client feedback"><QuoteGrid ids={['kate','alan','breona']} /></section>
+  <BookingCta />
+</main>
+</BaseLayout>
+<style>
+  .services-overview-hero{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(30px,5vw,75px);align-items:center}
+  .services-overview-hero h1{font-size:clamp(3.5rem,6vw,6.7rem)}
+  .services-overview-actions{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:25px}.services-overview-actions .text-link{font-size:.73rem}
+  .services-overview-art{height:min(43vw,540px);min-height:360px;position:relative;perspective:900px}
+  .services-overview-art img{position:absolute;width:72%;height:65%;object-fit:cover;border:8px solid white;border-radius:23px;box-shadow:0 30px 55px #24274329}
+  .services-overview-art img:first-child{left:0;top:3%;transform:rotate(-7deg)}.services-overview-art img:last-child{right:0;bottom:2%;transform:rotate(7deg)}
+  .service-list{scroll-margin-top:90px}.service-list-row small{display:block;color:#687176;line-height:1.5;margin-top:8px;font-size:.81rem}
+  .services-work .project-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  @media(max-width:900px){.services-overview-hero{grid-template-columns:1fr}.services-overview-art{height:390px;min-height:0;max-width:700px}.services-work .project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:620px){.services-overview-art{height:300px}.services-overview-art img{border-width:5px}.services-work .project-grid{grid-template-columns:1fr}}
+</style>

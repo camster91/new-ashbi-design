@@ -1,0 +1,44 @@
+---
+import {offers} from '../data/offers';
+interface Props { compact?: boolean; headingLevel?: 2 | 3; }
+const {compact=false,headingLevel=3}=Astro.props;
+---
+<div class:list={['offer-grid',{'offer-grid-compact':compact}]}>
+  {offers.map((offer,index)=><article class="offer-card reveal">
+    <div class="offer-card-top"><span class="eyebrow">{offer.label}</span><span class="offer-number">0{index+1} / 04</span></div>
+    <div class="offer-image"><img src={offer.image} alt="" width="640" height="480" loading="lazy" /></div>
+    {headingLevel===2?<h2>{offer.title}</h2>:<h3>{offer.title}</h3>}
+    <p>{offer.description}</p>
+    <span class="offer-scope">Scoped to your project</span>
+    <ul>{offer.includes.map(item=><li>{item}</li>)}</ul>
+    <p class="offer-fit"><strong>Best for</strong> {offer.fit}</p>
+    <a class="offer-link" href={`/contact/?service=${offer.serviceSlug}#project-brief`}>Discuss this project <span aria-hidden="true">↗</span></a>
+    <a class="offer-detail" href={`/services/${offer.serviceSlug}/`}>Explore the service <span aria-hidden="true">→</span></a>
+  </article>)}
+</div>
+<style>
+  .offer-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;align-items:stretch}
+  .offer-card{display:flex;flex-direction:column;min-width:0;padding:20px 20px 24px;border:1px solid #d7dce0;border-radius:23px;background:#fff;transition:transform .25s,box-shadow .25s}
+  .offer-card:nth-child(2){background:#303963;color:#fff;border-color:#303963}
+  .offer-card:nth-child(3){background:#f0f4d7}
+  .offer-card-top{display:flex;justify-content:space-between;gap:10px;align-items:start;min-height:52px}
+  .offer-card-top .eyebrow{margin:0;line-height:1.4;font-size:.61rem}
+  .offer-number{font-size:.68rem;white-space:nowrap;font-weight:800;letter-spacing:.08em}
+  .offer-image{overflow:hidden;border-radius:14px;aspect-ratio:1.48;background:#e7e9e5;margin-bottom:25px}
+  .offer-image img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+  .offer-card h2,.offer-card h3{font-size:clamp(1.55rem,2.2vw,2.4rem);margin-bottom:13px}
+  .offer-card>p{font-size:.87rem;line-height:1.6;margin-bottom:16px}
+  .offer-scope{font-size:.69rem;letter-spacing:.1em;text-transform:uppercase;font-weight:800;border-top:1px solid currentColor;padding-top:17px;margin-top:3px}
+  .offer-card ul{padding:0;margin:17px 0 22px;list-style:none;display:grid;gap:10px}
+  .offer-card li{font-size:.82rem;line-height:1.45;padding-left:20px;position:relative}
+  .offer-card li:before{content:'✓';position:absolute;left:0;font-weight:800}
+  .offer-card .offer-fit{font-size:.75rem;line-height:1.5;margin:auto 0 23px;opacity:.85}
+  .offer-fit strong{display:block;text-transform:uppercase;letter-spacing:.08em;font-size:.67rem;margin-bottom:5px}
+  .offer-link{display:flex;align-items:center;justify-content:space-between;gap:10px;border-radius:100px;padding:13px 15px;background:var(--ink);color:#fff;font-size:.67rem;text-transform:uppercase;letter-spacing:.04em;font-weight:800}
+  .offer-card:nth-child(2) .offer-link{background:var(--lime);color:var(--ink)}
+  .offer-detail{font-size:.71rem;font-weight:800;margin-top:18px;align-self:flex-start;border-bottom:1px solid currentColor;padding-bottom:3px}
+  @media(hover:hover) and (prefers-reduced-motion:no-preference){.offer-card:hover{transform:translateY(-6px);box-shadow:0 20px 36px #24274318}.offer-card:hover img{transform:scale(1.035)}}
+  @media(max-width:1100px){.offer-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.offer-card{padding:24px}.offer-card h2,.offer-card h3{font-size:2rem}}
+  @media(max-width:620px){.offer-grid{grid-template-columns:1fr}.offer-card{padding:20px}.offer-image{aspect-ratio:1.65}.offer-card h2,.offer-card h3{font-size:1.85rem}}
+  @media(prefers-reduced-motion:reduce){.offer-card,.offer-image img{transition:none}}
+</style>

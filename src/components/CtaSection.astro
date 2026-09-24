@@ -1,0 +1,46 @@
+---
+interface Props {
+  headingTag?: keyof astroHTML.JSX.IntrinsicElements;
+}
+const { headingTag = "h2" } = Astro.props;
+const Heading = headingTag;
+---
+<section class="section_cta">
+  <div class="padding-global is-cta">
+    <div class="cta-wrap">
+      <div data-reveal="scale" class="container-large">
+        <div class="cta_top">
+          <div class="cta_text">
+            <div class="text-color-on-primary">Trusted over 5,000+</div>
+          </div>
+          <div class="avatars-wrap">
+            <div class="avatar-item is-first"><img loading="lazy" src="/images/hero-icon-one_1hero-icon-one.webp" alt="" class="img"></div>
+            <div class="avatar-item is-second"><img sizes="100vw" srcset="/images/section-1_1section-1.webp 500w, /images/section-1_1section-1.webp 800w, /images/section-1_1section-1.webp 1080w, /images/section-1_1section-1.webp 1128w" alt="" src="/images/section-1_1section-1.webp" loading="lazy" class="img"></div>
+            <div class="avatar-item is-third"><img loading="lazy" src="/images/hero-icon-three_1hero-icon-three.webp" alt="" class="img"></div>
+          </div>
+        </div>
+        <div class="spacer-huge"></div>
+        <Heading class="text-color-on-primary">We combine human <br>insight with artificial intelligence</Heading>
+        <div class="spacer-medium"></div>
+        <div class="max-width-medium is-33rem">
+          <div class="text-color-on-primary">Our consulting team bridges strategic thinking and advanced AI technologies to help companies streamline processes, improve decision-making, and create intelligent digital experiences.</div>
+        </div>
+        <div class="spacer-huge"></div>
+        <div class="button_wrapper">
+          <a href="/contact" class="button-arrow w-inline-block">
+            <div class="button-arrow_wrap">
+              <div class="button-arrow_text">
+                <div class="text_button">Get Started</div>
+              </div>
+              <div class="button_container-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 20 20" fill="none" class="icon-1x1-main">
+                  <path d="M13.0457 8.13128L5.8733 15.3037L4.69479 14.1252L11.8672 6.95277L5.54568 6.95277L5.54568 5.28636H14.7121V14.4528L13.0457 14.4528V8.13128Z" fill="currentColor"></path>
+                </svg></div>
+              <div class="button-arrow_bg"></div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="overlay"></div>
+    </div>
+  </div>
+</section>

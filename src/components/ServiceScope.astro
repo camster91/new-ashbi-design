@@ -1,0 +1,21 @@
+---
+import type {Service} from '../data/site';
+import {offers} from '../data/offers';
+interface Props {service:Service}
+const {service}=Astro.props;
+const offer=offers.find(item=>item.serviceSlug===service.slug)!;
+---
+<section class="section container scope-section" aria-labelledby="scope-heading">
+  <div class="scope-lead"><span class="eyebrow">A SCOPE THAT FITS</span><h2 id="scope-heading">Start with the work <em>that matters.</em></h2><p>{offer.description} We agree the exact deliverables, review stages, and timing together before the project begins.</p><a class="button button-lime" href={`/contact/?service=${service.slug}#project-brief`}>Tell us about your project <span aria-hidden="true">↗</span></a></div>
+  <div class="scope-detail"><span class="eyebrow">A USEFUL STARTING POINT</span><h3>{offer.title}</h3><p>{offer.fit}</p><ul>{offer.includes.map(item=><li>{item}</li>)}</ul><p class="scope-note">Every project is scoped to its needs. We’ll discuss budget and schedule during discovery.</p></div>
+</section>
+<style>
+  .scope-section{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(32px,6vw,96px);align-items:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .scope-lead h2{max-width:700px}.scope-lead>p{max-width:650px;color:var(--muted);font-size:1.08rem;margin-bottom:26px}
+  .scope-detail{background:#e9eddf;border-radius:24px;padding:clamp(24px,3vw,42px)}
+  .scope-detail h3{margin-bottom:12px}.scope-detail>p{font-size:.92rem}
+  .scope-detail ul{list-style:none;padding:19px 0 0;margin:20px 0;border-top:1px solid #bfc9b9;display:grid;gap:13px}
+  .scope-detail li{position:relative;padding-left:25px;font-size:.88rem}.scope-detail li:before{content:'✓';position:absolute;left:0;font-weight:800}
+  .scope-detail .scope-note{font-size:.76rem;color:#4c5956;border-top:1px solid #bfc9b9;padding-top:18px;margin:20px 0 0}
+  @media(max-width:760px){.scope-section{grid-template-columns:1fr}.scope-detail{padding:26px}}
+</style>

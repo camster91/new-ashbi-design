@@ -1,0 +1,253 @@
+/* =============================================================================
+   hamburger-nav.css — scaling hamburger menu
+   -----------------------------------------------------------------------------
+   Self-contained: colors are read from CSS vars with fallbacks — override them
+   from the host project:
+     --navbar-menu-bg     pill/card background       (default #101604)
+     --navbar-menu-fg     menu text                  (default #ffffff)
+     --navbar-accent      active-page dot            (default #b7fe02)
+     --navbar-menu-font   menu font family           (default sans-serif)
+     --navbar-menu-font-mono  "Menu" label font      (default monospace)
+
+   Mechanics (CSS-only, no GSAP): state lives in <html data-navigation-status>
+   ("active" / "not-active"), set by navbar.ts. Everything else is CSS transitions
+   keyed off that attribute:
+     - .hamburger-nav__bg     pill 2.75em → card 100% (bg scale)
+     - .hamburger-nav__group  content scale(0.15) → scale(1) (content scale)
+     - .hamburger-nav__toggle two bars → X (rotate 45/-45)
+     - .hamburger-nav__dot    appears scale(1) on the aria-current link / hover
+   Shared easing: cubic-bezier(0.5, 0.5, 0, 1).
+
+   Hooks (markup → CSS/JS):
+     .hamburger-anchor          container that reserves space in the flex row
+     [data-navigation-toggle="toggle"]  toggle button (open/close) — navbar.ts
+     [data-navigation-toggle="close"]   backdrop (close)           — navbar.ts
+     [data-navigation-status] on <html>  global state — navbar.ts
+   ============================================================================= */
+
+/* --- Responsive visibility: hamburger + backdrop only ≤991 ---
+   Desktop (≥992) uses the inline links, so the hamburger is hidden there.
+   .navigation__dark-bg is the dim backdrop (fixed sibling of the navbar). */
+.hamburger-anchor,
+.navigation__dark-bg {
+  display: none;
+}
+@media (max-width: 991px) {
+  .hamburger-anchor {
+    display: block;
+  }
+  .navigation__dark-bg {
+    display: block;
+  }
+}
+
+/* --- Anchor: reserves 2.75em in the flex row; the card grows outside it (overflow visible) --- */
+.hamburger-anchor {
+  position: relative;
+  width: 2.75em;
+  height: 2.75em;
+  font-size: 1rem;
+  overflow: visible;
+  flex-shrink: 0;
+}
+
+/* --- Backdrop: fixed, darkens the page when the menu opens --- */
+.navigation__dark-bg {
+  transition: opacity 0.7s cubic-bezier(0.5, 0.5, 0, 1),
+    visibility 0.7s cubic-bezier(0.5, 0.5, 0, 1);
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  background-color: var(--navbar-menu-bg, #101604);
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+}
+[data-navigation-status="active"] .navigation__dark-bg {
+  opacity: 0.4;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* --- The pill --- */
+.hamburger-nav {
+  border-radius: 1.25rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 1rem;
+}
+
+/* bg scale: the 2.75em pill expands to 100% (covers the whole card) when active */
+.hamburger-nav__bg {
+  transition: all 0.7s cubic-bezier(0.5, 0.5, 0, 1);
+  background-color: var(--navbar-menu-bg, #101604);
+  border-radius: 1rem;
+  width: 2.75em;
+  height: 2.75em;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+[data-navigation-status="active"] .hamburger-nav__bg {
+  width: 100%;
+  height: 100%;
+  border-radius: 1.25rem;
+}
+
+/* content scale: the menu content scale(0.15)→scale(1) from the top-right corner */
+.hamburger-nav__group {
+  transition: opacity 0.5s cubic-bezier(0.5, 0.5, 0, 1),
+    transform 0.7s cubic-bezier(0.5, 0.5, 0, 1),
+    visibility 0.7s cubic-bezier(0.5, 0.5, 0, 1);
+  gap: 1em;
+  pointer-events: auto;
+  transform-origin: 100% 0;
+  flex-flow: column;
+  padding: 2.25em 2.5em 2em 2em;
+  display: flex;
+  position: relative;
+  transform: scale(0.15);
+  opacity: 0;
+  visibility: hidden;
+}
+[data-navigation-status="active"] .hamburger-nav__group {
+  transform: scale(1);
+  opacity: 1;
+  visibility: visible;
+}
+
+/* "Menu" label (mono, uppercase) */
+.hamburger-nav__menu-p {
+  opacity: 0.55;
+  letter-spacing: 0.14rem;
+  text-transform: uppercase;
+  margin: 0;
+  color: var(--navbar-menu-fg, #ffffff);
+  font-family: var(--navbar-menu-font-mono, "Geist Mono", ui-monospace, monospace);
+  font-size: 0.75em;
+  font-weight: 500;
+}
+
+.hamburger-nav__ul {
+  gap: 0.375em;
+  flex-flow: column;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  position: relative;
+  list-style: none;
+}
+.hamburger-nav__li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hamburger-nav__a {
+  color: var(--navbar-menu-fg, #ffffff);
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: none;
+  display: flex;
+}
+/* active-page link: text in the brand green (= dot color), not dimmed
+   (a11y: aria-current="page"). --navbar-accent = --base--green (#d6fd70). */
+.hamburger-nav__a[aria-current] .hamburger-nav__p {
+  color: var(--navbar-accent, #b7fe02);
+}
+
+.hamburger-nav__p {
+  white-space: nowrap;
+  margin: 0;
+  padding-right: 1.25em;
+  color: inherit;
+  font-family: var(--navbar-menu-font, Geist, sans-serif);
+  font-size: 1.75em;
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+/* dot accent: hidden by default (scale 0); appears on aria-current and on hover */
+.hamburger-nav__dot {
+  transition: transform 0.5s cubic-bezier(0.5, 0.5, 0, 1),
+    opacity 0.5s cubic-bezier(0.5, 0.5, 0, 1);
+  background-color: var(--navbar-accent, #b7fe02);
+  border-radius: 50%;
+  flex-shrink: 0;
+  width: 0.5em;
+  height: 0.5em;
+  transform: scale(0);
+  opacity: 0.5;
+}
+.hamburger-nav__a[aria-current] .hamburger-nav__dot {
+  transform: scale(1);
+  opacity: 1;
+}
+/* hovering any link hides the active-page dot... */
+.hamburger-nav:has(.hamburger-nav__a:hover) .hamburger-nav__dot {
+  transform: scale(0);
+}
+/* ...and shows it on the hovered link */
+.hamburger-nav .hamburger-nav__a:hover .hamburger-nav__dot {
+  transform: scale(1);
+  opacity: 0.5;
+}
+
+/* --- Toggle: two bars → X --- */
+.hamburger-nav__toggle {
+  transition: transform 0.7s cubic-bezier(0.5, 0.5, 0, 1);
+  pointer-events: auto;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  border-radius: 1.25rem;
+  justify-content: center;
+  align-items: center;
+  width: 2.75em;
+  height: 2.75em;
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0;
+  transform: translate(0, 0);
+}
+/* when open, the button moves inside the card (top-right padding) */
+[data-navigation-status="active"] .hamburger-nav__toggle {
+  transform: translate(-1em, 1em);
+}
+
+.hamburger-nav__toggle-bar {
+  transition: transform 0.7s cubic-bezier(0.5, 0.5, 0, 1);
+  background-color: var(--navbar-menu-fg, #ffffff);
+  width: 40%;
+  height: 0.125em;
+  position: absolute;
+  transform: translateY(-0.15em);
+}
+.hamburger-nav__toggle:hover .hamburger-nav__toggle-bar {
+  transform: translateY(0.15em);
+}
+[data-navigation-status="active"] .hamburger-nav__toggle .hamburger-nav__toggle-bar {
+  transform: translateY(0) rotate(45deg);
+}
+.hamburger-nav__toggle .hamburger-nav__toggle-bar:nth-child(2) {
+  transform: translateY(0.15em);
+}
+.hamburger-nav__toggle:hover .hamburger-nav__toggle-bar:nth-child(2) {
+  transform: translateY(-0.15em);
+}
+[data-navigation-status="active"] .hamburger-nav__toggle .hamburger-nav__toggle-bar:nth-child(2) {
+  transform: translateY(0) rotate(-45deg);
+}
+
+/* --- Responsive heading scale: the menu shrinks the title on mobile portrait --- */
+@media (max-width: 479px) {
+  .hamburger-nav__p {
+    font-size: 1.5em;
+  }
+  .hamburger-nav__group {
+    padding: 2em 2.25em 1.75em 1.75em;
+  }
+}

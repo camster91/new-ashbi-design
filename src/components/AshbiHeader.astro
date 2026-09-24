@@ -1,0 +1,15 @@
+---
+import { site } from '../data/site';
+const nav = [ {href:'/work/',label:'Work'}, {href:'/services/',label:'Services'}, {href:'/studio/',label:'Studio'}, {href:'/insights/',label:'Insights'} ];
+---
+<header class="site-header" data-header>
+  <div class="nav-shell container">
+    <a class="logo-link" href="/" aria-label="Ashbi Design home"><img src="/images/ashbi/logo.png" alt="Ashbi" width="200" height="71" /></a>
+    <nav id="main-nav" class="site-nav" aria-label="Main navigation">
+      {nav.map(item => <a href={item.href} aria-current={Astro.url.pathname.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>)}
+      <a class="mobile-book" href="/contact/">Book a call <span aria-hidden="true">↗</span></a>
+    </nav>
+    <a class="button button-light nav-book" href="/contact/">Book a call <span aria-hidden="true">↗</span></a>
+    <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="main-nav" data-menu-toggle><span></span><span></span></button>
+  </div>
+</header>

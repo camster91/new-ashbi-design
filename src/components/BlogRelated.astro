@@ -1,0 +1,53 @@
+---
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  current: CollectionEntry<"articles">;
+}
+const { current } = Astro.props;
+
+const articles = await getCollection("articles");
+const related = articles.filter((a) => a.id !== current.id).slice(0, 3);
+---
+<section class="section_blog">
+  <div class="padding-section-large"></div>
+  <div class="padding-global">
+    <div class="container-large">
+      <div data-reveal class="horizontal-bottom is-between">
+        <div>
+          <div class="tag">
+            <div class="dot-square"></div>
+            <div>Blog and articles</div>
+          </div>
+          <div class="spacer-medium"></div>
+          <h2 class="scroll-right">Latest insights and trends</h2>
+          <div class="spacer-medium"></div>
+          <div class="text-color-secondary scroll-right">Whether you’re optimizing today or building for tomorrow  we help you move faster with confidence.</div>
+        </div>
+        <a href="/blog" class="button w-variant-e7c0edd3-8276-a3ba-3d91-2abb3afb4c44 w-inline-block">
+          <div class="text-button-wrap">
+            <div>View All</div>
+          </div>
+        </a>
+      </div>
+      <div class="spacer-section-medium"></div>
+      <div data-reveal>
+        <div role="list" class="blog_cards w-dyn-items">
+          {related.map((article) => (
+            <div role="listitem" class="blog_cards-item w-dyn-item">
+              <a href={`/blog/${article.id}`} class="blog_card scroll-right w-inline-block"><img src={article.data.thumbnail} loading="lazy" alt="" class="img">
+                <div class="blur-card"></div>
+                <div class="blog_card-content">
+                  <div class="card-black-gradient"></div>
+                  <h3 class="text-xl text-color-on-primary relative">{article.data.name}</h3>
+                </div>
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="padding-section-large"></div>
+</section>

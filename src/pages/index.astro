@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WorkList from '../components/WorkList.astro';
+import BookingCta from '../components/BookingCta.astro';
+import {projects,faqs} from '../data/site';
+import QuoteMarquee from '../components/QuoteMarquee.astro';
+import ServicesShowcase from '../components/ServicesShowcase.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import Principles from '../components/Principles.astro';
+import OfferGrid from '../components/OfferGrid.astro';
+const heroProjects=projects.filter(project=>project.slug!=='production-work').slice(0,12);
+---
+<BaseLayout title="Ashbi Design | Brand Identity, Packaging & Web Design" description="Ashbi is a Toronto branding and web design studio creating distinctive identities, packaging, and digital experiences for ambitious businesses.">
+<main id="main">
+  <section class="hero container" aria-labelledby="hero-title">
+    <div class="hero-copy"><span class="eyebrow">TORONTO CREATIVE STUDIO ✦ BRAND · WEB · PACKAGING</span><h1 id="hero-title">Brands with <em>personality.</em><br />Websites built to <em>work.</em></h1><p>We bring identity, packaging, and digital experience together for growing businesses, with a particular love for CPG and DTC brands.</p><div class="hero-actions"><a class="button button-lime" href="/contact/">Book a call <span aria-hidden="true">↗</span></a><a class="button button-outline" href="#selected-work">Explore our work <span aria-hidden="true">↓</span></a></div></div>
+    <div class="hero-reel-stage" role="region" aria-label="Ashbi project gallery">
+      {[heroProjects.slice(6),heroProjects.slice(0,6)].map((row,rowIndex)=><div class={`hero-reel hero-reel-${rowIndex===0?'back':'front'}`} data-hero-reel data-direction={rowIndex===0?-1:1} tabindex="0" aria-label={`${rowIndex===0?'Upper':'Lower'} project row. Swipe or use the arrow keys to browse.`}>
+        {[0,1].map(copy=><div class="hero-reel-set" aria-hidden={copy===1?'true':undefined}>{row.map((project,i)=><a class="reel-card" draggable="false" href={`/work/${project.slug}/`} tabindex={copy===1?-1:undefined} aria-label={`View ${project.name} case study`}><img src={project.image} alt="" width="480" height="360" loading={copy===0&&i<5?'eager':'lazy'} fetchpriority={rowIndex===1&&copy===0&&i===0?'high':undefined} /></a>)}</div>)}
+      </div>)}
+      <div class="hero-reel-controls"><button type="button" data-reel-prev aria-label="Scroll projects left">←</button><button type="button" data-reel-next aria-label="Scroll projects right">→</button></div>
+    </div>
+    <button class="motion-toggle" type="button" data-motion-toggle aria-label="Pause gallery motion" aria-pressed="false"><span aria-hidden="true">Ⅱ</span></button>
+  </section>
+  <section class="client-strip container" aria-label="Selected client work"><span class="eyebrow">A FEW OF THE BRANDS WE’VE WORKED WITH</span><div class="client-track"><span>CocoFro</span><span>BLEND</span><span>CLYPSE BEAUTY</span><span>TYSON MEDIA</span></div></section>
+  <WorkList />
+  <section class="section proof-section container" aria-labelledby="proof-heading"><div class="section-heading"><span class="eyebrow">IN GOOD COMPANY / 02</span><h2 id="proof-heading">Good work. <em>Good relationships.</em></h2></div><QuoteMarquee /></section>
+  <ServicesShowcase />
+  <section class="section studio-section container" aria-labelledby="studio-heading"><div class="studio-photo reveal"><img src="/images/ashbi/bianca.webp" alt="Bianca of Ashbi Design working at a studio desk" loading="lazy" width="1024" height="683" /><div class="photo-label">REAL PEOPLE, PERSONAL WORK ↗</div></div><div class="studio-copy reveal"><span class="eyebrow">THE PEOPLE BEHIND THE WORK / 04</span><h2 id="studio-heading">A studio that gets <em>close to the story.</em></h2><p>We’re Bianca and Cameron, the people behind our family-owned Toronto studio. We bring creative direction and technical thinking into one close working relationship.</p><div class="studio-names"><span><b>Bianca</b> · Creative direction</span><span><b>Cameron</b> · Digital strategy & development</span></div><a class="text-link" href="/studio/">Meet the studio <span aria-hidden="true">↗</span></a></div></section>
+  <section class="container principles-section" aria-label="What working with Ashbi feels like"><Principles /></section>
+  <section class="section process-section" aria-labelledby="process-heading"><div class="container"><div class="section-heading"><span class="eyebrow">HOW WE WORK / 05</span><h2 id="process-heading">A clear way <em>forward.</em></h2><p>Each stage has a purpose, a conversation, and work you can see.</p></div><ProcessSteps /></div></section>
+  <section class="section ways-section container" aria-labelledby="ways-heading"><div class="section-heading"><span class="eyebrow">WAYS TO WORK TOGETHER / 06</span><h2 id="ways-heading">Start with what <em>you need.</em></h2><p>Four starting points, each shaped to the work you actually need. Tell us where you are and we’ll scope the right next step together.</p></div><OfferGrid /></section>
+  <section class="section faq-section container" aria-labelledby="faq-heading"><div class="faq-intro"><span class="eyebrow">GOOD TO KNOW / 07</span><h2 id="faq-heading">A few things <em>you may be wondering.</em></h2><p>Still have a question? <a href="mailto:hello@ashbi.ca">Say hello ↗</a></p></div><div class="faq-list">{faqs.map(item=><details><summary>{item.q}<span aria-hidden="true">+</span></summary><p>{item.a}</p></details>)}</div></section>
+  <BookingCta />
+</main>
+</BaseLayout>

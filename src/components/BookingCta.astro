@@ -1,0 +1,9 @@
+---
+interface Props {service?:string;}
+const {service}=Astro.props;
+const brief=`/contact/${service?`?service=${encodeURIComponent(service)}`:''}#project-brief`;
+---
+<section class="booking-cta container" aria-labelledby="cta-title">
+  <div class="booking-art" aria-hidden="true"><img src="/images/ashbi/cocofro-main.webp" alt="" loading="lazy" /><img src="/images/ashbi/clypse-main.webp" alt="" loading="lazy" /><img src="/images/ashbi/blend-main.webp" alt="" loading="lazy" /></div>
+  <div class="booking-copy"><span class="eyebrow">YOUR NEXT CHAPTER</span><h2 id="cta-title">Let’s make your next move look the part.</h2><p>Tell us what you’re building. We’ll explore where thoughtful design can take it.</p><div class="cta-actions"><a class="button button-lime" href="/contact/" data-track="booking_click">Book a call <span aria-hidden="true">↗</span></a><a class="button button-outline" href={brief}>Send a project brief ↗</a></div><a class="cta-email" href="mailto:hello@ashbi.ca">Or say hello at hello@ashbi.ca</a></div>
+</section>

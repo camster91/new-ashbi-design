@@ -1,0 +1,31 @@
+<section class="section connected-work container" aria-labelledby="touchpoints-heading">
+  <div class="connected-intro">
+    <div><span class="eyebrow">IN PRACTICE / 04</span><h2 id="touchpoints-heading">One idea, <em>many places.</em></h2></div>
+    <div><p>WaagBag shows what happens when a visual identity has room to travel. The same bold type and colour move from the brand system into packaging and a large-format graphic.</p><a href="/work/waagbag/">Explore the WaagBag project <span aria-hidden="true">↗</span></a></div>
+  </div>
+  <div class="connected-gallery">
+    <figure class="connected-tile connected-tile-main reveal"><img src="/images/ashbi/gallery/waagbag-04-1200.webp" alt="WaagBag logo variations and colour palette" width="1200" height="675" loading="lazy" /><figcaption><span>01 / THE IDENTITY</span><strong>A recognisable starting point.</strong></figcaption></figure>
+    <figure class="connected-tile reveal"><img src="/images/ashbi/gallery/waagbag-03-1800.webp" alt="WaagBag branded box and wrapping materials" width="1800" height="1013" loading="lazy" /><figcaption><span>02 / THE PACK</span><strong>Personality you can hold.</strong></figcaption></figure>
+    <figure class="connected-tile reveal"><img src="/images/ashbi/gallery/waagbag-06-1200.webp" alt="WaagBag identity applied to a large outdoor graphic" width="1200" height="675" loading="lazy" /><figcaption><span>03 / OUT IN THE WORLD</span><strong>The same character at a different scale.</strong></figcaption></figure>
+  </div>
+</section>
+
+<style>
+  .connected-work{padding-top:72px}
+  .connected-intro{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);gap:clamp(32px,7vw,110px);align-items:end;margin-bottom:48px}
+  .connected-intro h2{margin:0}
+  .connected-intro p{max-width:550px;color:var(--muted);font-size:1.08rem;margin-bottom:22px}
+  .connected-intro a{display:inline-flex;gap:22px;align-items:center;border-bottom:1px solid currentColor;padding-bottom:7px;font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+  .connected-intro a:hover{gap:30px}
+  .connected-gallery{display:grid;grid-template-columns:1.08fr .92fr;grid-template-rows:repeat(2,minmax(0,1fr));gap:20px}
+  .connected-tile{margin:0;min-width:0;position:relative;overflow:hidden;border-radius:24px;background:#e8eaf4}
+  .connected-tile-main{grid-row:1/3}
+  .connected-tile img{width:100%;height:100%;min-height:265px;object-fit:cover;transition:transform .65s ease}
+  .connected-tile-main img{min-height:550px}
+  .connected-tile:hover img{transform:scale(1.035)}
+  .connected-tile figcaption{position:absolute;left:18px;right:18px;bottom:18px;display:flex;flex-direction:column;gap:5px;width:max-content;max-width:calc(100% - 36px);padding:12px 16px;border-radius:12px;background:#f7f8f1ef;backdrop-filter:blur(10px)}
+  .connected-tile figcaption span{font-size:.62rem;font-weight:800;letter-spacing:.12em}
+  .connected-tile figcaption strong{font-size:.9rem;font-weight:700}
+  @media(max-width:760px){.connected-work{padding-top:54px}.connected-intro{grid-template-columns:1fr;gap:20px}.connected-gallery{grid-template-columns:1fr;grid-template-rows:auto}.connected-tile-main{grid-row:auto}.connected-tile img,.connected-tile-main img{height:min(55vw,410px);min-height:0}.connected-tile figcaption{position:static;margin:0;padding:16px 18px;border-radius:0;width:auto;max-width:none;background:#fff}.connected-tile{border:1px solid var(--line)}}
+  @media(prefers-reduced-motion:reduce){.connected-tile img{transition:none}.connected-tile:hover img{transform:none}}
+</style>

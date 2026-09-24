@@ -1,0 +1,67 @@
+---
+// TeamMemberHero — team member detail hero (sec_hero-team section).
+// CMS-bound slots: photo → .hero-team_img img, name → h1, summary → bio text,
+// linkedin/twitter/instagram → the 3 .hero-team_social_item text slots (rendered only if present).
+// Entrance: the image and the content block stay static — only the inner content elements
+// animate on load: name, bio, social items and button fade up in cascade (data-stagger).
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  worker: CollectionEntry<"workers">["data"];
+}
+const { worker } = Astro.props;
+const { photo, name, role, summary, linkedin, twitter, instagram } = worker;
+---
+<section class="sec_hero-team">
+  <div class="container-large height-100">
+    <div class="hero-team_layout">
+      <div class="hero-team_img"><img src={photo} loading="lazy" alt={name} class="img"></div>
+      <div data-stagger="h1, .text-base.text-color-secondary:not(.text-style-nowrap), .hero-team_social_item, .button_wrapper" class="hero-team_content">
+        <div>
+          <h1 class="text-4xl text-color-primary">{name}</h1>
+          <div class="spacer-medium"></div>
+          <div class="text-base text-color-secondary">{summary}</div>
+        </div>
+        <div>
+          <div class="hero-team_social_wrap">
+            {linkedin && (
+              <div class="hero-team_social_item"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 24 24" fill="none" class="icon-1x1-medium">
+                  <path d="M19 3C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19ZM18.5 18.5V13.2C18.5 12.3354 18.1565 11.5062 17.5452 10.8948C16.9338 10.2835 16.1046 9.94 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17C14.6813 12.17 15.0374 12.3175 15.2999 12.5801C15.5625 12.8426 15.71 13.1987 15.71 13.57V18.5H18.5ZM6.88 8.56C7.32556 8.56 7.75288 8.383 8.06794 8.06794C8.383 7.75288 8.56 7.32556 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19C6.43178 5.19 6.00193 5.36805 5.68499 5.68499C5.36805 6.00193 5.19 6.43178 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56ZM8.27 18.5V10.13H5.5V18.5H8.27Z" fill="currentColor"></path>
+                </svg>
+                <div class="text-base text-color-secondary text-style-nowrap">{linkedin}</div>
+              </div>
+            )}
+            {twitter && (
+              <div class="hero-team_social_item"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 24 24" fill="none" class="icon-1x1-medium">
+                  <path d="M10.488 14.651L15.25 21H22.25L14.392 10.522L20.93 3H18.28L13.163 8.886L8.75 3H1.75L9.26 13.015L2.32 21H4.97L10.488 14.651ZM16.25 19L5.75 5H7.75L18.25 19H16.25Z" fill="currentColor"></path>
+                </svg>
+                <div class="text-base text-color-secondary text-style-nowrap">{twitter}</div>
+              </div>
+            )}
+            {instagram && (
+              <div class="hero-team_social_item"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 24 24" fill="none" class="icon-1x1-medium">
+                  <path d="M16 3C17.3261 3 18.5979 3.52678 19.5355 4.46447C20.4732 5.40215 21 6.67392 21 8V16C21 17.3261 20.4732 18.5979 19.5355 19.5355C18.5979 20.4732 17.3261 21 16 21H8C6.67392 21 5.40215 20.4732 4.46447 19.5355C3.52678 18.5979 3 17.3261 3 16V8C3 6.67392 3.52678 5.40215 4.46447 4.46447C5.40215 3.52678 6.67392 3 8 3H16ZM12 8C10.9391 8 9.92172 8.42143 9.17157 9.17157C8.42143 9.92172 8 10.9391 8 12C8 13.0609 8.42143 14.0783 9.17157 14.8284C9.92172 15.5786 10.9391 16 12 16C13.0609 16 14.0783 15.5786 14.8284 14.8284C15.5786 14.0783 16 13.0609 16 12C16 10.9391 15.5786 9.92172 14.8284 9.17157C14.0783 8.42143 13.0609 8 12 8ZM12 10C12.5304 10 13.0391 10.2107 13.4142 10.5858C13.7893 10.9609 14 11.4696 14 12C14 12.5304 13.7893 13.0391 13.4142 13.4142C13.0391 13.7893 12.5304 14 12 14C11.4696 14 10.9609 13.7893 10.5858 13.4142C10.2107 13.0391 10 12.5304 10 12C10 11.4696 10.2107 10.9609 10.5858 10.5858C10.9609 10.2107 11.4696 10 12 10ZM16.5 6.5C16.2348 6.5 15.9804 6.60536 15.7929 6.79289C15.6054 6.98043 15.5 7.23478 15.5 7.5C15.5 7.76522 15.6054 8.01957 15.7929 8.20711C15.9804 8.39464 16.2348 8.5 16.5 8.5C16.7652 8.5 17.0196 8.39464 17.2071 8.20711C17.3946 8.01957 17.5 7.76522 17.5 7.5C17.5 7.23478 17.3946 6.98043 17.2071 6.79289C17.0196 6.60536 16.7652 6.5 16.5 6.5Z" fill="currentColor"></path>
+                </svg>
+                <div class="text-base text-color-secondary text-style-nowrap">{instagram}</div>
+              </div>
+            )}
+          </div>
+          <div class="spacer-huge"></div>
+          <div class="button_wrapper">
+            <a href="/contact" class="button-arrow is-black w-inline-block">
+              <div class="button-arrow_wrap">
+                <div class="button-arrow_text">
+                  <div class="text_button">Get Started</div>
+                </div>
+                <div class="button_container-arrow is-black"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 20 20" fill="none" class="icon-1x1-main">
+                    <path d="M13.0457 8.13128L5.8733 15.3037L4.69479 14.1252L11.8672 6.95277L5.54568 6.95277L5.54568 5.28636H14.7121V14.4528L13.0457 14.4528V8.13128Z" fill="currentColor"></path>
+                  </svg></div>
+                <div class="button-arrow_bg is-black"></div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

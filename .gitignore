@@ -1,0 +1,41 @@
+# build output
+dist/
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# environment variables
+.env
+.env.production
+.env.*
+data/
+
+# macOS-specific files
+.DS_Store
+
+# jetbrains setting folder
+.idea/
+
+# deploy platform caches
+.vercel
+.wrangler/
+
+# local QA + generated assets (not part of the published site)
+qa-screenshots/
+generated-images/
+research/
+
+# Claude Code personal overrides
+CLAUDE.local.md
+.claude/settings.local.json
+
+# internal working docs (not part of the published template)
+REVIEW_CHECKLIST.md

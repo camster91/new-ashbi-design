@@ -1,0 +1,6 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BookingCta from '../../components/BookingCta.astro';
+import {insights} from '../../data/insights';
+---
+<BaseLayout title="Insights | Ashbi Design" description="Ideas and practical notes on brand identity, illustration, and web design from Ashbi Design."><main id="main"><section class="interior-hero container"><span class="eyebrow">NOTES FROM THE STUDIO</span><h1>Ideas worth <em>sharing.</em></h1><p>Thoughts on the craft behind strong brands and useful websites.</p></section><section class="section container"><div class="insights-grid">{insights.map((post,i)=><a class="insight-card" href={`/${post.slug}/`}><div class={`insight-art insight-art-${i+1}`}><span>{post.category}</span><b>{post.shortTitle}</b></div><small>{post.category} · {post.date}</small><h2>{post.title}</h2><span>Read article ↗</span></a>)}</div></section><BookingCta /></main></BaseLayout>

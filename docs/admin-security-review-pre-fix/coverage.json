@@ -1,0 +1,201 @@
+{
+  "completeness": "partial",
+  "deferred": [
+    {
+      "candidate": {
+        "cwe": "CWE-400",
+        "evidence": [
+          "server/index.mjs:33-36",
+          "server/admin.mjs:81-85"
+        ],
+        "severity": "medium",
+        "title": "Prefix routing leaves unmatched admin requests unanswered"
+      },
+      "id": "prefix-routing",
+      "paths": [
+        "server/index.mjs",
+        "server/admin.mjs"
+      ],
+      "reason": "Baseline candidate pending parent validation"
+    },
+    {
+      "candidate": {
+        "cwe": "CWE-400",
+        "evidence": [
+          "server/enquiry-handler.mjs:31-37"
+        ],
+        "severity": "medium",
+        "title": "Shared proxy socket-IP enquiry quota can be exhausted"
+      },
+      "id": "shared-enquiry-quota",
+      "paths": [
+        "server/enquiry-handler.mjs"
+      ],
+      "reason": "Baseline candidate pending parent validation"
+    },
+    {
+      "candidate": {
+        "cwe": "CWE-307",
+        "evidence": [
+          "server/admin.mjs:74-79",
+          "server/admin.mjs:94-106"
+        ],
+        "severity": "medium",
+        "title": "Shared proxy address allows unauthenticated admin login denial"
+      },
+      "id": "shared-admin-throttle",
+      "paths": [
+        "server/admin.mjs"
+      ],
+      "reason": "Baseline and focused candidate pending parent validation"
+    },
+    {
+      "candidate": {
+        "cwe": "CWE-770",
+        "evidence": [
+          "server/admin.mjs:59",
+          "server/admin.mjs:74-79"
+        ],
+        "severity": "low",
+        "title": "Authentication attempt map has no global bound"
+      },
+      "id": "unbounded-attempt-map",
+      "paths": [
+        "server/admin.mjs"
+      ],
+      "reason": "Baseline and focused candidate pending parent validation"
+    },
+    {
+      "candidate": {
+        "cwe": "CWE-362",
+        "evidence": [
+          "server/admin.mjs:86-87",
+          "server/admin.mjs:117-125",
+          "server/state.mjs:58-68"
+        ],
+        "severity": "medium",
+        "title": "Concurrent settings save can mark a different Mailgun configuration as tested"
+      },
+      "id": "test-settings-race",
+      "paths": [
+        "server/admin.mjs",
+        "server/state.mjs"
+      ],
+      "reason": "Focused candidate pending parent validation"
+    },
+    {
+      "candidate": {
+        "cwe": "CWE-362",
+        "evidence": [
+          "server/admin.mjs:86",
+          "server/admin.mjs:117-120",
+          "server/state.mjs:58-68"
+        ],
+        "severity": "low",
+        "title": "Concurrent settings forms can overwrite a newer Mailgun key"
+      },
+      "id": "stale-api-key-race",
+      "paths": [
+        "server/admin.mjs",
+        "server/state.mjs"
+      ],
+      "reason": "Focused candidate pending parent validation"
+    },
+    {
+      "candidate": {
+        "cwe": "CWE-613",
+        "evidence": [
+          "server/admin.mjs:35-40",
+          "server/admin.mjs:86-111",
+          "server/admin.mjs:137-143"
+        ],
+        "severity": "medium",
+        "title": "Already-started requests can cross password rotation"
+      },
+      "id": "password-rotation-race",
+      "paths": [
+        "server/admin.mjs"
+      ],
+      "reason": "Focused candidate pending parent validation"
+    },
+    {
+      "candidate": {
+        "counterevidence": "Docs require private HTTPS reverse proxy; actual deployment unknown",
+        "cwe": "CWE-319",
+        "evidence": [
+          "server/index.mjs:31-36",
+          "server/Dockerfile:7-9"
+        ],
+        "severity": "high",
+        "title": "Plain HTTP listener binds 0.0.0.0 when private proxy boundary absent"
+      },
+      "id": "deployment-plaintext",
+      "paths": [
+        "server/index.mjs",
+        "server/Dockerfile"
+      ],
+      "reason": "Conditional deployment candidate; verify reachability before report"
+    },
+    {
+      "candidate": {
+        "counterevidence": "Docs require one instance; actual deployment unknown",
+        "cwe": "CWE-362",
+        "evidence": [
+          "server/state.mjs:46-70"
+        ],
+        "severity": "medium",
+        "title": "Process-local state queue allows stale writes across multiple instances"
+      },
+      "id": "multi-instance-state",
+      "paths": [
+        "server/state.mjs"
+      ],
+      "reason": "Conditional deployment candidate; verify instance count before report"
+    }
+  ],
+  "documentType": "codex-security.coverage",
+  "excludePaths": [],
+  "explicitExclusions": [],
+  "includePaths": [
+    "server"
+  ],
+  "inventoryStrategy": "scoped_path",
+  "mode": "scoped_path",
+  "openQuestions": [
+    {
+      "question": "Before preview exposure verify private HTTPS proxy, exact path routing, true-client-IP edge limits, request timeouts, persistent volume and single-instance topology."
+    }
+  ],
+  "scanId": "8b525df0-a194-4378-a2c9-453ba955d870",
+  "schemaVersion": "1.0",
+  "surfaces": [
+    {
+      "disposition": "reported",
+      "id": "admin-auth",
+      "label": "Admin authentication, setup, sessions and CSRF",
+      "notes": "All routes in server/admin.mjs reviewed.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "reported",
+      "id": "state-mailgun",
+      "label": "Encrypted state and Mailgun configuration",
+      "notes": "State and Mailgun network path reviewed.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "reported",
+      "id": "public-gateway",
+      "label": "Public enquiry validation and delivery",
+      "notes": "Gateway and backend router reviewed.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "id": "docker-boundary",
+      "label": "Docker and documented deployment boundary",
+      "notes": "Source reviewed; runtime network, proxy and topology remain deployment gates.",
+      "receiptRefs": []
+    }
+  ]
+}

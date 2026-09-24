@@ -1,0 +1,68 @@
+---
+import { getCollection } from "astro:content";
+const workers = await getCollection("workers");
+---
+<section class="sec_team">
+  <div class="padding-section-medium"></div>
+  <div class="padding-global">
+    <div class="container-large">
+      <div data-reveal class="team_header">
+        <div class="tag">
+          <div class="dot-square"></div>
+          <div>Teams</div>
+        </div>
+        <h2 class="scroll-right">Meet our teams</h2>
+        <div class="scroll-right">
+          <div class="spacer-medium hide-mobile-landscape"></div>
+          <a href="/contact" class="button-arrow is-black w-inline-block">
+            <div class="button-arrow_wrap">
+              <div class="button-arrow_text">
+                <div class="text_button">Contact us</div>
+              </div>
+              <div class="button_container-arrow is-black"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 20 20" fill="none" class="icon-1x1-main">
+                  <path d="M13.0457 8.13128L5.8733 15.3037L4.69479 14.1252L11.8672 6.95277L5.54568 6.95277L5.54568 5.28636H14.7121V14.4528L13.0457 14.4528V8.13128Z" fill="currentColor"></path>
+                </svg></div>
+              <div class="button-arrow_bg is-black"></div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="spacer-section-medium"></div>
+      <div data-reveal>
+        <!-- Desktop: 3-col grid. ≤991: Swiper (tablet 2-up / mobile 1-up) — see
+             swiper-init.ts + components.css. The wrapper uses a dedicated .team_track
+             class so the .team_cards grid rules do not reach it. -->
+        <div class="team_cards swiper">
+          <div role="list" class="team_track swiper-wrapper">
+            {workers.map((worker) => (
+              <div role="listitem" class="team_card-item w-dyn-item swiper-slide">
+                <a style="background-color:rgb(236,236,236)" href={`/team/${worker.id}`} class="team_card scroll-right w-inline-block">
+                  <div class="arrow_button"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 20 20" fill="none" class="icon-1x1-main">
+                      <path d="M13.0457 8.13128L5.8733 15.3037L4.69479 14.1252L11.8672 6.95277L5.54568 6.95277L5.54568 5.28636H14.7121V14.4528L13.0457 14.4528V8.13128Z" fill="currentColor"></path>
+                    </svg></div>
+                  <div class="team_card-header">
+                    <div class="max-text is-name">
+                      <h3 class="h2 text-weight-semibold">{worker.data.name}</h3>
+                    </div>
+                    <div class="text-sm">{worker.data.role}</div>
+                  </div>
+                  <div class="team_card-img"><img src={worker.data.photo} loading="lazy" alt={worker.data.name} class="img"></div>
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+        <!-- Slider arrows — shown ≤991 only; desktop keeps the 3-col grid -->
+        <div class="arrows_wrap is-team">
+          <div class="arrow_container slide_prev"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 24 24" fill="none" class="icon-1x1-medium">
+              <path d="M7.828 13.0007L20 13.0007L20 11.0007L7.828 11.0007L13.192 5.63666L11.778 4.22266L4 12.0007L11.778 19.7787L13.192 18.3647L7.828 13.0007Z" fill="currentColor"></path>
+            </svg></div>
+          <div class="arrow_container slide_next"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 24 24" fill="none" class="icon-1x1-medium">
+              <path d="M16.172 13.0007L4 13.0007L4 11.0007L16.172 11.0007L10.808 5.63666L12.222 4.22266L20 12.0007L12.222 19.7787L10.808 18.3647L16.172 13.0007Z" fill="currentColor"></path>
+            </svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="padding-section-medium"></div>
+</section>

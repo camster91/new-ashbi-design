@@ -1,0 +1,62 @@
+---
+import { getCollection } from "astro:content";
+// Home teaser shows only the first 3 articles (full list lives at /blog).
+const articles = (await getCollection("articles")).slice(0, 3);
+---
+<section class="section_blog">
+  <div class="padding-section-large"></div>
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="horizontal-bottom is-between">
+        <div>
+          <div data-reveal="right" class="tag">
+            <div class="dot-square"></div>
+            <div>Blog and articles</div>
+          </div>
+          <div class="spacer-medium"></div>
+          <h2 data-reveal="right">Latest insights and trends</h2>
+          <div class="spacer-medium"></div>
+          <div data-reveal="right" class="text-color-secondary">Whether you’re optimizing today or building for tomorrow  we help you move faster with confidence.</div>
+        </div>
+        <div class="button_portrait">
+          <a href="/blog" class="button w-variant-e7c0edd3-8276-a3ba-3d91-2abb3afb4c44 w-inline-block">
+            <div class="text-button-wrap">
+              <div>View All</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="spacer-section-medium"></div>
+      <!-- Blog teaser slider — mirrors the Testimonials Swiper: always a slider,
+           slidesPerView 1→2(768)→3(992). The slide is the .blog_card (image as a
+           direct child, like .testimonials_card) and the track uses a dedicated
+           .blog_track class so the .blog_cards grid rules do not reach it. -->
+      <div class="blog_swiper">
+        <div class="swiper">
+          <div role="list" class="blog_track swiper-wrapper">
+            {articles.map((article) => (
+              <a role="listitem" href={`/blog/${article.id}`} class="blog_card swiper-slide w-inline-block">
+                <img src={article.data.thumbnail} loading="eager" alt="" class="img" />
+                <div class="blur-card"></div>
+                <div class="blog_card-content">
+                  <div class="card-black-gradient"></div>
+                  <h3 class="text-xl text-color-on-primary relative">{article.data.name}</h3>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+        <!-- Arrows shown ≤991 (2-up / 1-up); on desktop all 3 cards fit (spv 3). -->
+        <div class="arrows_wrap is-blog">
+          <div class="arrow_container slide_prev"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 24 24" fill="none" class="icon-1x1-medium">
+              <path d="M7.828 13.0007L20 13.0007L20 11.0007L7.828 11.0007L13.192 5.63666L11.778 4.22266L4 12.0007L11.778 19.7787L13.192 18.3647L7.828 13.0007Z" fill="currentColor"></path>
+            </svg></div>
+          <div class="arrow_container slide_next"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 24 24" fill="none" class="icon-1x1-medium">
+              <path d="M16.172 13.0007L4 13.0007L4 11.0007L16.172 11.0007L10.808 5.63666L12.222 4.22266L20 12.0007L12.222 19.7787L10.808 18.3647L16.172 13.0007Z" fill="currentColor"></path>
+            </svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="padding-section-large"></div>
+</section>

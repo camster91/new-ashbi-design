@@ -1,0 +1,47 @@
+---
+import { getCollection } from "astro:content";
+
+const articles = await getCollection("articles");
+const rest = articles.slice(1);
+const fmtDate = (d: Date) =>
+  d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+---
+<section class="sec_content-blog">
+  <div class="padding-section-medium"></div>
+  <div class="padding-global">
+    <div class="container-large">
+      <div data-reveal class="max-width-small is-29rem">
+        <div class="tag">
+          <div class="dot-square"></div>
+          <div>Published</div>
+        </div>
+        <div class="spacer-large"></div>
+        <h2 class="scroll-right">Recent published</h2>
+        <div class="spacer-large"></div>
+        <div class="text-base text-color-secondary scroll-right">Whether you’re optimizing today or building for tomorrow  we help you move faster with confidence.</div>
+      </div>
+      <div class="spacer-section-medium"></div>
+      <div data-reveal>
+        <div role="list" class="content-blog_wrap w-dyn-items">
+          {rest.map((article) => (
+            <div role="listitem" class="w-dyn-item">
+              <a href={`/blog/${article.id}`} class="content-blog_card scroll-right w-inline-block">
+                <div class="content-blog_card_img"><img src={article.data.thumbnail} loading="lazy" alt="" class="img">
+                  <div class="arrow_button_container"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 20 20" fill="none" class="arrow_btn">
+                      <path d="M13.0457 8.13128L5.8733 15.3037L4.69479 14.1252L11.8672 6.95277L5.54568 6.95277L5.54568 5.28636H14.7121V14.4528L13.0457 14.4528V8.13128Z" fill="currentColor"></path>
+                    </svg></div>
+                </div>
+                <div>
+                  <div class="text-base text-color-secondary">{fmtDate(article.data.date)}</div>
+                  <div class="spacer-xsmall"></div>
+                  <h3>{article.data.name}</h3>
+                </div>
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="padding-section-medium"></div>
+</section>

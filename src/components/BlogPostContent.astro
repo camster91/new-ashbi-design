@@ -1,0 +1,21 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  article: CollectionEntry<"articles">;
+}
+const { article } = Astro.props;
+---
+<section class="sec_internal-content">
+  <div class="padding-section-medium"></div>
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="vertical-center">
+        <div data-reveal class="max-width-xlarge is-61rem">
+          <div class="w-richtext"><Fragment set:html={article.data.overview} /></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="padding-section-medium"></div>
+</section>

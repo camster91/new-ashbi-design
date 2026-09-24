@@ -1,0 +1,39 @@
+---
+// Service detail hero — sec_hero-service section, CMS-bound.
+// Bind: h1 → name; richtext → content (HTML overview); right img → card (the photo,
+// the same image the Benefits section uses).
+// Icon container uses the CMS icon field.
+// Entrance: wrappers and the right .img photo stay static (no scale). Only the left
+// inner content animates: icon, h1, paragraph and button fade up in cascade
+// (data-stagger, skips spacers).
+import type { CollectionEntry } from "astro:content";
+interface Props { service: CollectionEntry<"services"> }
+const { service } = Astro.props;
+const { name, content, card, icon } = service.data;
+---
+<section class="sec_hero-service">
+  <div class="container-full height-100">
+    <div class="hero-service_layout">
+      <div data-stagger=".container-icon, h1, .w-richtext, .button-arrow" class="hero-service_left">
+        <div class="container-icon bg-green"><img src={icon} loading="lazy" alt="" class="icon-1x1-medium"></div>
+        <div class="spacer-huge"></div>
+        <h1 class="text-4xl text-color-primary" set:html={name}></h1>
+        <div class="spacer-medium"></div>
+        <div class="text-base text-color-secondary w-richtext"><Fragment set:html={content} /></div>
+        <div class="spacer-huge"></div>
+        <a href="https://temlis.com" class="button-arrow w-inline-block">
+          <div class="button-arrow_wrap">
+            <div class="button-arrow_text">
+              <div class="text_button">Get started</div>
+            </div>
+            <div class="button_container-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 20 20" fill="none" class="icon-1x1-main">
+                <path d="M13.0457 8.13128L5.8733 15.3037L4.69479 14.1252L11.8672 6.95277L5.54568 6.95277L5.54568 5.28636H14.7121V14.4528L13.0457 14.4528V8.13128Z" fill="currentColor"></path>
+              </svg></div>
+            <div class="button-arrow_bg"></div>
+          </div>
+        </a>
+      </div>
+      <div class="hero-service_right"><img src={card} loading="lazy" alt="" class="img"></div>
+    </div>
+  </div>
+</section>

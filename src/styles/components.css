@@ -1,0 +1,693 @@
+/* Aeline component overrides — minimal, only what the base stylesheet can't express */
+
+/* ── Navbar: hamburger menu at ≤991 ────────────────────────────────────────────
+   Desktop (≥992) uses inline links. At ≤991 the desktop link container is hidden
+   and the hamburger menu (src/styles/hamburger-nav.css) takes over. The hamburger
+   card is themed with the Aeline design tokens. */
+.navbar {
+  --navbar-menu-bg: var(--grey--grey-900);            /* dark pill/card #131313 (closed and open) */
+  --navbar-menu-fg: #fff;                             /* text + toggle bars (always over the dark pill) */
+  --navbar-accent: var(--base--green);                /* lime dot */
+  --navbar-menu-font: "Plus Jakarta Sans", sans-serif;
+  --navbar-menu-font-mono: Geistmono, Arial, sans-serif;
+}
+/* the navbar (which holds the hamburger card) must sit ABOVE the backdrop
+   (.navigation__dark-bg, z-index 999), otherwise the backdrop dims the menu too. */
+[data-navigation-status="active"] .navbar {
+  z-index: 1001;
+}
+/* softer backdrop (0.4 → 0.22): dims the background without darkening it too much */
+[data-navigation-status="active"] .navigation__dark-bg {
+  opacity: 0.22;
+}
+@media screen and (max-width: 991px) {
+  /* hide the desktop nav (inline links): the hamburger menu takes over */
+  .nav_wrap {
+    display: none;
+  }
+  /* hide the "Contact Us" button on tablet/mobile: the hamburger menu already
+     includes it → avoids it sticking to the hamburger and the link repeating on screen */
+  .navbar .login-wrap {
+    display: none;
+  }
+}
+
+/* ── About stats grid (.about_layout) — 3×2 bento ─────────────────────────────
+   The first two cards span 2 rows (tall in columns 1-2); the green and black cards
+   stack in column 3. */
+@media screen and (min-width: 992px) {
+  .about_layout > .card_about:nth-child(1),
+  .about_layout > .card_about:nth-child(2) {
+    grid-row: span 2;
+  }
+}
+
+/* ── FAQ accordion (single-open toggle) ───────────────────────────────────────
+   Animates the real height of .faq_bottom (0 → content height) with an ease-out
+   ~0.5s, using the grid-template-rows 0fr→1fr technique (pure CSS, smooth and
+   symmetric in both directions, robust to reflow). The grid needs a single child,
+   so the content is wrapped in .faq_bottom-inner. The base stylesheet already gives
+   .faq_bottom { overflow: clip } and .is-animated { rotate(90deg) } (the animated bar
+   forms a "+"); on open it rotates to 180° → horizontal bar = "−". */
+.faq_bottom {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.faq_item.is-open .faq_bottom {
+  grid-template-rows: 1fr;
+}
+.faq_bottom-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+.icon-1x1-medium.is-animated {
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.faq_item.is-open .icon-1x1-medium.is-animated {
+  transform: rotate(180deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .faq_bottom,
+  .icon-1x1-medium.is-animated {
+    transition: none;
+  }
+}
+
+/* ── Arrow button (.button-arrow) — hover effect ──────────────────────────────
+   The dark fill (.button-arrow_bg) slides in from the right (translateX 100%→0,
+   opacity 0→1) and the text turns white with a 4px nudge. is-black variant: green
+   fill → dark text. Pure CSS. */
+.button-arrow_bg {
+  transform: translateX(100%);
+  transition: transform 0.45s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.45s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.button-arrow:hover .button-arrow_bg {
+  opacity: 1;
+  transform: translateX(0%);
+}
+.button-arrow_text {
+  transition: color 0.35s ease, transform 0.35s ease;
+}
+.button-arrow:hover .button-arrow_text {
+  transform: translateX(4px);
+  color: var(--text-color--text-on-primary); /* white */
+}
+/* is-black: the fill is light green → text goes dark for contrast */
+.button-arrow.is-black:hover .button-arrow_text {
+  color: var(--bg-color--bg-dark);
+}
+/* the arrow (svg inside the circle) nudges slightly left on hover
+   (translateX(-0.25rem)) */
+.button_container-arrow svg {
+  transition: transform 0.35s ease;
+}
+.button-arrow:hover .button_container-arrow svg {
+  transform: translateX(-0.25rem);
+}
+/* mobile portrait: when the button-arrow text is hidden (hide-mobile-portrait,
+   e.g. the newsletter Submit), the wrap's padding-left makes the button oval.
+   Remove it → an even arrow circle (48×48). */
+@media (max-width: 479px) {
+  .button-arrow_wrap:has(> .button-arrow_text.hide-mobile-portrait) {
+    padding-left: 0;
+  }
+}
+
+/* ============================================================
+   Services cards (home · .section_services)
+   Two distinct behaviours sharing one markup:
+     · Desktop ≥992 (hover pointers): hover ACCORDION (see below).
+     · Tablet/Mobile ≤991: a Swiper slider (2-up ≥768, 1-up below)
+       driven by src/scripts/swiper-init.ts, with testimonials-style
+       arrows. Swiper is destroyed ≥992 so the accordion owns desktop.
+
+   The markup is `.services_cards.swiper > .service_cards-wrapper
+   .swiper-wrapper > .service_card.swiper-slide`. The host/wrapper display
+   is force-fed here (specificity .section_services .x = win) so it never
+   depends on the base vs swiper/css load order.
+   ============================================================ */
+/* host panel is always a plain block; the wrapper is the flex/slider row.
+   Re-assert the panel padding here: swiper/css sets `.swiper{padding:0}`
+   which would otherwise flush the cards to the gray panel's edges. */
+.section_services .services_cards {
+  display: block;
+  padding: var(--_sizes---fixed--small);
+}
+
+/* ---- Desktop accordion ----
+   Each card's width animates 50%↔25% over 500ms ease-in-out; the active card's
+   image cross-fades and reveals horizontally only — it has a fixed height (the
+   open-state height, no width-coupled aspect ratio) so the row never changes
+   height when moving between cards. The accordion also responds to keyboard focus
+   (:focus-within). The idle "first card active" state is gated behind
+   :not(:hover):not(:focus-within) so the engaged-card rules win without any
+   specificity tug-of-war.                                               */
+@media (min-width: 992px) and (hover: hover) {
+  /* the swiper-wrapper is the accordion flex row on desktop (Swiper is
+     destroyed here, leaving only its base classes) */
+  .section_services .service_cards-wrapper {
+    display: flex;
+    width: 100%;
+    gap: var(--_sizes---fixed--small);
+    transform: none !important;
+  }
+  /* counter swiper/css .swiper-slide, which on desktop (Swiper destroyed,
+     base classes left) leaks three things that break the accordion:
+       · display:block  → kills the card's flex-flow:row, so .service_list
+         stops stretching to the card height and the white card collapses
+         to its content, leaving the gray wrapper showing through;
+       · height:100%    → suppresses align-items:stretch (unequal heights);
+       · flex-shrink:0  → percentage widths can't shrink to fit the gap.
+     Restore the base layout so the height chain + space-between fill. */
+  .services_cards .service_card {
+    display: flex;
+    width: 25%;
+    height: auto;
+    flex-shrink: 1;
+    transition: width 0.5s cubic-bezier(0.62, 0.05, 0.1, 1);
+  }
+  /* Lock the text column to a fixed width (the base min-width, which already
+     fits the narrowest collapsed card on desktop) so the copy never reflows to
+     a different line count as the card opens/closes — only the image animates.
+     Base is min:14rem / max:15rem, so the column would otherwise breathe ±1rem
+     mid-transition and the summary would jump a line. */
+  .services_cards .service_content {
+    min-width: 14rem;
+    max-width: 14rem;
+  }
+  .services_cards .service_img,
+  .services_cards .service_img.is-second,
+  .services_cards .service_img.is-third {
+    display: block;
+    /* Drop the base width-coupled aspect ratio (`padding-top:50%`) and pin a
+       fixed height (= the open-state height) so the image only ever grows
+       horizontally and the row keeps a constant height across hovers. */
+    padding-top: 0;
+    height: 18rem;
+    min-width: 0;
+    max-width: 0%;
+    opacity: 0;
+    transition: max-width 0.5s cubic-bezier(0.62, 0.05, 0.1, 1),
+                opacity 0.4s ease 0.05s;
+  }
+
+  /* idle — first card stays open */
+  .services_cards:not(:hover):not(:focus-within) .service_card.is-first {
+    width: 50%;
+  }
+  .services_cards:not(:hover):not(:focus-within)
+    .service_card.is-first
+    .service_img.is-first {
+    max-width: 100%;
+    opacity: 1;
+  }
+
+  /* engaged card — hovered or keyboard-focused */
+  .services_cards .service_card:hover,
+  .services_cards .service_card:focus-within {
+    width: 50%;
+  }
+  .services_cards .service_card:hover .service_img,
+  .services_cards .service_card:focus-within .service_img {
+    max-width: 100%;
+    opacity: 1;
+  }
+}
+
+@media (min-width: 992px) and (hover: hover) and (prefers-reduced-motion: reduce) {
+  .services_cards .service_card,
+  .services_cards .service_img {
+    transition: none;
+  }
+}
+
+/* ---- Tablet/Mobile slider arrows (≤991) ---- */
+.arrows_wrap.is-services {
+  display: none;
+}
+@media (max-width: 991px) {
+  .arrows_wrap.is-services {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--_sizes---fixed--medium);
+  }
+}
+
+/* ============================================================
+   Expertise cards (home · .section_expertise)
+   Same slider treatment as Services, but the desktop layout is a
+   2×2 bento GRID (not a flex accordion). The grid lives on the
+   .swiper-wrapper; the host .expertise_cards is the swiper viewport
+   on ≤991 and a plain padded panel on desktop. Swiper is destroyed
+   ≥992 (see swiper-init.ts) — the same three swiper/css leaks that
+   affected Services are countered here: padding:0, display:block (would
+   flatten the grid / card flex), height:100%.
+   ============================================================ */
+.section_expertise .expertise_cards {
+  display: block;
+  padding: var(--_sizes---fixed--small);
+}
+/* counter swiper/css .swiper-slide { display:block; height:100% } at ALL sizes:
+   - display:block would stop the card being a centered flex column (the visual
+     would left-align and leave a gap on the right on tablet/mobile);
+   - height:100% suppresses the wrapper's align-items:stretch, so shorter cards
+     keep their content height and reveal the gray panel below them. height:auto
+     lets every slide stretch to the tallest (the wrapper height). */
+.section_expertise .expertise_card {
+  display: flex;
+  height: auto;
+}
+
+@media (min-width: 992px) {
+  /* keep the original 2×2 bento, now on the wrapper */
+  .section_expertise .expertise-cards-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--_sizes---fixed--small);
+    width: 100%;
+    transform: none !important;
+  }
+  /* the panel itself isn't clipped on desktop (orbit pills etc. can
+     sit flush to the card edges); swiper/css would set overflow:hidden */
+  .section_expertise .expertise_cards {
+    overflow: visible;
+  }
+  /* on desktop the grid (not the slide) drives the column width;
+     counter swiper/css .swiper-slide { width:100% } (height handled above) */
+  .expertise_cards .expertise_card {
+    width: auto;
+  }
+}
+
+/* ≤991 — Swiper owns the row; clip to the viewport */
+@media (max-width: 991px) {
+  .section_expertise .expertise_cards {
+    overflow: hidden;
+  }
+}
+
+.arrows_wrap.is-expertise {
+  display: none;
+}
+@media (max-width: 991px) {
+  .arrows_wrap.is-expertise {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--_sizes---fixed--medium);
+  }
+}
+
+/* ============================================================
+   Pricing cards (home · .section_pricing only — the /pricing page
+   uses a bare <section> with the same .pricing_cards and is NOT
+   touched here). Same slider treatment as Expertise: desktop is a
+   3-col grid (moved onto the .swiper-wrapper), ≤991 becomes a slider
+   (2-up ≥768, 1-up below) with testimonials-style arrows; Swiper is
+   destroyed ≥992. Countering the three swiper/css leaks: padding:0,
+   display:block (flattens grid / card flex column), height:100%.
+   ============================================================ */
+.section_pricing .pricing_cards {
+  display: block;
+  padding: var(--_sizes---fixed--small);
+}
+/* card stays a flex column with equal height at ALL sizes (block would
+   break the column; height:100% would stop shorter cards stretching to
+   the wrapper and reveal the gray panel below them) */
+.section_pricing .pricing_card {
+  display: flex;
+  height: auto;
+}
+
+@media (min-width: 992px) {
+  /* keep the original 3-col grid, now on the wrapper */
+  .section_pricing .pricing-cards-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--_sizes---fixed--small);
+    width: 100%;
+    transform: none !important;
+  }
+  .section_pricing .pricing_cards {
+    overflow: visible;
+  }
+  /* grid (not the slide) drives the column width */
+  .pricing_cards .pricing_card {
+    width: auto;
+  }
+}
+
+/* ≤991 — Swiper owns the row; clip to the viewport */
+@media (max-width: 991px) {
+  .section_pricing .pricing_cards {
+    overflow: hidden;
+  }
+}
+
+.arrows_wrap.is-pricing {
+  display: none;
+}
+@media (max-width: 991px) {
+  .arrows_wrap.is-pricing {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--_sizes---fixed--medium);
+  }
+}
+
+/* ============================================================
+   Team cards (about · .sec_team)
+   Desktop: original 3-col grid (moved onto the .swiper-wrapper
+   .team_track). ≤991: Swiper slider (2-up ≥768, 1-up below) with
+   testimonials-style arrows; Swiper destroyed ≥992 (swiper-init.ts).
+   The wrapper is a CLEAN .team_track (NOT .team_cards) so the base
+   ≤767 `.team_cards{display:flex; overflow:auto; margin -1rem}` native
+   carousel never reaches it — that overflow:auto fought Swiper's transform
+   on the blog (white cards). The host .team_cards is overridden to a plain
+   block viewport; counter the three swiper/css leaks: padding, display, height.
+   ============================================================ */
+.sec_team .team_cards {
+  display: block;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}
+/* slide: flex so the card stretches to equal height; counter swiper/css
+   .swiper-slide { display:block; height:100%; width:100% } */
+.sec_team .team_card-item {
+  display: flex;
+  height: auto;
+  width: auto;
+}
+.sec_team .team_card {
+  width: 100%;
+}
+/* Equalize the three cards: force every name onto 2 lines so the photos align.
+   The shorter middle name ("Erin Siphron") would otherwise fit on one line and
+   sit its photo higher. 230px wraps all three names to two lines with no word
+   overflow (220–235px is the safe window). */
+.sec_team .is-name {
+  max-width: 230px;
+}
+
+@media (min-width: 992px) {
+  /* original 3-col grid, now on the wrapper */
+  .sec_team .team_track {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--_sizes---fixed--small);
+    width: 100%;
+    transform: none !important;
+  }
+}
+
+/* ≤991 — Swiper owns the row; clip to the viewport */
+@media (max-width: 991px) {
+  .sec_team .team_cards {
+    overflow: hidden;
+  }
+}
+
+.arrows_wrap.is-team {
+  display: none;
+}
+@media (max-width: 991px) {
+  .arrows_wrap.is-team {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--_sizes---fixed--medium);
+  }
+}
+
+/* Team card hover: the corner arrow icon rotates 45° and the photo zooms to 1.1
+   — both ~0.5s ease-out. The zoom is clipped by .team_card { overflow:clip }.
+   Off under reduced-motion. */
+.sec_team .arrow_button svg,
+.sec_team .team_card-img .img {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.sec_team .team_card:hover .arrow_button svg {
+  transform: rotate(45deg);
+}
+.sec_team .team_card:hover .team_card-img .img {
+  transform: scale(1.1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .sec_team .arrow_button svg,
+  .sec_team .team_card-img .img {
+    transition: none;
+  }
+  .sec_team .team_card:hover .arrow_button svg,
+  .sec_team .team_card:hover .team_card-img .img {
+    transform: none;
+  }
+}
+
+/* ============================================================
+   Journey data (about · .sec_journey)
+   On mobile the four year items stack as a plain vertical flex (no sideways
+   scroll) instead of a horizontal scroll carousel. ≤767 only; tablet/desktop
+   keep the 2×2 grid.
+   ============================================================ */
+@media (max-width: 767px) {
+  .sec_journey .journey_data {
+    flex-flow: column;
+    overflow: visible;
+  }
+}
+
+/* ============================================================
+   Blog grid card hover (/blog · .sec_content-blog)
+   The photo zooms to 1.1 and the arrow_btn (green circle, bottom-right corner)
+   rotates 45° — ~0.5s ease-out, identical to the team hover. The zoom is clipped
+   by .content-blog_card_img { overflow:clip }. Off under reduced-motion.
+   (The teaser .blog_card has its own separate hover.)
+   ============================================================ */
+.sec_content-blog .content-blog_card_img .img,
+.sec_content-blog .arrow_btn {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.sec_content-blog .content-blog_card:hover .content-blog_card_img .img {
+  transform: scale(1.1);
+}
+.sec_content-blog .content-blog_card:hover .arrow_btn {
+  transform: rotate(45deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .sec_content-blog .content-blog_card_img .img,
+  .sec_content-blog .arrow_btn {
+    transition: none;
+  }
+  .sec_content-blog .content-blog_card:hover .content-blog_card_img .img,
+  .sec_content-blog .content-blog_card:hover .arrow_btn {
+    transform: none;
+  }
+}
+
+/* ============================================================
+   Contact hero layout (/contact · .sec_hero-contact)
+   The right block (bg image + form) spans 2 of the grid's 3 columns → left 1/3 ·
+   right 2/3, with the form centered in the wide block. ≥992 only (at ≤991 the
+   layout is flex-column and grid-column doesn't apply).
+   ============================================================ */
+@media (min-width: 992px) {
+  .sec_hero-contact .hero-contact_right {
+    grid-column: span 2;
+  }
+}
+/* Tablet (768–991): stack the two blocks as a vertical flex on tablet as well as
+   mobile, instead of keeping the 3-col grid. */
+@media (max-width: 991px) {
+  .sec_hero-contact .hero-contact_layout {
+    display: flex;
+    flex-flow: column;
+  }
+}
+
+/* ============================================================
+   Testimonials cards (.section_testimonials)
+   The testimonials slider is always a Swiper (1→2→3 up), so the
+   swiper/css .swiper-slide { height:100% } leak resolves against the
+   content-driven swiper height and collapses the card to ~333px. The
+   card is fixed at 30rem (25rem ≤767). Re-assert those heights with
+   section specificity so they beat .swiper-slide.
+   ============================================================ */
+.section_testimonials .testimonials_card {
+  /* swiper/css .swiper-slide { display:block; height:100% } overrides the
+     card's own flex/height: block kills justify-content:space-between (so the
+     quote stops being pushed to the bottom) and height:100% collapses it.
+     Restore both (flex column, 30rem / 25rem ≤767). */
+  display: flex;
+  height: 30rem;
+}
+@media (max-width: 767px) {
+  .section_testimonials .testimonials_card {
+    height: 25rem;
+  }
+}
+
+/* Unlike the other sliders, testimonials has no gray framing panel, so the
+   swiper/css overflow:hidden cuts the cards at the container edge — mid-screen,
+   leaving the page gutters empty as you slide. Let the slider overflow be
+   visible and clip at the viewport instead, so cards flow cleanly to/from the
+   screen edges with no hard mid-screen cut, and no horizontal page scroll. */
+.section_testimonials {
+  overflow-x: clip;
+}
+.section_testimonials .swiper {
+  overflow: visible;
+}
+
+/* Drop the frosted blur: layering backdrop-filter + mask-image on the same
+   .blur-card only renders in Chromium (WebKit/Firefox drop a backdrop-filter when
+   the element is also masked). Readability is already handled by the separate
+   .card-black-gradient, so keep the dark masked overlay and simply remove the blur
+   — no backdrop-filter = consistent in every browser. */
+.blur-card {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* ============================================================
+   Blog teaser (home · .section_blog) — first 3 articles.
+   Mirrors the Testimonials slider: Swiper is ALWAYS on
+   (slidesPerView 1→2(768)→3(992)), so on desktop the 3 cards sit side by
+   side like a grid and below they slide. The slide IS the .blog_card
+   (image as a direct child) and the track is .blog_track — a dedicated
+   class, so the .blog_cards grid + its ≤479 native overflow:auto carousel
+   CSS (which fought Swiper's transform and left the moved cards unpainted)
+   can no longer reach this section. spaceBetween owns the gaps; Swiper clips
+   its own overflow, so no peek and no h-scroll. The overlays come from the
+   .blog_card rules. */
+/* Force a true 1:1 card. padding-top:100% resolves against the CONTAINING
+   BLOCK width (the .blog_track flex wrapper, which spans all slides) — so with
+   spv 2/3 the card would grow far taller than wide. aspect-ratio resolves against
+   the slide's OWN width → square at every breakpoint (height:auto lets it drive,
+   over swiper's .swiper-slide height:100%). Scoped to .blog_swiper (teaser only)
+   so BlogRelated.astro — which also uses .section_blog/.blog_card in a plain grid
+   — is untouched. */
+.blog_swiper .blog_card {
+  padding-top: 0;
+  height: auto;
+  aspect-ratio: 1 / 1;
+}
+
+/* Hover: the image zooms 1 → 1.1 within the card (clipped by the card's
+   overflow), ~0.4s ease-out (front-loaded outCubic curve). Applies to every
+   .blog_card (teaser + related). Disabled under reduced-motion, like the rest
+   of the project. */
+.blog_card .img {
+  transition: transform 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.blog_card:hover .img {
+  transform: scale(1.1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .blog_card .img {
+    transition: none;
+  }
+  .blog_card:hover .img {
+    transform: none;
+  }
+}
+
+.arrows_wrap.is-blog {
+  display: none;
+}
+/* Arrows only ≤991 — at ≥992 all 3 teaser cards are visible (spv 3). */
+@media (max-width: 991px) {
+  .arrows_wrap.is-blog {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--_sizes---fixed--medium);
+  }
+}
+
+/* ============================================================
+   Services hero layout fit (secondary nav · .sec_h-services + .her_top,
+   both used only by ServicesHero so this stays scoped to that page).
+   The secondary navbar height (~66px) — the variant class is propagated to
+   .padding-global.is-navbar in Navbar.astro so its padding-bottom .25rem applies
+   — so calc(100svh - 5.5rem) fits correctly (≈10px clearance). Only the 8rem top
+   padding above the h1 is trimmed so the heading sits closer to the navbar (less
+   empty gap between nav and content). */
+.sec_h-services {
+  min-height: calc(100svh - 5.5rem);
+}
+.sec_h-services .her_top {
+  padding-top: 6rem;
+}
+/* ≤991 the hero is content-height (not full-viewport). space-between then has no
+   slack, so add a small row-gap to keep the header and the image loop apart
+   instead of stretching the hero to ~100vh. */
+@media (max-width: 991px) {
+  .sec_h-services {
+    min-height: auto;
+    row-gap: 2rem;
+  }
+  .sec_h-services .her_top {
+    padding-top: 4.5rem;
+  }
+}
+@media (max-width: 767px) {
+  .sec_h-services .her_top {
+    padding-top: 3.5rem;
+  }
+}
+
+/* Services list grid placement. The first card spans both rows of the narrow
+   left column (grid-area span 2 / span 1), with the two .is-one-row cards stacked
+   in the right column. The first card is the only .serv-service_card without
+   .is-one-row → give it a 2-row span. Grid only applies ≥992 (≤991 the layout is
+   flex-column), so this is desktop-only. */
+.serv-services_layout > .serv-service_card:not(.is-one-row) {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+/* Services testimonials marquee (.testi_loop): a seamless looping marquee.
+   Same pattern as the hero image loop — 2 identical .testi-services_cards groups
+   laid side by side as max-content, so the xPercent:-50 in animations.ts moves
+   exactly one group and wraps invisibly. flex:none keeps each group at its natural
+   width. Full-bleed: the track overflows .container-large and clips at the viewport
+   (.page-wrapper{overflow:clip}), scrolling ~80px/s leftward. */
+.testi_loop {
+  width: max-content;
+}
+.testi-services_cards {
+  flex: none;
+}
+
+/* ServiceDetailHero — hero image 1:1 on mobile (≤767). When the layout stacks
+   (flex-column, sec height:auto), the right wrapper would collapse to ~40px because
+   its only child .img is position:absolute (inset:0 → contributes no height). Give
+   the wrapper a square box so the absolute img fills it 1:1. overflow:clip +
+   border-radius already round it. */
+@media screen and (max-width: 767px) {
+  .sec_hero-service .hero-service_right {
+    aspect-ratio: 1 / 1;
+  }
+}
+
+/* ServiceBenefits — the benefits_layout bento "table". The image and the quote block
+   are placed BY CLASS (grid-column: span 2):
+     ≥992  4-col: IMG + QUOTE span 2 → Row1 feat·feat·IMG(span2) / Row2 QUOTE(span2)·feat·feat
+     ≤991  span 2 = full width (explicit 2-col @768–991, implicit 2-col @480–767) + QUOTE
+           moves last (order:9999) → feat·feat / IMG / feat·feat / QUOTE
+     ≤479  IMG + QUOTE back to span 1 → true single column, QUOTE still last
+   (.benefit_img padding-top:100% at ≤767 already squares the image — untouched.) */
+.benefits_layout > .benefit_img,
+.benefits_layout > .benefit_item.is-large {
+  grid-column: span 2;
+}
+@media screen and (max-width: 991px) {
+  .benefits_layout > .benefit_item.is-large {
+    order: 9999;
+  }
+}
+@media screen and (max-width: 479px) {
+  .benefits_layout > .benefit_img,
+  .benefits_layout > .benefit_item.is-large {
+    grid-column: span 1;
+  }
+}

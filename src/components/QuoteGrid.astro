@@ -1,0 +1,7 @@
+---
+import {testimonials} from '../data/site';
+interface Props { ids?: string[]; }
+const {ids}=Astro.props;
+const quotes=ids?ids.map(id=>testimonials.find(t=>t.id===id)).filter(Boolean):testimonials;
+---
+<div class:list={['proof-grid',{'proof-grid-single':quotes.length===1}]}>{quotes.map(t=>t&&<blockquote class="proof-card reveal"><span class="quote-mark" aria-hidden="true">“</span><p>“{t.quote}”</p><footer><strong>{t.person}</strong><span>{t.client}</span></footer></blockquote>)}</div>

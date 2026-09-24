@@ -1,0 +1,17 @@
+---
+import {testimonials} from '../data/site';
+const rows=[
+  ['kate','sabrina','alan'],
+  ['dereck','breona','brittany'],
+].map(ids=>ids.map(id=>testimonials.find(quote=>quote.id===id)).filter((quote):quote is (typeof testimonials)[number]=>Boolean(quote)));
+---
+<div class="proof-marquee" data-proof-marquee>
+  <div class="proof-marquee-rows">
+    {rows.map((quotes,rowIndex)=><div class="proof-marquee-window" data-proof-row data-direction={rowIndex===0?'1':'-1'} role="region" tabindex="0" aria-label={`${rowIndex===0?'First':'Second'} testimonial row. Swipe or use the arrow keys to browse.`}>
+      {[0,1,2].map(copy=><div class="proof-marquee-set" aria-hidden={copy!==1?'true':undefined} inert={copy!==1}>
+        {quotes.map(quote=><blockquote class="proof-card"><span class="quote-mark" aria-hidden="true">“</span><p>“{quote.quote}”</p><footer><strong>{quote.person}</strong><span>{quote.client}</span></footer></blockquote>)}
+      </div>)}
+    </div>)}
+  </div>
+  <button class="proof-motion-toggle" type="button" data-proof-pause aria-pressed="false" aria-label="Pause testimonial motion"><span aria-hidden="true">Ⅱ</span><span data-proof-pause-label>Pause motion</span></button>
+</div>
