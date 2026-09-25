@@ -753,10 +753,36 @@
   ],
   "della": [
     {
-      "src": "/images/ashbi/commerce/della-campaign.webp",
-      "srcset": "/images/ashbi/commerce/della-campaign.webp 2160w",
-      "width": 2160,
-      "height": 2160
+      "src": "/images/ashbi/commerce/della-current-hero.webp",
+      "srcset": "/images/ashbi/commerce/della-current-hero.webp 1600w",
+      "width": 1600,
+      "height": 1201,
+      "alt": "Current Della Rice Arborio bag held against a lavender background",
+      "source": "https://dellarice.com/wp-content/uploads/2026/02/ChatGPT-Image-Oct-27-2025-12_10_14-PM-1-copy.png"
+    },
+    {
+      "src": "/images/ashbi/commerce/della-current-natural.webp",
+      "srcset": "/images/ashbi/commerce/della-current-natural.webp 900w",
+      "width": 900,
+      "height": 911,
+      "alt": "Current Della Rice all natural Basmati White Rice bag",
+      "source": "https://dellarice.com/wp-content/uploads/2026/04/Natural_647_front.png"
+    },
+    {
+      "src": "/images/ashbi/commerce/della-current-organic.webp",
+      "srcset": "/images/ashbi/commerce/della-current-organic.webp 900w",
+      "width": 900,
+      "height": 911,
+      "alt": "Current Della Rice organic Jasmine White Rice bag",
+      "source": "https://dellarice.com/wp-content/uploads/2026/04/Organic_634_front.png"
+    },
+    {
+      "src": "/images/ashbi/commerce/della-current-regenerative.webp",
+      "srcset": "/images/ashbi/commerce/della-current-regenerative.webp 900w",
+      "width": 900,
+      "height": 911,
+      "alt": "Current Della Rice regenerative Long Grain Light Brown Rice bag",
+      "source": "https://dellarice.com/wp-content/uploads/2026/04/Regen_12337_front.png"
     }
   ],
   "bpm": [

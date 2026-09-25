@@ -98,6 +98,8 @@
 .cta-email{display:inline-block;font-size:.78rem;margin-top:24px;text-decoration:underline;text-underline-offset:4px}
 .booking-art img{animation:none}
 .portfolio-gallery{display:grid;gap:48px}
+.project-hero .project-image-source{max-width:560px;margin:28px 0 0;padding-top:16px;border-top:1px solid var(--line);font-size:.78rem;line-height:1.55;color:var(--muted)}
+.project-image-source a{color:var(--ink);font-weight:700;text-decoration:underline;text-underline-offset:3px}
 .gallery-pair{display:grid;grid-template-columns:1.45fr 1fr;align-items:center;gap:clamp(24px,6vw,86px)}
 .gallery-pair-reverse{grid-template-columns:1fr 1.45fr}
 .gallery-pair-single{grid-template-columns:1fr}

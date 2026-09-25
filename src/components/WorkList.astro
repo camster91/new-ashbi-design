@@ -8,7 +8,7 @@ const list = commerceProjects.slice(0, limit);
   <div class="section-heading"><span class="eyebrow">SELECTED WORK / 01</span><h2 id="work-heading">Made to be seen. <em>Built to be felt.</em></h2><p>Distinctive brands and digital experiences shaped around the people and ideas behind them.</p></div>
   <div class="work-list">
     {list.map((project, index) => <article class="work-row reveal">
-      <div class="work-photo"><a href={`/work/${project.slug}/`} aria-label={`View ${project.name} case study`}><img src={project.cardImage||project.image} alt={`${project.name} project by Ashbi`} loading="lazy" width="1200" height="800" /></a><span class="work-index">0{index + 1} / 0{list.length}</span></div>
+      <div class="work-photo"><a href={`/work/${project.slug}/`} aria-label={`View ${project.name} case study`}><img src={project.cardImage||project.image} alt={project.imageAlt||`${project.name} project by Ashbi`} loading="lazy" width="1200" height="800" /></a><span class="work-index">0{index + 1} / 0{list.length}</span></div>
       <div class="work-detail"><span class="eyebrow">{project.category.toUpperCase()}</span><h3>{project.name}</h3><p>{project.intro}</p><div class="tags">{project.services.map(tag => <span>{tag}</span>)}</div><a class="round-link" href={`/work/${project.slug}/`} aria-label={`Explore ${project.name}`}>Explore project <span aria-hidden="true">↗</span></a></div>
     </article>)}
   </div>
