@@ -5,5 +5,5 @@ export default defineConfig({
   site: process.env.SITE_URL || 'https://www.ashbi.ca',
   output: 'static',
   compressHTML: true,
-  integrations: [sitemap({filter: page => !/\/(401|404|privacy|pricing|ashbi-design-services-catalog-and-hourly-estimates)\/?$/.test(page) && !/\/campaigns\//.test(page)})],
+  integrations: [sitemap({filter: page => !/\/(401|404|privacy|pricing|ashbi-design-services-catalog-and-hourly-estimates)\/?$/.test(page) && !/\/campaigns\//.test(page) && !/\/work\/(tyson-media|durabuild|the-octavia-fund|production-work|splashtown)\/?$/.test(page) && !/\/(branding-projects|web-design-projects)\/(durabuild|the-octavia-fund|production-work)\/?$/.test(page)})],
 });

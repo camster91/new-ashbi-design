@@ -1,8 +1,8 @@
 ---
-import { projects } from '../data/site';
+import { commerceProjects } from '../data/site';
 interface Props { limit?: number; }
 const {limit = 3} = Astro.props;
-const list = projects.slice(0, limit);
+const list = commerceProjects.slice(0, limit);
 ---
 <section class="section container work-feature" id="selected-work" aria-labelledby="work-heading">
   <div class="section-heading"><span class="eyebrow">SELECTED WORK / 01</span><h2 id="work-heading">Made to be seen. <em>Built to be felt.</em></h2><p>Distinctive brands and digital experiences shaped around the people and ideas behind them.</p></div>

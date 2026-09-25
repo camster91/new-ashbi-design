@@ -734,5 +734,21 @@
       "height": 1013,
       "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-7-1.png"
     }
+  ],
+  "mom-water": [
+    {
+      "src": "/images/ashbi/commerce/mom-water-web-01.webp",
+      "srcset": "/images/ashbi/commerce/mom-water-web-01.webp 1200w",
+      "width": 1200,
+      "height": 900
+    }
+  ],
+  "better-sour": [
+    {
+      "src": "/images/ashbi/commerce/better-sour-web-01.webp",
+      "srcset": "/images/ashbi/commerce/better-sour-web-01.webp 1200w",
+      "width": 1200,
+      "height": 675
+    }
   ]
 }

@@ -426,5 +426,23 @@
         "source": "https://ashbi.ca/wp-content/uploads/2024/06/Artboard-7-1.png"
       }
     ]
+  },
+  "mom-water": {
+    "source": "https://dribbble.com/shots/25154265-Mom-Water-Web-Redesign",
+    "images": [
+      {
+        "id": "mom-water-web-01",
+        "source": "https://cdn.dribbble.com/userupload/17462057/file/original-187e815adef09221521fed387cd46e2a.png"
+      }
+    ]
+  },
+  "better-sour": {
+    "source": "https://dribbble.com/shots/25153632-Better-Sour-Web-Design",
+    "images": [
+      {
+        "id": "better-sour-web-01",
+        "source": "https://cdn.dribbble.com/userupload/17459849/file/original-814d64f4c8689f2ac8d55dc79a020601.png"
+      }
+    ]
   }
 }
