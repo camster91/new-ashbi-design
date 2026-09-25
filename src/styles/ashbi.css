@@ -111,6 +111,16 @@
 .deliverable-list{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:10px}
 .deliverable-list li{padding:10px 16px;background:var(--soft);border-radius:24px;font-size:.85rem}
 .case-story .eyebrow{margin-top:0}
+.project-extensions{padding-block:clamp(40px,6vw,84px);border-block:1px solid var(--line);display:grid;grid-template-columns:minmax(240px,.75fr) minmax(0,1.25fr);gap:clamp(28px,5vw,72px);scroll-margin-top:100px}
+.project-extensions h2{font-size:clamp(2rem,3.2vw,3.8rem);margin-bottom:16px}
+.project-extensions p{color:var(--muted);max-width:34ch}
+.project-extension-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-content:start}
+.project-extension-grid a{min-height:160px;padding:24px;border:1px solid var(--line);border-radius:20px;background:var(--white);display:flex;flex-direction:column;align-items:flex-start;transition:transform .2s,background .2s,border-color .2s}
+.project-extension-grid a:first-child{background:var(--lime)}
+.project-extension-grid a:hover{transform:translateY(-4px);border-color:var(--ink)}
+.project-extension-grid .eyebrow{margin-bottom:auto;color:var(--ink2)}
+.project-extension-grid strong{font-size:clamp(1.2rem,1.8vw,1.65rem);letter-spacing:-.04em;line-height:1.15}
+.project-extension-grid a>span:last-child{align-self:flex-end;font-size:1.25rem}
 .project-grid+.text-link{margin-top:36px}
 .service-benefits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
 .benefit-panel{background:var(--soft);padding:32px;border-radius:22px}
@@ -164,6 +174,7 @@
  .touchpoint-card>img{height:310px}.touchpoint-card>div:last-child{padding:24px}.touchpoint-card h3{font-size:1.65rem}
  .principles-grid{gap:30px}.principles-grid article{max-width:550px}.principles-grid .eyebrow{margin-bottom:16px}
  .gallery-pair,.gallery-pair-reverse{grid-template-columns:1fr;gap:20px}.portfolio-gallery{gap:20px}.gallery-pair img{border-radius:14px}
+ .project-extensions{grid-template-columns:1fr}.project-extension-grid a{min-height:145px}
  .collaboration-steps li{gap:16px;grid-template-columns:32px 1fr;padding:28px 0}.collaboration-steps h3{font-size:1.6rem}.collaboration-steps dl{grid-template-columns:1fr;gap:18px}
  .benefit-photo{height:340px}.service-projects img{height:330px}.service-projects{gap:30px}
  .studio-hero-images{height:340px;grid-template-columns:1fr 1fr}.team-grid article img{height:auto;max-height:480px}
@@ -174,6 +185,7 @@
  .form-fields{grid-template-columns:1fr}.project-brief{padding:22px 18px}.form-actions .button{font-size:.65rem;padding-inline:16px}
  .touchpoint-pair img{height:180px}.touchpoint-card>img{height:270px}.studio-hero-images{height:250px}
  .brief-section{gap:24px}.service-projects img{height:280px}
+ .project-extension-grid{grid-template-columns:1fr}.project-extension-grid a{min-height:120px}
 }
 @media(prefers-reduced-motion:reduce){.touchpoint-card img{transition:none}.touchpoint-card:hover img{transform:none}}
 
