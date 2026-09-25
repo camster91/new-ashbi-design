@@ -194,3 +194,6 @@
 @keyframes menu-enter{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.menu-open .site-nav{animation:none}}
 @media(prefers-reduced-motion:reduce){.motion-toggle{display:none}}
+
+/* Preserve the full wide storefront composition in the BPM case-study hero. */
+.project-hero--wide img{height:auto;aspect-ratio:1440/897;object-fit:contain}

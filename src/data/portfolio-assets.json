@@ -750,5 +750,21 @@
       "width": 1200,
       "height": 675
     }
+  ],
+  "della": [
+    {
+      "src": "/images/ashbi/commerce/della-campaign.webp",
+      "srcset": "/images/ashbi/commerce/della-campaign.webp 2160w",
+      "width": 2160,
+      "height": 2160
+    }
+  ],
+  "bpm": [
+    {
+      "src": "/images/ashbi/commerce/bpm-storefront.webp",
+      "srcset": "/images/ashbi/commerce/bpm-storefront.webp 1440w",
+      "width": 1440,
+      "height": 897
+    }
   ]
 }
