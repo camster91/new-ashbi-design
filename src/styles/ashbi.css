@@ -197,3 +197,6 @@
 
 /* Preserve the full wide storefront composition in the BPM case-study hero. */
 .project-hero--wide img{height:auto;aspect-ratio:1440/897;object-fit:contain}
+
+/* Keep a booking action visible in the tablet navigation. */
+@media(min-width:761px) and (max-width:1050px){.site-nav .mobile-book{display:block!important}}
