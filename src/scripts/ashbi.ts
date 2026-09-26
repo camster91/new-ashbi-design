@@ -34,7 +34,8 @@ const gallery=document.querySelector<HTMLElement>('.hero-reel-stage');
 const motionPreference=window.matchMedia('(prefers-reduced-motion: reduce)');
 const rows=[...document.querySelectorAll<HTMLElement>('[data-hero-reel]')];
 const moveRows: ((direction:number)=>void)[]=[];
-let lastGalleryInput=-Infinity;
+// Hold the opening composition long enough for the featured projects to register.
+let lastGalleryInput=performance.now();
 let galleryVisible=true;
 if(gallery)new IntersectionObserver(([entry])=>{galleryVisible=entry.isIntersecting}).observe(gallery);
 rows.forEach((reel,index)=>{

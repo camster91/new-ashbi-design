@@ -1,6 +1,5 @@
 /* A tighter rhythm for the Services journey without changing shared sections elsewhere. */
 main.services-page > .services-overview-hero { padding-block: 72px 58px; }
-main.services-page .services-overview-art { height: min(38vw, 480px); }
 main.services-page > .service-list { padding-block: 48px 52px; }
 main.services-page .service-list-row { padding-block: 18px; }
 main.services-page > .connected-work { padding-block: 54px 64px; }
@@ -14,14 +13,12 @@ main.services-page > .process-section { padding-block: 80px 72px; }
 main.services-page > .services-feedback { padding-block: 64px 72px; }
 
 @media (max-width: 900px) {
-  main.services-page .services-overview-art { height: 360px; }
   main.services-page > .services-work,
   main.services-page > .process-section { padding-block: 68px 62px; }
 }
 
 @media (max-width: 620px) {
   main.services-page > .services-overview-hero { padding-block: 48px 30px; }
-  main.services-page .services-overview-art { height: 270px; }
   main.services-page > .service-list { padding-block: 32px 42px; }
   main.services-page .service-list-row { padding-block: 20px; }
   main.services-page > .connected-work { padding-block: 42px 48px; }
