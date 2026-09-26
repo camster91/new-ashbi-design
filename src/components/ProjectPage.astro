@@ -11,7 +11,7 @@ const {project}=Astro.props;
 const related=commerceProjects.filter(p=>p.slug!==project.slug).sort((a,b)=>b.categories.filter(c=>project.categories.includes(c)).length-a.categories.filter(c=>project.categories.includes(c)).length).slice(0,2);
 const socialImage=projects.slice(0,4).some(p=>p.slug===project.slug)?`/images/ashbi/${project.slug}-og.webp`:project.image;
 const extensions=projectExtensions[project.slug] || [];
-const enquiryService=project.slug==='della'?'design-and-dev-subscription':project.category==='Websites'?'web-design':project.category==='Packaging'?'packaging-design-services':'branding';
+const enquiryService=['della','production-work'].includes(project.slug)?'design-and-dev-subscription':project.category==='Websites'?'web-design':project.category==='Packaging'?'packaging-design-services':'branding';
 const relatedService=services.find(service=>service.slug===enquiryService)!;
 ---
 <BaseLayout title={`${project.name} | Ashbi Design Work`} description={project.intro} image={socialImage} canonicalPath={`/work/${project.slug}/`} noindex={!commerceProjects.some(p=>p.slug===project.slug)}>
