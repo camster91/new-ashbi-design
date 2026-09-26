@@ -787,10 +787,32 @@
   ],
   "bpm": [
     {
-      "src": "/images/ashbi/commerce/bpm-storefront.webp",
-      "srcset": "/images/ashbi/commerce/bpm-storefront.webp 1440w",
+      "src": "/images/ashbi/bpm/web-home-1440.webp",
+      "srcset": "/images/ashbi/bpm/web-home-720.webp 720w, /images/ashbi/bpm/web-home-1440.webp 1440w",
       "width": 1440,
-      "height": 897
+      "height": 1080,
+      "alt": "Top of the BPM homepage design: hero, benefits bar, and product line-up"
+    },
+    {
+      "src": "/images/ashbi/bpm/web-product-1440.webp",
+      "srcset": "/images/ashbi/bpm/web-product-720.webp 720w, /images/ashbi/bpm/web-product-1440.webp 1440w",
+      "width": 1440,
+      "height": 1080,
+      "alt": "BPM Bergamot and Lime product page design with scent options and subscribe-and-save pricing"
+    },
+    {
+      "src": "/images/ashbi/bpm/web-range-banner-1440.webp",
+      "srcset": "/images/ashbi/bpm/web-range-banner-720.webp 720w, /images/ashbi/bpm/web-range-banner-1440.webp 1440w",
+      "width": 1440,
+      "height": 596,
+      "alt": "BPM homepage closing section: Upgrade your daily routine with BPM, with the full product range"
+    },
+    {
+      "src": "/images/ashbi/bpm/pack-open-1600.webp",
+      "srcset": "/images/ashbi/bpm/pack-open-800.webp 800w, /images/ashbi/bpm/pack-open-1600.webp 1600w",
+      "width": 1600,
+      "height": 1600,
+      "alt": "BPM Bergamot and Lime box render, opened, used in the website design"
     }
   ]
 }

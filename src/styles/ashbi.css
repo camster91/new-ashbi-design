@@ -202,3 +202,13 @@
 
 /* Keep a booking action visible in the tablet navigation. */
 @media(min-width:761px) and (max-width:1050px){.site-nav .mobile-book{display:block!important}}
+
+
+/* Featured brand logos under the homepage hero. */
+.client-logos{list-style:none;margin:0;padding:0}.client-logos li{display:flex;align-items:center;justify-content:center;flex:1 1 0;min-width:0}.client-logos img{width:auto;max-width:100%;animation:softEnter .8s both}.client-logos span{white-space:nowrap;font-weight:800;font-size:clamp(1rem,1.8vw,1.4rem);letter-spacing:-.04em;color:#8588a1}
+@media(max-width:760px){.client-logos{display:grid;grid-template-columns:repeat(2,1fr);gap:28px 22px}.client-logos li{justify-content:flex-start}}
+@media(max-width:460px){.client-track.client-logos span{width:auto}}
+/* Keep authentic website exports legible instead of cropping their navigation and copy. */
+img[src*="/bpm/web-"]{object-fit:contain!important;background:#f5eee2}
+.client-logos img{filter:grayscale(1) brightness(.42);animation:none}
+@media(max-width:1000px){.work-photo img[src*="/bpm/web-"]{height:auto;aspect-ratio:1440/897}}
