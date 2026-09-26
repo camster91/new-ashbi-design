@@ -1,6 +1,7 @@
 import http from 'node:http';
 import {isIP} from 'node:net';
 import path from 'node:path';
+import {createLeadStore,persistThenDeliver} from './lead-store.mjs';
 import {createEnquiryHandler} from './enquiry-handler.mjs';
 import {createAdminHandler} from './admin.mjs';
 import {createStateStore,encryptionKey} from './state.mjs';
@@ -19,18 +20,20 @@ if(setupToken&&setupToken.length<32)throw new Error('ADMIN_SETUP_TOKEN must cont
 const dataDir=process.env.DATA_DIR||path.join(process.cwd(),'data');
 const store=createStateStore({file:path.join(dataDir,'admin-state.json'),key});
 await store.init();
+const leads=createLeadStore({directory:path.join(dataDir,'leads'),key});
+await leads.init();
 
 const admin=createAdminHandler({
-  store,origin,setupToken,trustedProxyAddress,
+  store,origin,setupToken,trustedProxyAddress,leads,
   sendTest:(config,to)=>sendMailgunMessage(config,{to,subject:'Ashbi project brief delivery test',text:'This is a test of Ashbi project brief delivery. If you received it, return to the admin page and enable submissions.'}),
 });
 const enquiry=createEnquiryHandler({
   origin,
   trustedProxyAddress,
-  deliver:async brief=>{
+  deliver:async (brief,submissionId)=>{
     const state=store.get();
     if(!state.enabled||!state.mailgun)throw new Error('Delivery unavailable');
-    await sendMailgunMessage(state.mailgun,projectBriefMessage(brief));
+    await persistThenDeliver(leads,entry=>sendMailgunMessage(state.mailgun,projectBriefMessage(entry)))(brief,submissionId);
   },
 });
 

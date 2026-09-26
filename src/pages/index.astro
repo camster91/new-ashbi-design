@@ -1,4 +1,5 @@
 ---
+import {site} from '../data/site';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import WorkList from '../components/WorkList.astro';
 import BookingCta from '../components/BookingCta.astro';
@@ -29,7 +30,7 @@ const featuredBrands=[
 <BaseLayout title="Ashbi Design | Brand Identity, Packaging & Web Design" description="Ashbi is a Toronto branding and web design studio creating distinctive identities, packaging, and digital experiences for ambitious businesses.">
 <main id="main" data-home-motion>
   <section class="hero container" aria-labelledby="hero-title">
-    <div class="hero-copy"><span class="eyebrow">TORONTO CREATIVE STUDIO ✦ BRAND · WEB · PACKAGING</span><h1 id="hero-title">Brands with <em>personality.</em><br />Websites built to <em>work.</em></h1><p>Brand identity, packaging, and ecommerce websites for the products people bring home.</p><div class="hero-actions"><a class="button button-lime" href="/contact/">Book a call <span aria-hidden="true">↗</span></a><a class="button button-outline" href="#selected-work">Explore our work <span aria-hidden="true">↓</span></a></div></div>
+    <div class="hero-copy"><span class="eyebrow">TORONTO CREATIVE STUDIO ✦ BRAND · WEB · PACKAGING</span><h1 id="hero-title">Brands with <em>personality.</em><br />Websites built to <em>work.</em></h1><p>Brand identity, packaging, and ecommerce websites for the products people bring home.</p><div class="hero-actions"><a class="button button-lime" href={site.bookingUrl} data-track="booking_calendar_click">Book a call <span aria-hidden="true">↗</span></a><a class="button button-outline" href="#selected-work">Explore our work <span aria-hidden="true">↓</span></a></div></div>
     <div class="hero-reel-stage" role="region" aria-label="Ashbi project gallery">
       {heroRows.map((row,rowIndex)=><div class={`hero-reel hero-reel-${rowIndex===0?'back':'front'}`} data-hero-reel data-direction={rowIndex===0?-1:1} tabindex="0" aria-label={`${rowIndex===0?'Upper':'Lower'} project row. Swipe or use the arrow keys to browse.`}>
         {[0,1].map(copy=><div class="hero-reel-set" aria-hidden={copy===1?'true':undefined}>{row.map((project,i)=><a class="reel-card" draggable="false" href={`/work/${project.slug}/`} tabindex={copy===1?-1:undefined} aria-label={`View ${project.name} case study`}><img src={project.cardImage||project.image} alt="" style={`object-position:${project.cardImagePosition||'center'}`} width="480" height="360" loading={copy===0&&i<5?'eager':'lazy'} fetchpriority={rowIndex===0&&copy===0&&i===0?'high':undefined} /></a>)}</div>)}

@@ -55,7 +55,9 @@ export function createEnquiryHandler({origin, deliver, now = Date.now, trustedPr
       const brief = readBrief(input);
       if (Object.keys(validateBrief(brief)).length) return reply(res, 400, {accepted: false});
       if(chargeBucket(deliveries,'global',{windowMs:60*60*1000,max:MAX_DELIVERIES_PER_HOUR,now,limit:1}))return reply(res,429,{accepted:false});
-      await deliver(brief);
+      const submissionId=req.headers['idempotency-key'];
+      if(submissionId!==undefined&&(typeof submissionId!=='string'||!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(submissionId)))return reply(res,400,{accepted:false});
+      await deliver(brief,submissionId?.toLowerCase());
       return reply(res, 200, {accepted: true});
     } catch {
       return reply(res, 503, {accepted: false});

@@ -3,10 +3,11 @@ import {offers} from '../data/offers';
 import {services} from '../data/site';
 interface Props { compact?: boolean; headingLevel?: 2 | 3; showServices?: boolean; }
 const {compact=false,headingLevel=3,showServices=false}=Astro.props;
+const orderedOffers=[...offers].sort((a,b)=>Number(Boolean(b.featured))-Number(Boolean(a.featured)));
 ---
 <div class:list={['offer-grid',{'offer-grid-compact':compact}]}>
-  {offers.map((offer,index)=><article class:list={['offer-card','reveal',{'offer-card-featured':offer.featured}]}>
-    <div class="offer-card-top"><span class="eyebrow">{offer.label}</span><span class="offer-number">0{index+1} / 04</span></div>
+  {orderedOffers.map((offer,index)=><article class:list={['offer-card','reveal',{'offer-card-featured':offer.featured,'offer-card-packaging':offer.serviceSlug==='packaging-design-services'}]}>
+    <div class="offer-card-top"><span class="eyebrow">{offer.label.replace(/^\d+ \/ /,'')}</span><span class="offer-number">0{index+1} / 04</span></div>
     <div class="offer-image"><img src={offer.image} alt="" width="640" height="480" loading="lazy" /></div>
     {headingLevel===2?<h2>{offer.title}</h2>:<h3>{showServices?(services.find(service=>service.slug===offer.serviceSlug)?.name||offer.title):offer.title}</h3>}
     <p>{offer.description}</p>
@@ -21,7 +22,7 @@ const {compact=false,headingLevel=3,showServices=false}=Astro.props;
   .offer-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;align-items:stretch}
   .offer-card{display:flex;flex-direction:column;min-width:0;padding:20px 20px 24px;border:1px solid #d7dce0;border-radius:23px;background:#fff;transition:transform .25s,box-shadow .25s}
   .offer-card-featured{background:#303963;color:#fff;border-color:#303963}
-  .offer-card:nth-child(3){background:#f0f4d7}
+  .offer-card-packaging{background:#f0f4d7}
   .offer-card-top{display:flex;justify-content:space-between;gap:10px;align-items:start;min-height:52px}
   .offer-card-top .eyebrow{margin:0;line-height:1.4;font-size:.61rem}
   .offer-number{font-size:.68rem;white-space:nowrap;font-weight:800;letter-spacing:.08em}

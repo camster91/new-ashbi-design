@@ -68,7 +68,7 @@ test('admin setup, login, settings, test and enable require session and confirma
   const addr=server.address();assert.ok(addr&&typeof addr!=='string');
   const origin=`http://127.0.0.1:${addr.port}`;
   let testsSent=0,holdTest=false,signalTest:()=>void=()=>{},releaseTest:()=>void=()=>{};
-  handler=createAdminHandler({store,origin,setupToken:'x'.repeat(32),sendTest:async()=>{testsSent++;if(holdTest){signalTest();await new Promise<void>(resolve=>{releaseTest=resolve;});}}});
+  handler=createAdminHandler({store,origin,leads:{list:async()=>[{createdAt:'2026-09-26',status:'delivery-failed',brief:{name:'<script>bad()</script>',email:'isolated@example.test'}}]},setupToken:'x'.repeat(32),sendTest:async()=>{testsSent++;if(holdTest){signalTest();await new Promise<void>(resolve=>{releaseTest=resolve;});}}});
   const get=(cookie='')=>fetch(`${origin}/admin/`,{headers:{Cookie:cookie}});
   const post=(route:string,form:Record<string,string>,cookie='',requestOrigin=origin)=>fetch(`${origin}${route}`,{method:'POST',redirect:'manual',headers:{Origin:requestOrigin,Cookie:cookie,'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(form)});
   try{
@@ -78,6 +78,15 @@ test('admin setup, login, settings, test and enable require session and confirma
     assert.equal(setup.status,303);
     const cookie=setup.headers.get('set-cookie')?.split(';')[0]||'';
     assert.ok(cookie);
+    const denied=await fetch(`${origin}/admin/leads`,{redirect:'manual'});
+    assert.equal(denied.status,303);
+    const leadPage=await fetch(`${origin}/admin/leads`,{headers:{Cookie:cookie}});
+    assert.equal(leadPage.headers.get('cache-control'),'no-store');
+    const leadHtml=await leadPage.text();
+    assert.match(leadHtml,/isolated@example.test/);
+    assert.match(leadHtml,/&lt;script&gt;/);
+    assert.equal(leadHtml.includes('<script>bad()'),false);
+
     const dashboard=await (await get(cookie)).text();
     const csrf=dashboard.match(/name="csrf" value="([^"]+)"/)?.[1]||'';
     assert.ok(csrf);
@@ -95,6 +104,7 @@ test('admin setup, login, settings, test and enable require session and confirma
     assert.equal(store.get().enabled,false);
     assert.equal((await post('/admin/logout',{csrf},cookie)).status,303);
     assert.match(await (await get(cookie)).text(),/Welcome back, Cameron/);
+    assert.equal((await fetch(`${origin}/admin/leads`,{headers:{Cookie:cookie},redirect:'manual'})).status,303);
     assert.equal((await post('/admin/login',{email:'cameron@ashbi.ca',password:'wrong'})).status,403);
     const login=await post('/admin/login',{email:'cameron@ashbi.ca',password:'local test password 123'},'','null');
     assert.equal(login.status,303);

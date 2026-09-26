@@ -54,6 +54,23 @@ Mailgun's [US and EU API bases](https://documentation.mailgun.com/docs/mailgun/a
 
 ## Public request contract
 
-The browser posts JSON to `/api/enquiries` and expects an HTTP success with `{"accepted":true}` only after Mailgun accepts the message. Required fields: name (100 characters), email (254), allowed service slug, and description (5,000). Optional: company (150), website (300), timing (200). The endpoint revalidates every field, checks the exact origin, caps the body at 8 KB, uses a hidden bot field, and applies a five-attempts-per-ten-minutes client limit when the trusted proxy identity is configured. It does not store form contents or send them to analytics.
+The browser posts JSON to `/api/enquiries` and expects an HTTP success with `{"accepted":true}` only after Mailgun accepts the message. Required fields: name (100 characters), email (254), allowed service slug, and description (5,000). Optional: company (150), website (300), timing (200). The endpoint revalidates every field, checks the exact origin, caps the body at 8 KB, uses a hidden bot field, and applies a five-attempts-per-ten-minutes client limit when the trusted proxy identity is configured. Validated briefs are encrypted with AES-256-GCM and saved under the private `/data/leads/` directory before Mailgun is called. Records distinguish pending, delivery-failed and accepted-by-mailgun; acceptance is not proof of inbox delivery. Form contents are never sent to analytics. Storage failure prevents sending. The directory and encryption key must be backed up together. Admin retrieval, retention cleanup and recovery of failed deliveries must be verified before enabling this revised gateway.
 
 Before launch, update the privacy policy with Mailgun as processor, hosting and mailbox retention details, and the actual booking provider. Use fabricated details and an isolated sink for automated tests. A real test email requires Cameron to initiate it in admin. `npm test`, `npm run typecheck`, and `npm run build` send no email.
+
+
+## Retry safety (local implementation)
+
+The browser supplies a UUID `Idempotency-Key`, retained for retries of the unchanged brief during the current page session. Editing the brief or reloading the page starts a new submission. The gateway atomically reserves the encrypted record before calling Mailgun. An already accepted ID returns success without resending; pending or failed IDs require delivery review. Reusing an ID with different content is rejected. Older clients without a key remain supported but have no retry deduplication.
+
+A transport error may occur after Mailgun accepted a message. `delivery-failed` therefore means the request did not complete successfully, not proof that Mailgun never received it. Check Mailgun and the destination mailbox before manually following up. There is no automatic retry job. Reservation and acceptance survive gateway restart. Local tests cover simultaneous submissions, lost responses, changed content, restart and encrypted storage.
+
+Remaining release gates: live Mailgun setup and approved test receipt, retention policy/cleanup, rendered admin review, and full preview form verification. No live email was sent during these checks.
+
+## Campaign attribution
+
+Briefs optionally include a known `campaign` slug: creative-partner, shopify-design, packaging-design, brand-launch or website-redesign. The frontend passes it from campaign links; the API validates the allowlist before storage/delivery. It appears in the encrypted record, admin record view and plain-text message. Arbitrary UTM/search values are not collected. Attribution describes the referral page, not a verified ad conversion or booking. A local real-handler integration test verifies persistence, message construction and accepted retry deduplication using an isolated sink; it sends no Mailgun request.
+
+## Preview readiness observation — 26 September 2026
+
+Read-only inspection found the preview gateway healthy, with `DATA_DIR=/data` empty and a setup token present. No admin-state file, saved Mailgun configuration or recorded test existed. No settings were changed and no secret values were printed. Cameron must complete the admin setup before live delivery can be verified. The public static marker still identified e5c62c88ef6bc7f2f40d15243c8b329e20fb1885 at this check. Local implementation and isolated browser success do not establish preview delivery readiness.

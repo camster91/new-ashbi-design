@@ -43,3 +43,19 @@ test('payload contains only expected fields and email draft safely encodes conte
  await createBriefSender('/api/enquiries',async(_url,init)=>{assert.deepEqual(JSON.parse(String(init?.body)),value);assert.equal(init?.credentials,'omit');return Response.json({accepted:true})})(value);
  const draft=new URL(emailDraft(value));assert.equal(draft.protocol,'mailto:');assert.equal(draft.pathname,'hello@ashbi.ca');assert.ok(draft.searchParams.get('body')?.includes('A&B\nNew line'));
 });
+
+test('retry reuses its submission key; editing the brief creates a new key',async()=>{
+ const keys:string[]=[];
+ const send=createBriefSender('/api/enquiries',async(_url,init)=>{
+  keys.push(new Headers(init?.headers).get('Idempotency-Key')!);throw new Error('lost response');
+ });
+ await send(brief);await send(brief);await send({...brief,description:'A changed project'});
+ assert.match(keys[0],/^[0-9a-f-]{36}$/);assert.equal(keys[0],keys[1]);assert.notEqual(keys[1],keys[2]);
+});
+
+test('campaign attribution accepts known routes and rejects arbitrary values',()=>{
+ assert.deepEqual(validateBrief({...brief,campaign:'shopify-design'}),{});
+ assert.ok(validateBrief({...brief,campaign:'person@example.test'}).campaign);
+ assert.equal(readBrief({...brief,utm_term:'private search text'}).campaign,'');
+ assert.ok(decodeURIComponent(emailDraft({...brief,campaign:'shopify-design'})).includes('Campaign: shopify-design'));
+});
