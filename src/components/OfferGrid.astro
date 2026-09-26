@@ -1,18 +1,19 @@
 ---
 import {offers} from '../data/offers';
-interface Props { compact?: boolean; headingLevel?: 2 | 3; }
-const {compact=false,headingLevel=3}=Astro.props;
+import {services} from '../data/site';
+interface Props { compact?: boolean; headingLevel?: 2 | 3; showServices?: boolean; }
+const {compact=false,headingLevel=3,showServices=false}=Astro.props;
 ---
 <div class:list={['offer-grid',{'offer-grid-compact':compact}]}>
   {offers.map((offer,index)=><article class:list={['offer-card','reveal',{'offer-card-featured':offer.featured}]}>
     <div class="offer-card-top"><span class="eyebrow">{offer.label}</span><span class="offer-number">0{index+1} / 04</span></div>
     <div class="offer-image"><img src={offer.image} alt="" width="640" height="480" loading="lazy" /></div>
-    {headingLevel===2?<h2>{offer.title}</h2>:<h3>{offer.title}</h3>}
+    {headingLevel===2?<h2>{offer.title}</h2>:<h3>{showServices?(services.find(service=>service.slug===offer.serviceSlug)?.name||offer.title):offer.title}</h3>}
     <p>{offer.description}</p>
-    <span class="offer-scope">Scoped to your project</span>
+    <span class="offer-scope">{offer.featured?'Ongoing partnership':'Project scope'}</span>
     <ul>{offer.includes.map(item=><li>{item}</li>)}</ul>
     <p class="offer-fit"><strong>Best for</strong> {offer.fit}</p>
-    <a class="offer-link" href={`/contact/?service=${offer.serviceSlug}#project-brief`}>Discuss this project <span aria-hidden="true">↗</span></a>
+    <a class="offer-link" href={`/contact/?service=${offer.serviceSlug}#project-brief`}>{offer.featured?'Discuss a partnership':'Discuss this project'} <span aria-hidden="true">↗</span></a>
     <a class="offer-detail" href={`/services/${offer.serviceSlug}/`}>Explore the service <span aria-hidden="true">→</span></a>
   </article>)}
 </div>
