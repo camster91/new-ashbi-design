@@ -7,7 +7,13 @@ import QuoteMarquee from '../components/QuoteMarquee.astro';
 import ServicesShowcase from '../components/ServicesShowcase.astro';
 import ProcessSteps from '../components/ProcessSteps.astro';
 import OfferGrid from '../components/OfferGrid.astro';
-const heroProjects=commerceProjects.slice(0,12);
+// Lead Marin with its food packaging rather than the tote-bag application.
+const homepageProjects=commerceProjects.map(project=>project.slug==='marin-food'?{
+  ...project,
+  cardImage:'/images/ashbi/gallery/marin-food-05-1800.webp',
+  cardImageAlt:'Marin Food gourmet butter packaging in five flavour variants',
+}:project);
+const heroProjects=homepageProjects.slice(0,12);
 // Read the first two columns top to bottom: Della, BPM, Marin Food, CocoFro.
 const heroRows=[
   heroProjects.slice(0,4),
@@ -34,7 +40,7 @@ const featuredBrands=[
     <button class="motion-toggle" type="button" data-motion-toggle aria-label="Pause gallery motion" aria-pressed="false"><span aria-hidden="true">Ⅱ</span></button>
   </section>
   <section class="client-strip container" aria-label="Featured brands"><span class="eyebrow">FEATURED BRANDS</span><ul class="client-track client-logos">{featuredBrands.map(b=><li>{b.logo?<img src={b.logo} alt={b.name} width={b.w} height={b.h} style={`height:${b.h}px`} loading="lazy" decoding="async" />:<span>{b.name}</span>}</li>)}</ul></section>
-  <WorkList />
+  <WorkList projects={homepageProjects} />
   <section class="section proof-section container" aria-labelledby="proof-heading"><div class="section-heading"><span class="eyebrow">CLIENT WORDS</span><h2 id="proof-heading">From the people we work with.</h2></div><QuoteMarquee /></section>
   <ServicesShowcase />
   <section class="section studio-section container" aria-labelledby="studio-heading"><div class="studio-photo reveal"><img src="/images/ashbi/studio-detail.webp" alt="Bianca and Cameron at the Ashbi studio" loading="lazy" width="1080" height="1080" /><div class="photo-label">BIANCA & CAMERON · TORONTO</div></div><div class="studio-copy reveal"><span class="eyebrow">YOUR CREATIVE PARTNERS</span><h2 id="studio-heading">Bianca + Cameron.</h2><p>We run Ashbi together. Bianca leads the brand and design work; Cameron connects it to the website, the technology, and the way your business runs. You work directly with us from the first conversation through the final handoff.</p><div class="studio-names"><span><b>Bianca</b> · Creative direction</span><span><b>Cameron</b> · Digital strategy & development</span></div><a class="text-link" href="/studio/">Meet the studio <span aria-hidden="true">↗</span></a></div></section>
@@ -44,3 +50,8 @@ const featuredBrands=[
   <BookingCta />
 </main>
 </BaseLayout>
+
+<style>
+  .hero-reel-stage img[src*="marin-food-05-"]{object-fit:contain;background:#88000d}
+  :global(.work-feature img[src*="marin-food-05-"]){object-fit:contain;background:#88000d}
+</style>

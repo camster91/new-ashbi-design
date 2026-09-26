@@ -1,8 +1,8 @@
 ---
-import { commerceProjects } from '../data/site';
-interface Props { limit?: number; }
-const {limit = 4} = Astro.props;
-const list = commerceProjects.slice(0, limit);
+import { commerceProjects, type Project } from '../data/site';
+interface Props { limit?: number; projects?: Project[]; }
+const {limit = 4, projects = commerceProjects} = Astro.props;
+const list = projects.slice(0, limit);
 ---
 <section class="section container work-feature" id="selected-work" aria-labelledby="work-heading">
   <div class="section-heading"><span class="eyebrow">SELECTED WORK</span><h2 id="work-heading">A closer look at the work.</h2><p>The brief, the decisions, and the finished work for product brands and online stores.</p></div>
