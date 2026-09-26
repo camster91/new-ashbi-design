@@ -210,5 +210,5 @@
 @media(max-width:460px){.client-track.client-logos span{width:auto}}
 /* Keep authentic website exports legible instead of cropping their navigation and copy. */
 img[src*="/bpm/web-"]{object-fit:contain!important;background:#f5eee2}
-.client-logos img{filter:grayscale(1) brightness(.42);animation:none}
+.client-logos img{filter:none;animation:none}
 @media(max-width:1000px){.work-photo img[src*="/bpm/web-"]{height:auto;aspect-ratio:1440/897}}
