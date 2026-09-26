@@ -9,7 +9,7 @@ Updated 26 September 2026. Local editorial record, not proof of publication or c
 | Marin | Existing branding, packaging and website record | Featured #3; food/packaging images for service cards and packaging offer | Preserve original contribution credits |
 | CocoFro | Existing identity and packaging record | Featured #4; packaging and brand campaign proof | No outcome metrics claimed |
 | Chef Tanya | Cameron identifies Shopify work; Figma RJPilIew1hRCZwsMTj0cG3 Shop 261:2 inspected/exported | Shopify campaign, Work and Web service | Live implementation unverified; page describes design. Home 239:2 excluded because it has placeholder panels |
-| Ancient Bliss | Cameron: Shopify; file names found earlier | Not added as proof yet | Original asset, exact contribution and public-use selection |
+| Ancient Bliss | Cameron: Shopify; original Figma kXEGe5Ppq3VsekEzAnaEez Home 1:11, hero 1:12 and Supplements 1:622 inspected | Work case, Web service and Shopify campaign cross-link | Original exports used; live implementation, sales and product claims not independently verified |
 | Evergreen | Cameron: Shopify; Evergreen Edits / Evergreen Walmet names found | Not added as proof yet | Client/file disambiguation and approved assets |
 | Jill | Cameron: social media | Not added as proof yet | Client identity and actual social deliverables |
 | Kalm | Cameron: production work | Not added as proof yet | Separate production execution from original creative direction |

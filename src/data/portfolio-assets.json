@@ -814,5 +814,21 @@
       "height": 1600,
       "alt": "BPM Bergamot and Lime box render, opened, used in the website design"
     }
+  ],
+  "ancient-bliss": [
+    {
+      "src": "/images/ashbi/ancient-bliss/home.webp",
+      "width": 1440,
+      "height": 865,
+      "alt": "Ancient Bliss original desktop homepage design",
+      "source": "https://www.figma.com/design/kXEGe5Ppq3VsekEzAnaEez/Ancient-Bliss?node-id=1-12"
+    },
+    {
+      "src": "/images/ashbi/ancient-bliss/shop.webp",
+      "width": 1440,
+      "height": 4094,
+      "alt": "Ancient Bliss supplement collection design with a consistent product grid",
+      "source": "https://www.figma.com/design/kXEGe5Ppq3VsekEzAnaEez/Ancient-Bliss?node-id=1-622"
+    }
   ]
 }
