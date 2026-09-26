@@ -11,10 +11,10 @@ Updated 26 September 2026. Local editorial record, not proof of publication or c
 | Chef Tanya | Cameron identifies Shopify work; Figma RJPilIew1hRCZwsMTj0cG3 Shop 261:2 inspected/exported | Shopify campaign, Work and Web service | Live implementation unverified; page describes design. Home 239:2 excluded because it has placeholder panels |
 | Ancient Bliss | Cameron: Shopify; original Figma kXEGe5Ppq3VsekEzAnaEez Home 1:11, hero 1:12 and Supplements 1:622 inspected | Work case, Web service and Shopify campaign cross-link | Original exports used; live implementation, sales and product claims not independently verified |
 | Evergreen | Cameron: Shopify; Edits 61vnBHs7oNnii9FIiMtyBj contains product assets; Website Refresh Spring 2026 P4HcxWfYv6mybn0l2dR8OI Home 5:2 inspected | Not added as proof yet | Website artwork found; distinguish Ashbi Shopify contribution from original creative authorship before publishing |
-| Jill | Cameron: social media | Not added as proof yet | Client identity and actual social deliverables |
-| Kalm | Cameron: production work | Not added as proof yet | Separate production execution from original creative direction |
+| Jill | Cameron: social media; original Jill Asset Folder nj6IKf2c6lEaiXH38xrSkF, AD Look book page1:7 inspected | Not added as proof yet | Selected page contains overview, lighting and shot-list references. Final social posts still need identification; do not present reference material as delivered ads. Other pages include Email, Home Page, Refills, Branding v5 and PR Packaging; these do not expand the confirmed role |
+| Kalm | Cameron: production work; original hoTKWvtHmTKWP016AO44PW node1:2 Sticker Pack visually inspected; artwork includes Ashbi Design mark | Source ready for a bounded production example | Credit production work only. Sticker collection includes Kalm College Circle / Club Kalm; no brand-strategy or campaign-performance claim |
 | HTY Foods (Figma title: HYT Foods) | Cameron: email marketing; original newsletter NHkdoXL2dK0IZrjpBXs8Ug node5:649 inspected; visible logo reads HTY | Ongoing service and creative-partner campaign email example | No sending, revenue or retainer claims. Seasonal promotion labelled ended. Fusion Jerky frame5:284 excluded pending relationship confirmation |
-| That's My Mammas | Cameron: website | Not added as proof yet | Exact public spelling, platform and original designs |
+| That’s My Mama’s | Cameron: website; original KioTI8QGCfQh0q1J6ISFxo. Source copy confirms spelling. Desktop118:3977 explicitly named Rebrand_AshbiDesign; mobile1:62; product118:5601 | Not added as finished proof | Desktop contains Lorem ipsum, $0.00 prices and placeholder sections; older desktop1:313 explicitly OLD. Obtain finished artwork or label a selected design study accurately before public use. Platform not inferred |
 
 ## Corrected shared references
 
@@ -24,3 +24,11 @@ Updated 26 September 2026. Local editorial record, not proof of publication or c
 - Service cards use project-specific image positioning; Marin defaults to the food/packaging card crop.
 - Each service links the relevant buyer guide, which links its case and campaign.
 - Featured order stays Della, BPM, Marin, CocoFro. Blend/Natural Matcha remain excluded from active portfolio lists; Better Sour remains last on the Work index.
+
+## Source readiness decisions
+
+- Evergreen: website artwork located, but Shopify execution versus creative authorship must be attributed before adding a case study.
+- Jill: use final social deliverables, not the ad lookbook or shot-list references.
+- Kalm: a verified sticker-production artifact is available; keep attribution limited to Cameron’s stated production role.
+- That’s My Mama’s: the currently identified Ashbi frame is unfinished. Do not silently publish it as a completed storefront.
+- These entries reconcile the supplied client names; they do not claim client acceptance or measured results.
