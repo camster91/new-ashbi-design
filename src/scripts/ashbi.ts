@@ -1,5 +1,6 @@
 import './tracking';
 import './enquiry';
+import {initHomeMotion} from './home-motion';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
@@ -29,7 +30,7 @@ window.matchMedia('(min-width:761px)').addEventListener('change',event=>{if(even
 const header=document.querySelector('[data-header]');
 window.addEventListener('scroll',()=>header?.classList.toggle('is-scrolled',window.scrollY>20),{passive:true});
 const motion=document.querySelector<HTMLButtonElement>('[data-motion-toggle]');
-motion?.addEventListener('click',()=>{const paused=document.body.classList.toggle('motion-paused');motion.setAttribute('aria-pressed',String(paused));motion.setAttribute('aria-label',paused?'Resume gallery motion':'Pause gallery motion');const icon=motion.querySelector('span');if(icon)icon.textContent=paused?'▶':'Ⅱ';});
+motion?.addEventListener('click',()=>{const paused=document.body.classList.toggle('motion-paused');motion.setAttribute('aria-pressed',String(paused));motion.setAttribute('aria-label',paused?'Resume page motion':'Pause page motion');const icon=motion.querySelector('span');if(icon)icon.textContent=paused?'▶':'Ⅱ';});
 const gallery=document.querySelector<HTMLElement>('.hero-reel-stage');
 const motionPreference=window.matchMedia('(prefers-reduced-motion: reduce)');
 const rows=[...document.querySelectorAll<HTMLElement>('[data-hero-reel]')];
@@ -123,7 +124,7 @@ proofMarquee?.querySelectorAll<HTMLElement>('[data-proof-row]').forEach((row,ind
  });
  const advance=(now:number)=>{
   const elapsed=previous?Math.min(now-previous,64):0;previous=now;
-  if(visible&&!motionPreference.matches&&!document.hidden&&!proofMarquee?.classList.contains('is-paused')&&!row.matches(':focus-visible')&&now-lastInput>1800){
+  if(visible&&!document.body.classList.contains('motion-paused')&&!motionPreference.matches&&!document.hidden&&!proofMarquee?.classList.contains('is-paused')&&!row.matches(':focus-visible')&&now-lastInput>1800){
    row.scrollLeft+=elapsed*(index===0?0.043:-0.039);
   }
   requestAnimationFrame(advance);
@@ -144,7 +145,7 @@ if(serviceShowcase){
   if(!reduce)ScrollTrigger.create({trigger:step,start:'top 32%',end:'bottom 32%',onEnter:()=>activate(index),onEnterBack:()=>activate(index)});
  });
 }
-if(!reduce){gsap.from('.hero-copy > *',{opacity:0,y:24,duration:.7,stagger:.1,ease:'power2.out'});gsap.utils.toArray<HTMLElement>('.reveal').forEach(el=>gsap.from(el,{opacity:0,x:el.classList.contains('work-row')&&window.innerWidth>1000?60:0,y:el.classList.contains('work-row')&&window.innerWidth<=1000?40:28,duration:el.classList.contains('work-row')?.9:.65,ease:el.classList.contains('work-row')?'power3.out':'power2.out',scrollTrigger:{trigger:el,start:'top 90%',once:true}}));}
+if(!reduce&&!document.querySelector('[data-home-motion]')){gsap.from('.hero-copy > *',{opacity:0,y:24,duration:.7,stagger:.1,ease:'power2.out'});gsap.utils.toArray<HTMLElement>('.reveal').forEach(el=>gsap.from(el,{opacity:0,x:el.classList.contains('work-row')&&window.innerWidth>1000?60:0,y:el.classList.contains('work-row')&&window.innerWidth<=1000?40:28,duration:el.classList.contains('work-row')?.9:.65,ease:el.classList.contains('work-row')?'power3.out':'power2.out',scrollTrigger:{trigger:el,start:'top 90%',once:true}}));}
 const filters=[...document.querySelectorAll<HTMLButtonElement>('[data-filter]')];
 const tiles=[...document.querySelectorAll<HTMLElement>('[data-project-grid] [data-category]')];
 filters.forEach(btn=>btn.addEventListener('click',()=>{
@@ -153,3 +154,5 @@ filters.forEach(btn=>btn.addEventListener('click',()=>{
  tiles.forEach(tile=>{tile.hidden=value!=='All'&&!tile.dataset.category?.split('|').includes(value||'')});
  ScrollTrigger.refresh();
 }));
+
+initHomeMotion();

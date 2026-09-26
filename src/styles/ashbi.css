@@ -212,3 +212,9 @@
 img[src*="/bpm/web-"]{object-fit:contain!important;background:#f5eee2}
 .client-logos img{filter:none;animation:none}
 @media(max-width:1000px){.work-photo img[src*="/bpm/web-"]{height:auto;aspect-ratio:1440/897}}
+
+/* A scroll-drawn accent makes each process stage register without pinning content. */
+[data-home-motion] .collaboration-steps li{position:relative}
+[data-home-motion] .collaboration-steps li:after{content:'';position:absolute;left:0;bottom:0;height:3px;width:100%;background:var(--lime);transform:scaleX(var(--step-progress,1));transform-origin:left;pointer-events:none}
+[data-home-motion] .studio-photo{overflow:hidden}
+@media(max-width:760px) and (prefers-reduced-motion:no-preference){[data-home-motion] .motion-toggle{display:block}}

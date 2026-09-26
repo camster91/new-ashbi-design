@@ -27,7 +27,7 @@ const featuredBrands=[
 ];
 ---
 <BaseLayout title="Ashbi Design | Brand Identity, Packaging & Web Design" description="Ashbi is a Toronto branding and web design studio creating distinctive identities, packaging, and digital experiences for ambitious businesses.">
-<main id="main">
+<main id="main" data-home-motion>
   <section class="hero container" aria-labelledby="hero-title">
     <div class="hero-copy"><span class="eyebrow">TORONTO CREATIVE STUDIO ✦ BRAND · WEB · PACKAGING</span><h1 id="hero-title">Brands with <em>personality.</em><br />Websites built to <em>work.</em></h1><p>Brand identity, packaging, and ecommerce websites for the products people bring home.</p><div class="hero-actions"><a class="button button-lime" href="/contact/">Book a call <span aria-hidden="true">↗</span></a><a class="button button-outline" href="#selected-work">Explore our work <span aria-hidden="true">↓</span></a></div></div>
     <div class="hero-reel-stage" role="region" aria-label="Ashbi project gallery">
@@ -36,7 +36,7 @@ const featuredBrands=[
       </div>)}
       <div class="hero-reel-controls"><button type="button" data-reel-prev aria-label="Scroll projects left">←</button><button type="button" data-reel-next aria-label="Scroll projects right">→</button></div>
     </div>
-    <button class="motion-toggle" type="button" data-motion-toggle aria-label="Pause gallery motion" aria-pressed="false"><span aria-hidden="true">Ⅱ</span></button>
+    <button class="motion-toggle" type="button" data-motion-toggle aria-label="Pause page motion" aria-pressed="false"><span aria-hidden="true">Ⅱ</span></button>
   </section>
   <section class="client-strip container" aria-label="Featured brands"><span class="eyebrow">FEATURED BRANDS</span><ul class="client-track client-logos">{featuredBrands.map(b=><li>{b.logo?<img src={b.logo} alt={b.name} width={b.w} height={b.h} style={`height:${b.h}px`} loading="lazy" decoding="async" />:<span>{b.name}</span>}</li>)}</ul></section>
   <WorkList projects={homepageProjects} />
