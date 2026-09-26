@@ -19,3 +19,11 @@ The `preview` GitHub environment records deployments. The workflow has read-only
 To verify a release, compare `https://preview.ashbi.ca/_release.json` with the successful workflow's SHA, then review the rendered homepage, Services, Work, Contact, booking link, mobile navigation, and admin availability. The release marker proves which static commit is served; it does not prove appointment completion or enquiry delivery.
 
 For a manual rollback, restore the previous `auto/current` symlink target and check the public marker and pages. If the auto container or proxy fails, restore the saved Traefik route to port 3111. Keep the corresponding release directory until recovery is verified. Do not repoint the production domain as part of this runbook.
+
+## Gateway update — 26 September 2026
+
+The enquiry gateway was updated separately from the static release to source b16e665ada667ba8c8513b9c81f1ea653ff5d4a1. Active container: `ashbi-enquiry-gateway-preview-b16e665`; image `sha256:a08611f3dd54bb3c5126692625f710d8ad3fd8dd2b888b5bcc00951859679188`. It retains private IP172.16.34.3 and alias `ashbi-enquiry-gateway`, the same `/data` bind mount, read-only root, dropped capabilities and resource limits. No host ports are published.
+
+`TRUSTED_PROXY_ADDRESS` now matches the current static proxy172.16.34.5; the previous gateway still pointed at retired proxy172.16.34.2. The previous container `ashbi-enquiry-gateway-preview-v1` remains stopped and disconnected for rollback. Private configuration and data backups are under `/srv/ashbi-astro-preview/gateway-releases/b16e665/`; do not copy their contents into issues or logs.
+
+Health passed, deployed lead-store/index hashes match source, `/admin/` returned200, unauthenticated `/admin/leads` returned303, and GET `/api/enquiries` returned405. Admin setup is still absent and public capture remains disabled. This deployment does not establish Mailgun delivery, retention approval or signed-in admin acceptance. For rollback stop/disconnect the new gateway, reconnect the old container at172.16.34.3 with its alias and start it; the old trusted proxy setting would also need review against the current static proxy. Production domain and routing are unchanged.
