@@ -19,6 +19,52 @@ visit(root);
 
 const failures = [];
 let checked = 0;
+let checkedFragments = 0;
+const pageIds = new Map();
+
+function sourceUrl(source) {
+  const sourcePath = path.relative(root, source).split(path.sep).join('/');
+  return sourcePath.endsWith('/index.html')
+    ? `/${sourcePath.slice(0, -'index.html'.length)}`
+    : `/${sourcePath}`;
+}
+
+function checkFragment(reference, source) {
+  let url;
+  try {
+    url = new URL(reference, `https://ashbi.local${sourceUrl(source)}`);
+  } catch {
+    return; // The regular reference check reports invalid URLs.
+  }
+  if (url.origin !== 'https://ashbi.local' || !url.hash) return;
+
+  let fragment;
+  let pathname;
+  try {
+    fragment = decodeURIComponent(url.hash.slice(1));
+    pathname = decodeURIComponent(url.pathname);
+  } catch {
+    failures.push(`${path.relative(root, source)}: invalid fragment ${JSON.stringify(reference)}`);
+    return;
+  }
+  if (!fragment) return;
+
+  const destination = path.resolve(root, `.${pathname}`);
+  if (destination !== root && !destination.startsWith(`${root}${path.sep}`)) return;
+  const page = existsSync(destination) && statSync(destination).isDirectory()
+    ? path.join(destination, 'index.html')
+    : destination;
+  if (!page.endsWith('.html') || !existsSync(page) || !statSync(page).isFile()) return;
+
+  if (!pageIds.has(page)) {
+    const ids = new Set([...readFileSync(page, 'utf8').matchAll(/\bid\s*=\s*["']([^"']+)["']/gi)].map(match => match[1]));
+    pageIds.set(page, ids);
+  }
+  checkedFragments++;
+  if (!pageIds.get(page).has(fragment)) {
+    failures.push(`${path.relative(root, source)}: missing fragment ${JSON.stringify(reference)}`);
+  }
+}
 
 function check(reference, source) {
   const value = reference.trim();
@@ -26,12 +72,9 @@ function check(reference, source) {
   if (/^(?:[a-z][a-z\d+.-]*:)/i.test(value)) return;
 
   const sourcePath = path.relative(root, source).split(path.sep).join('/');
-  const sourceUrl = sourcePath.endsWith('/index.html')
-    ? `/${sourcePath.slice(0, -'index.html'.length)}`
-    : `/${sourcePath}`;
   let pathname;
   try {
-    pathname = decodeURIComponent(new URL(value, `https://ashbi.local${sourceUrl}`).pathname);
+    pathname = decodeURIComponent(new URL(value, `https://ashbi.local${sourceUrl(source)}`).pathname);
   } catch {
     failures.push(`${sourcePath}: invalid URL ${JSON.stringify(value)}`);
     return;
@@ -61,6 +104,9 @@ for (const file of files) {
     for (const match of content.matchAll(/\bsrcset\s*=\s*["']([^"']+)["']/gi)) {
       for (const item of match[1].split(',')) check(item.trim().split(/\s+/)[0], file);
     }
+    for (const match of content.matchAll(/<a\b[^>]*\bhref\s*=\s*["']([^"']+)["'][^>]*>/gi)) {
+      checkFragment(match[1], file);
+    }
   }
   for (const match of content.matchAll(/url\(\s*["']?([^)'"\s]+)["']?\s*\)/gi)) {
     check(match[1], file);
@@ -74,4 +120,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Checked ${checked} local links and assets in ${files.length} built HTML/CSS files.`);
+console.log(`Checked ${checked} local links and assets and ${checkedFragments} local page fragments in ${files.length} built HTML/CSS files.`);
