@@ -33,7 +33,7 @@ export const insights = [
 {
   "slug": "beautiful-responsive-websites-made-easy-with-strikingly",
   "updatedAt": "September 27, 2026",
-  "title": "What to Check Before Building a Responsive Site With Strikingly",
+  "title": "Is Strikingly Right for Your Website?",
   "shortTitle": "A site that works on mobile",
   "category": "Studio notes",
   "date": "December 2025",
