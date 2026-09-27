@@ -6,10 +6,11 @@ These pages are built for review and direct campaign traffic. They are `noindex`
 | --- | --- | --- | --- |
 | `/campaigns/brand-launch/` | Founder and brand launch ads or outreach | Brand identity and strategy | CocoFro |
 | `/campaigns/website-redesign/` | Website improvement ads or outreach | Web design and development | Clypse Beauty |
-| `/campaigns/packaging-design/` | CPG and DTC packaging ads or outreach | Packaging design | Blend |
-| `/campaigns/creative-partner/` | Ongoing creative partner outreach | Ongoing creative support | WaagBag |
+| `/campaigns/packaging-design/` | CPG and DTC packaging ads or outreach | Packaging design | CocoFro and Marin Food |
+| `/campaigns/creative-partner/` | Ongoing creative partner outreach | Ongoing creative support | HTY Foods email artwork and Kalm production work |
+| `/campaigns/shopify-design/` | Product-brand Shopify enquiries | Web design and development | Chef Tanya’s Kitchen design; Ancient Bliss linked as another original design |
 
-Each booking action leads directly to the configured `site.bookingUrl` and to `/contact/?service=<slug>#project-brief` for a preselected brief. The booking button on the contact page opens the public Google Calendar event “30 min with Bianca.” The brief can open in the visitor’s email app when the enquiry endpoint is unavailable. These pages emit local `ashbi:analytics` events, including `campaign_view`, but no analytics vendor or ad pixel is connected.
+Each campaign offers a direct calendar action and a separate preselected brief. Project-specific proof links also carry an allowlisted project reference. The contact-page calendar action opens the public Google Calendar event “30 min with Bianca.” The brief can open in the visitor’s email app when the enquiry endpoint is unavailable. Local `ashbi:analytics` events distinguish page views, campaign views, brief clicks, form starts, accepted leads, and calendar clicks. No analytics vendor or ad pixel is connected.
 
 Before an ad or outreach launch, confirm the campaign audience, channel, creative and copy, the real booking URL, the enquiry endpoint or email process, and attribution/consent requirements. Review the selected public project and testimonial for each channel. No ad account or outreach system is configured by this build.
 

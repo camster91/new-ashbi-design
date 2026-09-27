@@ -43,4 +43,4 @@ npm run build
 
 `PUBLIC_ENQUIRY_ENDPOINT` enables direct brief submission only after the Mailgun gateway and private admin in `server/` are deployed, configured, and verified. Until then, the form offers an email draft and keeps online submission disabled. The Astro site remains static; setup is described in [the enquiry contract](docs/enquiry-contract.md).
 
-Measurement uses local `ashbi:analytics` CustomEvents without network transmission or personal form values. Connect a consent-appropriate analytics handler before measuring production conversion; booking clicks are not completed appointments.
+Measurement uses local `ashbi:analytics` CustomEvents without network transmission or personal form values. The events distinguish page views, contact and brief CTA clicks, calendar clicks, form starts, and confirmed brief acceptance. Only allowlisted service, campaign, and project slugs can accompany a brief click. Connect a consent-appropriate analytics handler before measuring production conversion; a calendar click is not a completed appointment.

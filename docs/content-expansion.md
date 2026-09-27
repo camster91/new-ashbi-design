@@ -10,7 +10,7 @@
 - Portfolio filters support multiple disciplines per project. All 36 URLs in the saved original page/post sitemaps still resolve locally, including article slugs and legacy project routes. Legacy project pages declare the new Work route as canonical; production HTTP redirects remain a hosting decision.
 - Studio includes the family-owned story, fuller source-based bios, additional studio imagery, working principles, and six testimonials.
 - Book a call stays primary. Short project brief added with optional company/website/timing, a Not sure yet option, validation, honest unavailable state, and email-draft fallback. No phone, budget, upload, or newsletter requirement.
-- Added local `ashbi:analytics` events: project/service views, booking clicks, calendar clicks, brief starts/success/failure, and email clicks. No analytics vendor, cookies, persistent ID, query strings, or form contents are sent.
+- Added local `ashbi:analytics` events: page/project/service/campaign views, contact and brief CTA clicks, calendar clicks, brief starts/success/failure, and email clicks. No analytics vendor, cookies, persistent ID, query strings, or form contents are sent.
 - Fixed the existing mobile menu overlay height, focus loop, Escape handling, and background inert state. Darkened light purple headings for contrast. Closing art is static; hero motion has pause/manual controls and reduced-motion handling.
 
 ## Sources and decisions
