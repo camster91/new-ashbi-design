@@ -7,9 +7,10 @@ import BookingCta from './BookingCta.astro';
 import ProjectGallery from './ProjectGallery.astro';
 import QuoteGrid from './QuoteGrid.astro';
 import {projectExtensions} from '../data/project-extensions';
+import {relatedProjectSlugs} from '../data/content-links';
 interface Props {project:Project;}
 const {project}=Astro.props;
-const related=commerceProjects.filter(p=>p.slug!==project.slug).sort((a,b)=>b.categories.filter(c=>project.categories.includes(c)).length-a.categories.filter(c=>project.categories.includes(c)).length).slice(0,2);
+const related=(relatedProjectSlugs[project.slug]||[]).map(slug=>commerceProjects.find(p=>p.slug===slug)).filter((p):p is Project=>Boolean(p));
 const socialImage=projects.slice(0,4).some(p=>p.slug===project.slug)?`/images/ashbi/${project.slug}-og.webp`:project.image;
 const extensions=projectExtensions[project.slug] || [];
 const enquiryService=['della','production-work'].includes(project.slug)?'design-and-dev-subscription':project.category==='Websites'?'web-design':project.category==='Packaging'?'packaging-design-services':'branding';
