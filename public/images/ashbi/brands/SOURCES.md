@@ -5,3 +5,6 @@
 
 - marin-logo.png — Marin Libary, tgkCJ2N0WxphocdnGy9flC, original Logo component 2:2389. Unmodified PNG export.
 - cocofro-logo.png — official https://cocofro.com/ Organization logo, CDN file Layer_1_530c090d-6696-4170-830f-d489799daedb.png. Downloaded 26 September 2026; unmodified.
+
+- chef-tanya-logo.png — original Figma Chef Tanya shop header, file RJPilIew1hRCZwsMTj0cG3, node 261:15. Unmodified PNG export; visually checked.
+- ancient-bliss-logo.png — original Figma Ancient Bliss header, file kXEGe5Ppq3VsekEzAnaEez, node 270:606. Unmodified PNG export; visually checked.

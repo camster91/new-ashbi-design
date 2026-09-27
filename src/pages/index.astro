@@ -1,4 +1,5 @@
 ---
+import BrandMarquee from '../components/BrandMarquee.astro';
 import BrandAccent from '../components/BrandAccent.astro';
 import '../styles/brand-home.css';
 import {site} from '../data/site';
@@ -21,13 +22,6 @@ const heroRows=[
   heroProjects.slice(0,4),
   heroProjects.slice(4),
 ];
-// Featured brand marks, from original Figma files and the official CocoFro website (see public/images/ashbi/brands/SOURCES.md).
-const featuredBrands=[
-  {name:'Della',logo:'/images/ashbi/brands/della-logo.svg',w:117,h:35},
-  {name:'BPM',logo:'/images/ashbi/brands/bpm-logo.svg',w:46,h:45},
-  {name:'Marin Food',logo:'/images/ashbi/brands/marin-logo.png',w:158,h:36},
-  {name:'CocoFro',logo:'/images/ashbi/brands/cocofro-logo.png',w:99,h:60},
-];
 ---
 <BaseLayout title="Ashbi Design | Brand Identity, Packaging & Web Design" description="Ashbi is a Toronto branding and web design studio creating distinctive identities, packaging, and digital experiences for ambitious businesses.">
 <main id="main" data-home-motion>
@@ -41,7 +35,7 @@ const featuredBrands=[
     </div>
     <button class="motion-toggle" type="button" data-motion-toggle aria-label="Pause page motion" aria-pressed="false"><span aria-hidden="true">Ⅱ</span></button>
   </section>
-  <section class="client-strip container" aria-label="Featured brands"><span class="eyebrow">FEATURED BRANDS</span><ul class="client-track client-logos">{featuredBrands.map(b=><li>{b.logo?<img src={b.logo} alt={b.name} width={b.w} height={b.h} style={`height:${b.h}px`} loading="lazy" decoding="async" />:<span>{b.name}</span>}</li>)}</ul></section>
+  <BrandMarquee />
   <WorkList projects={homepageProjects} />
   <section class="section proof-section container" aria-labelledby="proof-heading"><div class="section-heading"><span class="eyebrow">CLIENT WORDS</span><h2 id="proof-heading">From the people we work with.</h2></div><QuoteMarquee /></section>
   <section class="section ways-section container" id="services" aria-labelledby="services-heading"><div class="section-heading"><span class="eyebrow">SERVICES & PARTNERSHIPS</span><h2 id="services-heading">Good things.<br /><em class="editorial">Built together.</em></h2><p>Build your brand, launch a website, or bring a product to market. Start with a focused project, or work with us as your ongoing creative partner.</p></div><BrandAccent variant="stamp" label="Your creative partners" /><OfferGrid showServices /></section>

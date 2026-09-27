@@ -1,0 +1,8 @@
+---
+interface Props { target: string; }
+const {target}=Astro.props;
+---
+<div class="work-carousel-controls" data-carousel-controls={target} hidden>
+  <span data-carousel-position aria-live="polite" aria-atomic="true">Swipe to explore</span>
+  <div><button type="button" data-carousel-step="-1" aria-label="Previous project" aria-controls={target}>←</button><button type="button" data-carousel-step="1" aria-label="Next project" aria-controls={target}>→</button></div>
+</div>

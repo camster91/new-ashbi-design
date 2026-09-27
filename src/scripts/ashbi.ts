@@ -1,3 +1,4 @@
+import './work-carousel';
 import './tracking';
 import './enquiry';
 import {initHomeMotion} from './home-motion';
