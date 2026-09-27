@@ -1,4 +1,5 @@
 ---
+import WorkCarouselControls from './WorkCarouselControls.astro';
 interface Props { compact?: boolean }
 const {compact=false}=Astro.props;
 const plans=[
@@ -10,7 +11,7 @@ const plans=[
 <section class:list={['ongoing-plans',{'ongoing-plans-compact':compact}]} aria-labelledby={compact?'ongoing-detail-heading':'ongoing-heading'} id={compact?'ongoing-options':'ongoing-pricing'}>
   <div class="container">
     <div class="ongoing-intro"><div><span class="eyebrow">ONGOING SUPPORT / MONTHLY PRICING</span><h2 id={compact?'ongoing-detail-heading':'ongoing-heading'}>Good work keeps <em>moving.</em></h2></div><p>When the next request is already on its way, choose a level of monthly creative capacity that fits your team. We confirm priorities, deliverables, and availability together before work begins.</p></div>
-    <div class="ongoing-grid">{plans.map((plan,index)=><article class="ongoing-card reveal">
+    <div class="ongoing-grid" id={compact?'campaign-ongoing-plans':'service-ongoing-plans'} data-work-carousel role="region" aria-label="Monthly creative support options" tabindex="0">{plans.map((plan,index)=><article class="ongoing-card reveal">
       <div class="ongoing-card-top"><span>0{index+1} / 03</span><span>MONTHLY CAPACITY</span></div>
       <div class="ongoing-hours"><strong>{plan.hours}</strong><span>hours<br />per month</span></div>
       <h3>{plan.name}</h3><p class="ongoing-fit">{plan.fit}</p>
@@ -19,6 +20,7 @@ const plans=[
       <p class="ongoing-note">{plan.note}</p>
       <a href="/contact/?service=design-and-dev-subscription#project-brief">Discuss this option <span aria-hidden="true">↗</span></a>
     </article>)}</div>
+    <WorkCarouselControls target={compact?'campaign-ongoing-plans':'service-ongoing-plans'} itemLabel="monthly plan" />
     <div class="ongoing-bottom"><p>Need a different cadence or a larger one-off build? We’ll shape a separate scope around it. The final hours, deliverables, timing, and fee are confirmed in your proposal.</p><a class="text-link" href={compact?'/contact/?service=design-and-dev-subscription#project-brief':'/services/design-and-dev-subscription/'}>{compact?'Tell us what you need ↗':'Explore ongoing support ↗'}</a></div>
   </div>
 </section>
@@ -51,6 +53,10 @@ const plans=[
   .ongoing-bottom p{max-width:750px;color:#d8def0;font-size:.87rem;line-height:1.55;margin:0}
   .ongoing-bottom a{flex:none;color:var(--lime)}
   .ongoing-plans-compact{margin-top:0}
+  .ongoing-plans :global(.work-carousel-controls){color:#fff}
+  .ongoing-plans :global(.work-carousel-controls button){border-color:#d8def0;color:#fff}
+  .ongoing-plans :global(.work-carousel-controls button:focus-visible){outline-color:var(--lime)}
+  .ongoing-plans :global([data-work-carousel]:focus-visible){outline-color:var(--lime)}
   @media(max-width:900px){.ongoing-intro{grid-template-columns:1fr}.ongoing-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ongoing-card:last-child{grid-column:1/-1}.ongoing-fit{min-height:0}}
   @media(max-width:620px){.ongoing-plans{padding:70px 0}.ongoing-grid{grid-template-columns:1fr}.ongoing-card:last-child{grid-column:auto}.ongoing-bottom{display:block}.ongoing-bottom a{display:inline-block;margin-top:20px}.ongoing-hours strong{font-size:6rem}}
 </style>
