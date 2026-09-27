@@ -757,7 +757,8 @@
       "src": "/images/ashbi/commerce/mom-water-web-01.webp",
       "srcset": "/images/ashbi/commerce/mom-water-web-01.webp 1200w",
       "width": 1200,
-      "height": 900
+      "height": 900,
+      "alt": "Mom Water website design with a fruit-infused vodka water homepage and cans on a blue background"
     }
   ],
   "better-sour": [
@@ -765,7 +766,8 @@
       "src": "/images/ashbi/commerce/better-sour-web-01.webp",
       "srcset": "/images/ashbi/commerce/better-sour-web-01.webp 1200w",
       "width": 1200,
-      "height": 675
+      "height": 675,
+      "alt": "Better Sour website concept showing home and product pages in yellow, lime and pink"
     }
   ],
   "della": [
