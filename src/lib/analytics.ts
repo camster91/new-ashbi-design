@@ -1,4 +1,4 @@
-import {knownCampaign,knownProject,serviceOptions} from './enquiry.ts';
+import {knownCampaign,knownPlan,knownProject,serviceOptions} from './enquiry.ts';
 
 export function briefLinkContext(href:string,origin:string){
   let url:URL;
@@ -9,5 +9,6 @@ export function briefLinkContext(href:string,origin:string){
     service:serviceOptions.some(option=>option===service)?service:undefined,
     campaign:knownCampaign(url.searchParams.get('campaign'))||undefined,
     project:knownProject(url.searchParams.get('project'))||undefined,
+    plan:service==='design-and-dev-subscription'?knownPlan(url.searchParams.get('plan'))||undefined:undefined,
   };
 }

@@ -1,7 +1,7 @@
 import {knownCampaign} from '../lib/enquiry';
 import {briefLinkContext} from '../lib/analytics';
 type EventName='page_view'|'project_view'|'service_view'|'campaign_view'|'contact_click'|'brief_click'|'booking_calendar_click'|'brief_start'|'brief_success'|'brief_failure'|'email_click';
-type Context={section?:string;service?:string;project?:string;campaign?:string};
+type Context={section?:string;service?:string;project?:string;campaign?:string;plan?:string};
 // Local hooks only: no network requests, form values, cookies, or persistent identifiers.
 export function track(event:EventName,context:Context={}){
   window.dispatchEvent(new CustomEvent('ashbi:analytics',{detail:{event,page:location.pathname,...context}}));

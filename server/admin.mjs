@@ -16,10 +16,10 @@ const notices={
   redacted:'The saved brief content was removed. Mailbox copies and Mailgun records are separate.',
 };
 const leadStates={pending:'Awaiting delivery result','delivery-failed':'Delivery needs review','accepted-by-mailgun':'Accepted by Mailgun'};
-const leadFields={email:'Email',company:'Company',website:'Website',service:'Interested in',timing:'Timing',campaign:'Campaign',project:'Project reference',description:'Project brief'};
+const leadFields={email:'Email',company:'Company',website:'Website',service:'Interested in',timing:'Timing',plan:'Monthly option',campaign:'Campaign',project:'Project reference',description:'Project brief'};
 const leadServices={branding:'Brand identity and strategy','web-design':'Web design and development','packaging-design-services':'Packaging design','design-and-dev-subscription':'Ongoing creative support','not-sure':'Not sure yet'};
 const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-const leadValue=(field,value)=>field==='service'?leadServices[String(value)]||value:value;
+const leadValue=(field,value)=>field==='service'?leadServices[String(value)]||value:field==='plan'&&/^(20|40|80)-hours$/.test(String(value))?String(value).replace('-hours',' hours per month'):value;
 const leadDate=value=>{
   const date=new Date(value);
   return Number.isNaN(date.getTime())?String(value):new Intl.DateTimeFormat('en-CA',{dateStyle:'medium',timeStyle:'short',timeZone:'America/Toronto'}).format(date);
