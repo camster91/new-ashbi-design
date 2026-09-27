@@ -64,6 +64,8 @@ export function initHomeMotion() {
         });
       }
       document.querySelectorAll('.offer-card').forEach((card,index)=>{
+        // Cards in the mobile swipe track must be fully visible when scrolled sideways.
+        if(window.matchMedia('(max-width: 760px)').matches) return;
         enter(card,card,{y:desktop?90+(index%2)*28:35,rotationX:desktop?12:0,transformPerspective:1000,delay:desktop?index*.08:0});
         const frame=card.querySelector('.offer-image');
         if(frame) gsap.fromTo(frame,{scale:.94,borderRadius:'32px'},{scale:1,borderRadius:'14px',duration:1.2,ease:'power3.out',scrollTrigger:{trigger:card,start:'top 82%',once:true}});
