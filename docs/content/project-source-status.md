@@ -4,7 +4,7 @@ Updated 27 September 2026. Local editorial record, not proof of publication or c
 
 | Project | Confirmed scope/source | Current use | Remaining check |
 |---|---|---|---|
-| Della | Existing portfolio record describes campaign artwork; current pack photos come from Della Rice | Featured #1; imagery explicitly contextual | Find original campaign composition. Newly inspected Figma file WBhcpyBC7Oogkz9tMsAGhc has Home 1:720, About 1:721, Store 5:1600, Recipes 5:1989, Create a Stir 5:2253 and Contact 5:2540. File presence alone does not establish authorship of these website designs. Do not relabel the project as website work yet. |
+| Della | Existing portfolio record describes campaign artwork; current pack photos come from Della Rice | Featured #1; visible case label says Campaign artwork and imagery is explicitly contextual | Find original campaign composition. Figma file WBhcpyBC7Oogkz9tMsAGhc has Home 1:720, About 1:721, Store 5:1600, Recipes 5:1989, Create a Stir 5:2253 and Contact 5:2540. A 27 September metadata pass found no top-level campaign or social artwork frame. File presence alone does not establish authorship of these website designs. Do not relabel the project as website work yet. |
 | BPM | Original website exports already in project library | Featured #2; Web proof | Retain original exports; exclude invented mockups and rejected identity-board hero |
 | Marin | Existing branding, packaging and website record | Featured #3; food/packaging images for service cards and packaging offer | Preserve original contribution credits |
 | CocoFro | Existing identity and packaging record | Featured #4; packaging and brand campaign proof | No outcome metrics claimed |

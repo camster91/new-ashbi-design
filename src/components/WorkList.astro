@@ -10,7 +10,7 @@ const list = projects.slice(0, limit);
   <div class="work-list" id="featured-work-carousel" data-work-carousel aria-label="Selected projects" tabindex="0">
     {list.map((project, index) => <article class="work-row reveal">
       <div class="work-photo"><a href={`/work/${project.slug}/`} aria-label={`View ${project.name} case study`}><img class:list={{'image-contain-marin':project.slug==='marin-food','image-contain-bpm':project.slug==='bpm'}} src={project.cardImage||project.image} style={`object-position:${project.cardImagePosition||'center'}`} alt={project.cardImageAlt||project.imageAlt||`${project.name} project by Ashbi`} loading="lazy" width="1200" height="800" /></a><span class="work-index">0{index + 1} / 0{list.length}</span></div>
-      <div class="work-detail"><span class="eyebrow">{project.category.toUpperCase()}</span><h3>{project.name}</h3><p>{project.intro}</p><div class="tags">{project.services.map(tag => <span>{tag}</span>)}</div><a class="round-link" href={`/work/${project.slug}/`} aria-label={`Explore ${project.name}`}>Explore project <span aria-hidden="true">↗</span></a></div>
+      <div class="work-detail"><span class="eyebrow">{(project.presentationLabel||project.category).toUpperCase()}</span><h3>{project.name}</h3><p>{project.intro}</p><div class="tags">{project.services.map(tag => <span>{tag}</span>)}</div><a class="round-link" href={`/work/${project.slug}/`} aria-label={`Explore ${project.name}`}>Explore project <span aria-hidden="true">↗</span></a></div>
     </article>)}
   </div>
   <WorkCarouselControls target="featured-work-carousel" />
