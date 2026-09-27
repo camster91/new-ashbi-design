@@ -7,7 +7,7 @@ const nav = [ {href:'/work/',label:'Work'}, {href:'/services/',label:'Services'}
 <header class="site-header" data-header>
   <div class="nav-shell container">
     <a class="logo-link" href="/" aria-label="Ashbi Design home"><img src="/images/ashbi/logo.png" alt="Ashbi" width="200" height="71" /></a>
-    {campaign ? <nav class="campaign-nav" aria-label="Campaign navigation"><a href="#campaign-project-heading">See the work</a><a class="button button-light" href={site.bookingUrl} data-track="booking_calendar_click">Book a call ↗</a></nav> : <><nav id="main-nav" class="site-nav" aria-label="Main navigation">
+    {campaign ? <nav class="campaign-nav" aria-label="Campaign navigation"><a class="campaign-proof-link" href="#campaign-project-heading" aria-label="See the work"><span class="campaign-proof-label">See the work</span><span class="campaign-proof-label-mobile" aria-hidden="true">Work ↓</span></a><a class="button button-light" href={site.bookingUrl} data-track="booking_calendar_click">Book a call ↗</a></nav> : <><nav id="main-nav" class="site-nav" aria-label="Main navigation">
       {nav.map(item => <a href={item.href} aria-current={Astro.url.pathname.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>)}
       <a class="mobile-book" href={site.bookingUrl} data-track="booking_calendar_click">Book a call <span aria-hidden="true">↗</span></a>
     </nav>
@@ -16,4 +16,4 @@ const nav = [ {href:'/work/',label:'Work'}, {href:'/services/',label:'Services'}
   </div>
 </header>
 
-<style>.campaign-nav{display:flex;align-items:center;gap:24px}.campaign-nav>a:first-child{font-size:.78rem;font-weight:700}@media(max-width:620px){.campaign-nav{gap:12px}.campaign-nav>a:first-child{display:none}.campaign-nav .button{padding:14px 16px;font-size:.7rem}.nav-shell:has(.campaign-nav){gap:16px}}</style>
+<style>.campaign-nav{display:flex;align-items:center;gap:24px}.campaign-proof-link{display:inline-flex;align-items:center;min-height:44px;padding-inline:2px;font-size:.78rem;font-weight:700;white-space:nowrap}.campaign-proof-link:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:4px}.campaign-proof-label-mobile{display:none}@media(max-width:620px){.campaign-nav{gap:10px}.campaign-proof-label{display:none}.campaign-proof-label-mobile{display:inline}.campaign-nav .button{min-height:44px;padding:10px 12px;font-size:.65rem;letter-spacing:.02em;white-space:nowrap}.nav-shell:has(.campaign-nav){gap:10px}.nav-shell:has(.campaign-nav) .logo-link{width:clamp(102px,30vw,125px)}}</style>
