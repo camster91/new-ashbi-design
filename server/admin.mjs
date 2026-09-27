@@ -15,7 +15,15 @@ const notices={
   failed:'That action could not be completed. Check the settings and try again.',
   redacted:'The saved brief content was removed. Mailbox copies and Mailgun records are separate.',
 };
+const leadStates={pending:'Awaiting delivery result','delivery-failed':'Delivery needs review','accepted-by-mailgun':'Accepted by Mailgun'};
+const leadFields={email:'Email',company:'Company',website:'Website',service:'Interested in',timing:'Timing',campaign:'Campaign',description:'Project brief'};
+const leadServices={branding:'Brand identity and strategy','web-design':'Web design and development','packaging-design-services':'Packaging design','design-and-dev-subscription':'Ongoing creative support','not-sure':'Not sure yet'};
 const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+const leadValue=(field,value)=>field==='service'?leadServices[String(value)]||value:value;
+const leadDate=value=>{
+  const date=new Date(value);
+  return Number.isNaN(date.getTime())?String(value):new Intl.DateTimeFormat('en-CA',{dateStyle:'medium',timeStyle:'short',timeZone:'America/Toronto'}).format(date);
+};
 const tokenHash=value=>createHash('sha256').update(value).digest('hex');
 function equalSecret(a,b){
   const left=Buffer.from(String(a||'')),right=Buffer.from(String(b||''));
@@ -103,7 +111,7 @@ export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date
         const records=fetched.slice(0,pageSize);
         const pager=`<nav class="row" aria-label="Saved brief pages">${pageNumber>1?`<a href="/admin/leads?page=${pageNumber-1}">← Newer briefs</a>`:''}<span>Page ${pageNumber}</span>${fetched.length>pageSize&&pageNumber<9999?`<a href="/admin/leads?page=${pageNumber+1}">Older briefs →</a>`:''}</nav>`;
         const notice=url.searchParams.get('notice')||'';
-        sendHtml(res,200,page(`<a href="/admin/">← Settings</a><h1>Saved project briefs.</h1><p>Up to 100 records per page, newest first. Mailgun acceptance does not confirm inbox receipt. Failed and pending records remain available here for follow-up. Redacting a saved brief does not remove mailbox or Mailgun copies.</p><div class="stack">${records.map(record=>`<article class="card"><h2>${esc(record.brief?.name||'Brief content removed')}</h2><p>${esc(record.createdAt)} · ${esc(record.status)}${record.brief===null?' · content removed':''}</p>${record.brief===null?'':`<dl>${Object.entries(record.brief).map(([field,value])=>`<dt><strong>${esc(field)}</strong></dt><dd style="white-space:pre-wrap;overflow-wrap:anywhere">${esc(value)}</dd>`).join('')}</dl>`}${record.status==='accepted-by-mailgun'&&record.brief!==null?`<form method="post" action="/admin/leads/redact" class="stack"><input type="hidden" name="csrf" value="${esc(session.csrf)}"><input type="hidden" name="id" value="${esc(record.id)}"><label class="check"><input type="checkbox" name="confirm" value="yes" required>I have reviewed delivery and want to remove this saved brief content.</label><button class="danger" type="submit">Remove saved brief content</button></form>`:''}</article>`).join('')||'<p>No saved briefs on this page.</p>'}${pager}</div>`,{notice}));
+        sendHtml(res,200,page(`<a href="/admin/">← Settings</a><h1>Saved project briefs.</h1><p>Up to 100 records per page, newest first. Mailgun acceptance does not confirm inbox receipt. Failed and pending records remain available here for follow-up. Redacting a saved brief does not remove mailbox or Mailgun copies.</p><div class="stack">${records.map(record=>`<article class="card"><h2>${esc(record.brief?.name||'Brief content removed')}</h2><p>${esc(leadDate(record.createdAt))} Toronto time · ${esc(leadStates[record.status]||record.status)}${record.brief===null?' · content removed':''}</p>${record.brief===null?'':`<dl>${Object.entries(record.brief).filter(([field,value])=>field!=='name'&&value!==''&&value!==null).map(([field,value])=>`<dt><strong>${esc(leadFields[field]||field)}</strong></dt><dd style="white-space:pre-wrap;overflow-wrap:anywhere">${esc(leadValue(field,value))}</dd>`).join('')}</dl>`}${record.status==='accepted-by-mailgun'&&record.brief!==null?`<form method="post" action="/admin/leads/redact" class="stack"><input type="hidden" name="csrf" value="${esc(session.csrf)}"><input type="hidden" name="id" value="${esc(record.id)}"><label class="check"><input type="checkbox" name="confirm" value="yes" required>I have reviewed delivery and want to remove this saved brief content.</label><button class="danger" type="submit">Remove saved brief content</button></form>`:''}</article>`).join('')||'<p>No saved briefs on this page.</p>'}${pager}</div>`,{notice}));
         return true;
       }
       // Opaque-origin in-app browsers submit Origin: null. The setup token, password,

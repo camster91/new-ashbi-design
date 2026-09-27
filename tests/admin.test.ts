@@ -72,11 +72,11 @@ test('admin setup, login, settings, test and enable require session and confirma
   let redacted=false;
   const records=[
     {id:'87654321-1234-4234-8234-123456789012',createdAt:'2026-09-26',status:'delivery-failed',brief:{name:'<script>bad()</script>',email:'isolated@example.test'}},
-    {id:acceptedId,createdAt:'2026-09-27',status:'accepted-by-mailgun',brief:redacted?null:{name:'Fabricated Person',email:'accepted@example.test'}},
+    {id:acceptedId,createdAt:'2026-09-27',status:'accepted-by-mailgun',brief:redacted?null:{name:'Fabricated Person',email:'accepted@example.test',service:'branding'}},
     ...Array.from({length:98},(_,index)=>({id:`${String(index).padStart(8,'0')}-1234-4234-8234-123456789012`,createdAt:'2026-09-25',status:'accepted-by-mailgun',brief:null})),
     {id:'00000100-1234-4234-8234-123456789012',createdAt:'2026-09-24',status:'accepted-by-mailgun',brief:{name:'Older Fabricated Brief'}},
   ];
-  handler=createAdminHandler({store,origin,leads:{list:async({offset=0,limit=100}={})=>records.map(record=>record.id===acceptedId?{...record,brief:redacted?null:{name:'Fabricated Person',email:'accepted@example.test'}}:record).slice(offset,offset+limit),redact:async id=>{assert.equal(id,acceptedId);redacted=true;}},setupToken:'x'.repeat(32),sendTest:async()=>{testsSent++;if(holdTest){signalTest();await new Promise<void>(resolve=>{releaseTest=resolve;});}}});
+  handler=createAdminHandler({store,origin,leads:{list:async({offset=0,limit=100}={})=>records.map(record=>record.id===acceptedId?{...record,brief:redacted?null:{name:'Fabricated Person',email:'accepted@example.test',service:'branding'}}:record).slice(offset,offset+limit),redact:async id=>{assert.equal(id,acceptedId);redacted=true;}},setupToken:'x'.repeat(32),sendTest:async()=>{testsSent++;if(holdTest){signalTest();await new Promise<void>(resolve=>{releaseTest=resolve;});}}});
   const get=(cookie='')=>fetch(`${origin}/admin/`,{headers:{Cookie:cookie}});
   const post=(route:string,form:Record<string,string>,cookie='',requestOrigin=origin)=>fetch(`${origin}${route}`,{method:'POST',redirect:'manual',headers:{Origin:requestOrigin,Cookie:cookie,'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(form)});
   try{
@@ -95,6 +95,11 @@ test('admin setup, login, settings, test and enable require session and confirma
     assert.match(leadHtml,/&lt;script&gt;/);
     assert.equal(leadHtml.includes('<script>bad()'),false);
     assert.match(leadHtml,/accepted@example.test/);
+    assert.match(leadHtml,/Accepted by Mailgun/);
+    assert.match(leadHtml,/Delivery needs review/);
+    assert.match(leadHtml,/Toronto time/);
+    assert.match(leadHtml,/Brand identity and strategy/);
+    assert.equal(leadHtml.includes('accepted-by-mailgun'),false);
     assert.match(leadHtml,/Older briefs/);
     assert.equal(leadHtml.includes('Older Fabricated Brief'),false);
     const olderHtml=await (await fetch(`${origin}/admin/leads?page=2`,{headers:{Cookie:cookie}})).text();
