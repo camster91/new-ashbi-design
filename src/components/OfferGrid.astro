@@ -9,7 +9,7 @@ const orderedOffers=[...offers].sort((a,b)=>Number(Boolean(b.featured))-Number(B
 <div class:list={['offer-grid',{'offer-grid-compact':compact}]} id={mobileCarousel?'home-services-carousel':undefined} data-work-carousel={mobileCarousel?true:undefined} role={mobileCarousel?'region':undefined} aria-label={mobileCarousel?'Services and ways to work together':undefined} tabindex={mobileCarousel?0:undefined}>
   {orderedOffers.map((offer,index)=><article class:list={['offer-card','reveal',{'offer-card-featured':offer.featured,'offer-card-packaging':offer.serviceSlug==='packaging-design-services'}]}>
     <div class="offer-card-top"><span class="eyebrow">{offer.label.replace(/^\d+ \/ /,'')}</span><span class="offer-number">0{index+1} / 04</span></div>
-    <div class="offer-image"><img src={offer.image} alt="" width="640" height="480" loading="lazy" /></div>
+    <div class="offer-image"><img class:list={{'image-contain-marin':offer.image.includes('marin-food-05')}} src={offer.image} alt="" width="640" height="480" loading="lazy" /></div>
     {headingLevel===2?<h2>{offer.title}</h2>:<h3>{showServices?(services.find(service=>service.slug===offer.serviceSlug)?.name||offer.title):offer.title}</h3>}
     <p>{offer.description}</p>
     <span class="offer-scope">{offer.featured?'Ongoing partnership':'Project scope'}</span>

@@ -271,5 +271,10 @@ img[src*="/bpm/web-"]{object-fit:contain!important;background:#f5eee2}
 [data-home-motion] .collaboration-steps li:after{content:'';position:absolute;left:0;bottom:0;height:3px;width:100%;background:var(--lime);transform:scaleX(var(--step-progress,1));transform-origin:left;pointer-events:none}
 [data-home-motion] .studio-photo{overflow:hidden}
 @media(max-width:760px) and (prefers-reduced-motion:no-preference){[data-home-motion] .motion-toggle{display:block}}
+
+/* These editorial compositions include type and products near the edges. Keep
+   the complete real artwork visible when a card slot is more square. */
+#main img.image-contain-marin{object-fit:contain;background:#88000d}
+#main img.image-contain-bpm{object-fit:contain;background:#f7b46f}
 /* Contain off-axis entrances without creating a scroll container for sticky work. */
 [data-home-motion]{overflow-x:clip}
