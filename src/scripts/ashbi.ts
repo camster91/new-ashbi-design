@@ -46,14 +46,19 @@ rows.forEach((reel,index)=>{
   let pointerStart: {x:number;left:number}|null=null;
   let dragged=false;
   let fraction=0;
+  let lastMobileAdvance=performance.now();
   const setWidth=()=>set?.getBoundingClientRect().width||0;
   const wrap=()=>{const width=setWidth();if(width&&reel.scrollLeft>=width)reel.scrollLeft-=width;};
-  const move=(stepDirection:number)=>{
+  const move=(stepDirection:number,manual=true)=>{
     const card=reel.querySelector<HTMLElement>('.reel-card');
     const step=(card?parseFloat(getComputedStyle(card).width):240)+parseFloat(getComputedStyle(set!).gap);
-    if(stepDirection<0&&reel.scrollLeft<step)reel.scrollLeft+=setWidth();
-    reel.scrollBy({left:stepDirection*step,behavior:motionPreference.matches?'auto':'smooth'});
-    lastGalleryInput=performance.now();
+    if(stepDirection<0&&reel.scrollLeft<step){
+      // Wrap to the last original card without landing on the duplicate-set reset.
+      reel.scrollTo({left:Math.max(0,setWidth()-step),behavior:'auto'});
+    }else{
+      reel.scrollBy({left:stepDirection*step,behavior:motionPreference.matches?'auto':'smooth'});
+    }
+    if(manual)lastGalleryInput=performance.now();
   };
   moveRows.push(move);
   // Both rows start on the same inset and baseline; depth comes from the card treatment.
@@ -65,7 +70,7 @@ rows.forEach((reel,index)=>{
     pointerStart={x:event.clientX,left:reel.scrollLeft};dragged=false;
   });
   reel.addEventListener('pointermove',event=>{if(!pointerStart)return;const distance=event.clientX-pointerStart.x;if(Math.abs(distance)>6){dragged=true;reel.scrollLeft=pointerStart.left-distance;lastGalleryInput=performance.now()}});
-  const endDrag=()=>{pointerStart=null;window.setTimeout(()=>{dragged=false},0)};
+  const endDrag=()=>{pointerStart=null;lastGalleryInput=performance.now();window.setTimeout(()=>{dragged=false},0)};
   reel.addEventListener('pointerup',endDrag);
   reel.addEventListener('pointercancel',endDrag);
   reel.addEventListener('pointerleave',endDrag);
@@ -74,6 +79,10 @@ rows.forEach((reel,index)=>{
   let previous=0;
   const advance=(now:number)=>{
     const elapsed=previous?Math.min(now-previous,64):0;previous=now;
+    if(window.innerWidth<=760&&galleryVisible&&!motionPreference.matches&&!document.hidden&&!document.body.classList.contains('motion-paused')&&!gallery?.querySelector(':focus-visible')&&now-lastGalleryInput>5000&&now-lastMobileAdvance>5000){
+      move(1,false);
+      lastMobileAdvance=now;
+    }
     if(window.innerWidth>760&&galleryVisible&&!motionPreference.matches&&!document.hidden&&!document.body.classList.contains('motion-paused')&&!gallery?.matches(':hover')&&!gallery?.contains(document.activeElement)&&now-lastGalleryInput>12000){
       fraction+=elapsed*(index===0?.014:.021)*direction;
       const pixels=Math.trunc(fraction);
