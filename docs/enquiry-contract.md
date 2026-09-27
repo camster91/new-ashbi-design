@@ -56,6 +56,8 @@ Mailgun's [US and EU API bases](https://documentation.mailgun.com/docs/mailgun/a
 
 The browser posts JSON to `/api/enquiries` and expects an HTTP success with `{"accepted":true}` only after Mailgun accepts the message. Required fields: name (100 characters), email (254), allowed service slug, and description (5,000). Optional: company (150), website (300), timing (200). The endpoint revalidates every field, checks the exact origin, caps the body at 8 KB, uses a hidden bot field, and applies a five-attempts-per-ten-minutes client limit when the trusted proxy identity is configured. Validated briefs are encrypted with AES-256-GCM and saved under the private `/data/leads/` directory before Mailgun is called. Records distinguish pending, delivery-failed and accepted-by-mailgun; acceptance is not proof of inbox delivery. Form contents are never sent to analytics. Storage failure prevents sending. The directory and encryption key must be backed up together. Admin retrieval, retention cleanup and recovery of failed deliveries must be verified before enabling this revised gateway.
 
+The admin lists saved briefs in pages of up to 100 and can remove the saved content of an accepted brief after reviewing its delivery. This requires a signed-in session, CSRF token and explicit confirmation. The encrypted record keeps its random submission ID, accepted status and a keyed fingerprint of the original content so a repeated submission cannot trigger another email. Pending and failed records cannot be redacted until delivery has been reviewed. This action does not remove copies from the studio mailbox, Mailgun or backups. No automatic retention period has been selected; Cameron must approve a retention schedule and the corresponding cleanup process before enabling live capture.
+
 Before launch, update the privacy policy with Mailgun as processor, hosting and mailbox retention details, and the actual booking provider. Use fabricated details and an isolated sink for automated tests. A real test email requires Cameron to initiate it in admin. `npm test`, `npm run typecheck`, and `npm run build` send no email.
 
 
@@ -65,7 +67,7 @@ The browser supplies a UUID `Idempotency-Key`, retained for retries of the uncha
 
 A transport error may occur after Mailgun accepted a message. `delivery-failed` therefore means the request did not complete successfully, not proof that Mailgun never received it. Check Mailgun and the destination mailbox before manually following up. There is no automatic retry job. Reservation and acceptance survive gateway restart. Local tests cover simultaneous submissions, lost responses, changed content, restart and encrypted storage.
 
-Remaining release gates: live Mailgun setup and approved test receipt, retention policy/cleanup, rendered admin review, and full preview form verification. No live email was sent during these checks.
+Remaining release gates: live Mailgun setup and approved test receipt, approved retention policy and cleanup of mailbox/provider/backup copies, rendered admin review, and full preview form verification. No live email was sent during these checks.
 
 ## Campaign attribution
 

@@ -56,6 +56,54 @@ test('same submission is sent once across concurrent requests and process restar
   }finally{await rm(directory,{recursive:true,force:true});}
 });
 
+test('accepted brief can be redacted without reopening its submission identifier',async()=>{
+  const directory=await mkdtemp(path.join(tmpdir(),'ashbi-redact-')),key=randomBytes(32);
+  const id='12345678-1234-4234-8234-123456789012';
+  const brief={name:'Fabricated Visitor',email:'isolated@example.test',description:'Disposable test content'};
+  try{
+    const store=createLeadStore({directory,key});await store.init();
+    let sends=0;
+    await persistThenDeliver(store,async()=>{sends++;})(brief,id);
+    await store.redact(id);
+    const record=await store.read(id);
+    assert.equal(record.brief,null);
+    assert.ok(record.redactedAt);
+    assert.equal((await readFile(path.join(directory,`${id}.json`),'utf8')).includes(brief.email),false);
+    const restored=createLeadStore({directory,key});await restored.init();
+    await persistThenDeliver(restored,async()=>{sends++;})(brief,id);
+    assert.equal(sends,1);
+    await assert.rejects(persistThenDeliver(restored,async()=>{sends++;})({...brief,email:'different@example.test'},id));
+    assert.equal(sends,1);
+    await restored.redact(id);
+    assert.equal((await restored.list())[0].brief,null);
+  }finally{await rm(directory,{recursive:true,force:true});}
+});
+
+test('unreviewed delivery cannot be redacted',async()=>{
+  const directory=await mkdtemp(path.join(tmpdir(),'ashbi-redact-pending-')),key=randomBytes(32);
+  try{
+    const store=createLeadStore({directory,key});await store.init();
+    const id=await store.create({email:'isolated@example.test'});
+    await assert.rejects(store.redact(id));
+    await store.mark(id,'delivery-failed');
+    await assert.rejects(store.redact(id));
+  }finally{await rm(directory,{recursive:true,force:true});}
+});
+
+test('saved briefs remain reachable beyond the first admin page',async()=>{
+  const directory=await mkdtemp(path.join(tmpdir(),'ashbi-lead-pages-')),key=randomBytes(32);
+  try{
+    const store=createLeadStore({directory,key});await store.init();
+    const ids=await Promise.all(Array.from({length:3},(_,index)=>store.create({name:`Fabricated ${index}`})));
+    const first=await store.list({offset:0,limit:2});
+    const second=await store.list({offset:2,limit:2});
+    assert.equal(first.length,2);
+    assert.equal(second.length,1);
+    assert.deepEqual(new Set([...first,...second].map(record=>record.id)),new Set(ids));
+    await assert.rejects(store.list({offset:-1}));
+  }finally{await rm(directory,{recursive:true,force:true});}
+});
+
 test('uncertain transport failure is not automatically retried',async()=>{
   const directory=await mkdtemp(path.join(tmpdir(),'ashbi-uncertain-')),key=randomBytes(32);
   try{

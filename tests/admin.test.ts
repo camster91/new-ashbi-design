@@ -68,7 +68,15 @@ test('admin setup, login, settings, test and enable require session and confirma
   const addr=server.address();assert.ok(addr&&typeof addr!=='string');
   const origin=`http://127.0.0.1:${addr.port}`;
   let testsSent=0,holdTest=false,signalTest:()=>void=()=>{},releaseTest:()=>void=()=>{};
-  handler=createAdminHandler({store,origin,leads:{list:async()=>[{createdAt:'2026-09-26',status:'delivery-failed',brief:{name:'<script>bad()</script>',email:'isolated@example.test'}}]},setupToken:'x'.repeat(32),sendTest:async()=>{testsSent++;if(holdTest){signalTest();await new Promise<void>(resolve=>{releaseTest=resolve;});}}});
+  const acceptedId='12345678-1234-4234-8234-123456789012';
+  let redacted=false;
+  const records=[
+    {id:'87654321-1234-4234-8234-123456789012',createdAt:'2026-09-26',status:'delivery-failed',brief:{name:'<script>bad()</script>',email:'isolated@example.test'}},
+    {id:acceptedId,createdAt:'2026-09-27',status:'accepted-by-mailgun',brief:redacted?null:{name:'Fabricated Person',email:'accepted@example.test'}},
+    ...Array.from({length:98},(_,index)=>({id:`${String(index).padStart(8,'0')}-1234-4234-8234-123456789012`,createdAt:'2026-09-25',status:'accepted-by-mailgun',brief:null})),
+    {id:'00000100-1234-4234-8234-123456789012',createdAt:'2026-09-24',status:'accepted-by-mailgun',brief:{name:'Older Fabricated Brief'}},
+  ];
+  handler=createAdminHandler({store,origin,leads:{list:async({offset=0,limit=100}={})=>records.map(record=>record.id===acceptedId?{...record,brief:redacted?null:{name:'Fabricated Person',email:'accepted@example.test'}}:record).slice(offset,offset+limit),redact:async id=>{assert.equal(id,acceptedId);redacted=true;}},setupToken:'x'.repeat(32),sendTest:async()=>{testsSent++;if(holdTest){signalTest();await new Promise<void>(resolve=>{releaseTest=resolve;});}}});
   const get=(cookie='')=>fetch(`${origin}/admin/`,{headers:{Cookie:cookie}});
   const post=(route:string,form:Record<string,string>,cookie='',requestOrigin=origin)=>fetch(`${origin}${route}`,{method:'POST',redirect:'manual',headers:{Origin:requestOrigin,Cookie:cookie,'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(form)});
   try{
@@ -86,10 +94,24 @@ test('admin setup, login, settings, test and enable require session and confirma
     assert.match(leadHtml,/isolated@example.test/);
     assert.match(leadHtml,/&lt;script&gt;/);
     assert.equal(leadHtml.includes('<script>bad()'),false);
+    assert.match(leadHtml,/accepted@example.test/);
+    assert.match(leadHtml,/Older briefs/);
+    assert.equal(leadHtml.includes('Older Fabricated Brief'),false);
+    const olderHtml=await (await fetch(`${origin}/admin/leads?page=2`,{headers:{Cookie:cookie}})).text();
+    assert.match(olderHtml,/Older Fabricated Brief/);
+    assert.match(olderHtml,/Newer briefs/);
 
     const dashboard=await (await get(cookie)).text();
     const csrf=dashboard.match(/name="csrf" value="([^"]+)"/)?.[1]||'';
     assert.ok(csrf);
+    assert.equal((await post('/admin/leads/redact',{csrf:'wrong',id:acceptedId,confirm:'yes'},cookie)).status,403);
+    assert.equal((await post('/admin/leads/redact',{csrf,id:acceptedId},cookie)).status,400);
+    assert.equal(redacted,false);
+    assert.equal((await post('/admin/leads/redact',{csrf,id:acceptedId,confirm:'yes'},cookie)).status,303);
+    assert.equal(redacted,true);
+    const redactedHtml=await (await fetch(`${origin}/admin/leads`,{headers:{Cookie:cookie}})).text();
+    assert.match(redactedHtml,/Brief content removed/);
+    assert.equal(redactedHtml.includes('accepted@example.test'),false);
     assert.equal((await post('/admin/settings',{csrf:'wrong',region:'US'},cookie)).status,403);
     const saved=await post('/admin/settings',{csrf,region:'US',domain:'mg.ashbi.ca',from:'hello@mg.ashbi.ca',apiKey:'key-local-test-only'},cookie);
     assert.equal(saved.status,303);

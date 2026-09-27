@@ -13,6 +13,7 @@ const notices={
   disabled:'Project brief delivery is disabled.',
   password:'Password changed. Please sign in again.',
   failed:'That action could not be completed. Check the settings and try again.',
+  redacted:'The saved brief content was removed. Mailbox copies and Mailgun records are separate.',
 };
 const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const tokenHash=value=>createHash('sha256').update(value).digest('hex');
@@ -56,7 +57,7 @@ function dashboard(state,csrf,notice){
   return page(`<div class="intro"><span class="eyebrow">STUDIO OPERATIONS</span><h1>Project brief delivery.</h1><p>Set up Mailgun, confirm a test reaches your inbox, then turn on direct submissions. The public form stays off until the website is built with its endpoint.</p></div><div class="grid">${settings}${actions}${account}</div>`,{notice});
 }
 
-export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date.now,trustedProxyAddress='',leads=/** @type {{list: () => Promise<Array<{createdAt:string,status:string,brief:Record<string,unknown>}>>} | null} */ (null)}){
+export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date.now,trustedProxyAddress='',leads=/** @type {{list: (options?:{offset?:number,limit?:number}) => Promise<Array<{id:string,createdAt:string,status:string,brief:Record<string,unknown>|null}>>,redact:(id:string)=>Promise<void>} | null} */ (null)}){
   const sessions=new Map(),attempts=new Map();
   const secure=origin.startsWith('https://');
   const cookieName=secure?'__Host-ashbi_admin':'ashbi_admin_local';
@@ -95,8 +96,14 @@ export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date
       if(req.method==='GET'&&pathname==='/admin/leads'){
         if(!state.password||!session){redirect(res,'/admin/');return true;}
         if(!leads){sendHtml(res,503,page('<h1>Lead storage unavailable.</h1>'));return true;}
-        const records=await leads.list();
-        sendHtml(res,200,page(`<a href="/admin/">← Settings</a><h1>Saved project briefs.</h1><p>Latest 100 records. Mailgun acceptance does not confirm inbox receipt. Failed and pending records remain available here for follow-up.</p><div class="stack">${records.map(record=>`<article class="card"><h2>${esc(record.brief.name)}</h2><p>${esc(record.createdAt)} · ${esc(record.status)}</p><dl>${Object.entries(record.brief).map(([field,value])=>`<dt><strong>${esc(field)}</strong></dt><dd style="white-space:pre-wrap;overflow-wrap:anywhere">${esc(value)}</dd>`).join('')}</dl></article>`).join('')||'<p>No saved briefs yet.</p>'}</div>`));
+        const url=new URL(req.url,origin);
+        const pageNumber=/^[1-9][0-9]{0,3}$/.test(url.searchParams.get('page')||'1')?Number(url.searchParams.get('page')||'1'):1;
+        const pageSize=100;
+        const fetched=await leads.list({offset:(pageNumber-1)*pageSize,limit:pageSize+1});
+        const records=fetched.slice(0,pageSize);
+        const pager=`<nav class="row" aria-label="Saved brief pages">${pageNumber>1?`<a href="/admin/leads?page=${pageNumber-1}">← Newer briefs</a>`:''}<span>Page ${pageNumber}</span>${fetched.length>pageSize&&pageNumber<9999?`<a href="/admin/leads?page=${pageNumber+1}">Older briefs →</a>`:''}</nav>`;
+        const notice=url.searchParams.get('notice')||'';
+        sendHtml(res,200,page(`<a href="/admin/">← Settings</a><h1>Saved project briefs.</h1><p>Up to 100 records per page, newest first. Mailgun acceptance does not confirm inbox receipt. Failed and pending records remain available here for follow-up. Redacting a saved brief does not remove mailbox or Mailgun copies.</p><div class="stack">${records.map(record=>`<article class="card"><h2>${esc(record.brief?.name||'Brief content removed')}</h2><p>${esc(record.createdAt)} · ${esc(record.status)}${record.brief===null?' · content removed':''}</p>${record.brief===null?'':`<dl>${Object.entries(record.brief).map(([field,value])=>`<dt><strong>${esc(field)}</strong></dt><dd style="white-space:pre-wrap;overflow-wrap:anywhere">${esc(value)}</dd>`).join('')}</dl>`}${record.status==='accepted-by-mailgun'&&record.brief!==null?`<form method="post" action="/admin/leads/redact" class="stack"><input type="hidden" name="csrf" value="${esc(session.csrf)}"><input type="hidden" name="id" value="${esc(record.id)}"><label class="check"><input type="checkbox" name="confirm" value="yes" required>I have reviewed delivery and want to remove this saved brief content.</label><button class="danger" type="submit">Remove saved brief content</button></form>`:''}</article>`).join('')||'<p>No saved briefs on this page.</p>'}${pager}</div>`,{notice}));
         return true;
       }
       // Opaque-origin in-app browsers submit Origin: null. The setup token, password,
@@ -125,6 +132,11 @@ export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date
         sessions.delete(tokenHash(session.raw));
         res.setHeader('Set-Cookie',`${cookieName}=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0${secure?'; Secure':''}`);
         redirect(res,'/admin/');return true;
+      }
+      if(pathname==='/admin/leads/redact'){
+        if(!leads||value('confirm')!=='yes'||!currentSession(session))throw new Error('Redaction not confirmed');
+        await leads.redact(value('id'));
+        redirect(res,'/admin/leads?notice=redacted');return true;
       }
       if(pathname==='/admin/settings'){
         await store.update(next=>{

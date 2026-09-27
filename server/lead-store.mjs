@@ -1,10 +1,11 @@
-import {randomUUID} from 'node:crypto';
+import {createHmac,randomUUID} from 'node:crypto';
 import {mkdir,open,rename,readFile,unlink,readdir,stat,link} from 'node:fs/promises';
 import path from 'node:path';
 import {encryptConfig,decryptConfig} from './state.mjs';
 
 // Single-instance private store. No brief contents enter filenames or logs.
 export function createLeadStore({directory,key,now=()=>new Date()}) {
+  const briefHash=brief=>createHmac('sha256',key).update(JSON.stringify(brief)).digest('hex');
   const fileFor=id=>{
     if(!/^[0-9a-f-]{36}$/.test(id))throw new Error('Invalid lead identifier');
     return path.join(directory,`${id}.json`);
@@ -32,21 +33,28 @@ export function createLeadStore({directory,key,now=()=>new Date()}) {
       catch(error){
         if(error.code!=='EEXIST')throw error;
         const existing=await this.read(id);
-        if(JSON.stringify(existing.brief)!==JSON.stringify(brief))throw new Error('Submission identifier already used');
+        if(existing.brief===null?existing.briefHash!==briefHash(brief):JSON.stringify(existing.brief)!==JSON.stringify(brief))throw new Error('Submission identifier already used');
         return {record:existing,created:false};
       }
     },
-    async list(){
+    async list({offset=0,limit=100}={}){
+      if(!Number.isSafeInteger(offset)||offset<0||!Number.isSafeInteger(limit)||limit<1||limit>101)throw new Error('Invalid lead page');
       const names=(await readdir(directory)).filter(name=>/^[0-9a-f-]{36}\.json$/.test(name));
       const files=await Promise.all(names.map(async name=>({name,time:(await stat(path.join(directory,name))).mtimeMs})));
-      files.sort((a,b)=>b.time-a.time);
-      return Promise.all(files.slice(0,100).map(file=>this.read(file.name.replace('.json',''))));
+      files.sort((a,b)=>b.time-a.time||a.name.localeCompare(b.name));
+      return Promise.all(files.slice(offset,offset+limit).map(file=>this.read(file.name.replace('.json',''))));
     },
     async read(id){return decryptConfig(await readFile(fileFor(id),'utf8'),key);},
     async mark(id,status){
       if(!['accepted-by-mailgun','delivery-failed'].includes(status))throw new Error('Invalid delivery status');
       const record=await this.read(id);
       await write({...record,status,updatedAt:now().toISOString()});
+    },
+    async redact(id){
+      const record=await this.read(id);
+      if(record.status!=='accepted-by-mailgun')throw new Error('Review delivery before redacting this brief');
+      if(record.brief===null)return;
+      await write({...record,brief:null,briefHash:briefHash(record.brief),redactedAt:now().toISOString()});
     },
   };
 }
