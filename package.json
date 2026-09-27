@@ -13,6 +13,7 @@
     "astro": "astro",
     "test": "node --experimental-strip-types --test tests/*.test.ts",
     "typecheck": "tsc --noEmit",
+    "check:links": "node ops/check-built-links.mjs",
     "enquiry-server": "node --experimental-strip-types server/index.mjs"
   },
   "dependencies": {

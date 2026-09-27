@@ -23,6 +23,7 @@ jobs:
       - run: npm test
       - run: python3 -m unittest discover -s ops/tests
       - run: npm run build
+      - run: npm run check:links
       - name: Package verified preview build
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
