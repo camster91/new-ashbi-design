@@ -6,15 +6,16 @@ export type Offer = {
   includes: string[];
   fit: string;
   image: string;
+  imageCredit: string;
   featured?: boolean;
 };
 
 // These are enquiry routes, not fixed-price packages. Scope is agreed after discovery.
 export const offers: Offer[] = [
-  {serviceSlug:'branding',label:'01 / FIND YOUR POINT OF VIEW',title:'Brand project',description:'A clear identity built around what makes your business yours.',includes:['Positioning and creative direction','Visual identity system','Guidelines and agreed launch assets'],fit:'A new brand, a rebrand, or a focused refresh.',image:'/images/ashbi/cocofro-main.webp'},
-  {serviceSlug:'web-design',label:'02 / MAKE IT WORK ONLINE',title:'Website project',description:'A digital home that tells your story and helps visitors take the next step.',includes:['Page structure and content priorities','Responsive design and development','Launch checks and handoff'],fit:'A new site or a more useful version of the one you have.',image:'/images/ashbi/clypse-main.webp'},
-  {serviceSlug:'packaging-design-services',label:'03 / MAKE IT TANGIBLE',title:'Packaging project',description:'A product presentation that feels connected from the shelf to the screen.',includes:['Pack concept and visual direction','Artwork for agreed formats','Range system and production handoff'],fit:'A launch, a range extension, or a packaging refresh.',image:'/images/ashbi/gallery/marin-food-05-1800.webp'},
-  {serviceSlug:'design-and-dev-subscription',label:'04 / KEEP MOVING',title:'Ongoing partner',description:'Creative and development support from people who know your brand.',includes:['Agreed creative priorities','Campaign and content assets','Scoped website updates'],fit:'Teams with recurring design and website needs.',featured:true,image:'/images/ashbi/bpm/range-trio-880.webp'},
+  {serviceSlug:'branding',label:'01 / FIND YOUR POINT OF VIEW',title:'Brand project',description:'A clear identity built around what makes your business yours.',includes:['Positioning and creative direction','Visual identity system','Guidelines and agreed launch assets'],fit:'A new brand, a rebrand, or a focused refresh.',image:'/images/ashbi/cocofro-main.webp',imageCredit:'CocoFro / brand identity'},
+  {serviceSlug:'web-design',label:'02 / MAKE IT WORK ONLINE',title:'Website project',description:'A digital home that tells your story and helps visitors take the next step.',includes:['Page structure and content priorities','Responsive design and development','Launch checks and handoff'],fit:'A new site or a more useful version of the one you have.',image:'/images/ashbi/clypse-main.webp',imageCredit:'Clypse Beauty / website design'},
+  {serviceSlug:'packaging-design-services',label:'03 / MAKE IT TANGIBLE',title:'Packaging project',description:'A product presentation that feels connected from the shelf to the screen.',includes:['Pack concept and visual direction','Artwork for agreed formats','Range system and production handoff'],fit:'A launch, a range extension, or a packaging refresh.',image:'/images/ashbi/gallery/marin-food-05-1800.webp',imageCredit:'Marin Food / packaging'},
+  {serviceSlug:'design-and-dev-subscription',label:'04 / KEEP MOVING',title:'Ongoing partner',description:'Creative and development support from people who know your brand.',includes:['Agreed creative priorities','Campaign and content assets','Scoped website updates'],fit:'Teams with recurring design and website needs.',featured:true,image:'/images/ashbi/kalm/sticker-pack-1200.png',imageCredit:'Kalm / production artwork'},
 ];
 
 export type Campaign = {

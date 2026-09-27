@@ -9,7 +9,8 @@ const orderedOffers=[...offers].sort((a,b)=>Number(Boolean(b.featured))-Number(B
 <div class:list={['offer-grid',{'offer-grid-compact':compact}]} id={mobileCarousel?'home-services-carousel':undefined} data-work-carousel={mobileCarousel?true:undefined} role={mobileCarousel?'region':undefined} aria-label={mobileCarousel?'Services and ways to work together':undefined} tabindex={mobileCarousel?0:undefined}>
   {orderedOffers.map((offer,index)=><article class:list={['offer-card','reveal',{'offer-card-featured':offer.featured,'offer-card-packaging':offer.serviceSlug==='packaging-design-services'}]}>
     <div class="offer-card-top"><span class="eyebrow">{offer.label.replace(/^\d+ \/ /,'')}</span><span class="offer-number">0{index+1} / 04</span></div>
-    <div class="offer-image"><img class:list={{'image-contain-marin':offer.image.includes('marin-food-05')}} src={offer.image} alt="" width="640" height="480" loading="lazy" /></div>
+    <div class="offer-image"><img class:list={{'image-contain-marin':offer.image.includes('marin-food-05'),'image-contain-kalm':offer.image.includes('kalm/sticker-pack')}} src={offer.image} alt="" width="640" height="480" loading="lazy" /></div>
+    <span class="offer-image-credit">{offer.imageCredit}</span>
     {headingLevel===2?<h2>{offer.title}</h2>:<h3>{showServices?(services.find(service=>service.slug===offer.serviceSlug)?.name||offer.title):offer.title}</h3>}
     <p>{offer.description}</p>
     <span class="offer-scope">{offer.featured?'Ongoing partnership':'Project scope'}</span>
@@ -28,8 +29,10 @@ const orderedOffers=[...offers].sort((a,b)=>Number(Boolean(b.featured))-Number(B
   .offer-card-top{display:flex;justify-content:space-between;gap:10px;align-items:start;min-height:52px}
   .offer-card-top .eyebrow{margin:0;line-height:1.4;font-size:.61rem}
   .offer-number{font-size:.68rem;white-space:nowrap;font-weight:800;letter-spacing:.08em}
-  .offer-image{overflow:hidden;border-radius:14px;aspect-ratio:1.48;background:#e7e9e5;margin-bottom:25px}
+  .offer-image{overflow:hidden;border-radius:14px;aspect-ratio:1.48;background:#e7e9e5;margin-bottom:10px}
   .offer-image img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+  .offer-image img.image-contain-kalm{object-fit:contain;background:#151122}
+  .offer-image-credit{display:block;margin-bottom:18px;font-size:.62rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;line-height:1.4;opacity:.78}
   .offer-card h2,.offer-card h3{font-size:clamp(1.55rem,2.2vw,2.4rem);margin-bottom:13px}
   .offer-card>p{font-size:.87rem;line-height:1.6;margin-bottom:16px}
   .offer-scope{font-size:.69rem;letter-spacing:.1em;text-transform:uppercase;font-weight:800;border-top:1px solid currentColor;padding-top:17px;margin-top:3px}

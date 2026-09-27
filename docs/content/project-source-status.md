@@ -20,7 +20,7 @@ Updated 27 September 2026. Local editorial record, not proof of publication or c
 
 - Packaging offer uses Marin food/packaging artwork. Della pack photographs are not used to prove Ashbi packaging authorship there.
 - Web service links BPM, Chef Tanya and Mom Water.
-- Ongoing service links WaagBag and Marin as examples of multi-format creative applications; no retainer arrangement is inferred from their inclusion.
+- Ongoing service links the Production Work case and WaagBag. The homepage and Services comparison use the original Kalm production sheet with an explicit role credit; the ongoing service hero labels its WaagBag image as a brand application. These examples do not establish a retainer arrangement with either client.
 - Service cards use project-specific image positioning; Marin defaults to the food/packaging card crop.
 - Each service links the relevant buyer guide, which links its case and campaign.
 - Featured order stays Della, BPM, Marin, CocoFro. Blend/Natural Matcha remain excluded from active portfolio lists; Better Sour remains last on the Work index.

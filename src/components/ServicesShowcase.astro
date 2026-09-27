@@ -5,7 +5,7 @@ const visuals=[
   {src:'/images/ashbi/cocofro-main.webp',detail:'/images/ashbi/gallery/cocofro-05-1200.webp',client:'CocoFro',alt:'CocoFro brand identity across its colourful product range'},
   {src:'/images/ashbi/bpm/web-home-1440.webp',detail:'/images/ashbi/bpm/web-product-720.webp',client:'BPM',alt:'BPM homepage and product page design'},
   {src:'/images/ashbi/gallery/cocofro-14-1200.webp',detail:'/images/ashbi/gallery/cocofro-02-1200.webp',client:'CocoFro',alt:'CocoFro packaging range and branded application'},
-  {src:'/images/ashbi/commerce/della-current-hero.webp',client:'Della',alt:'Current Della Rice packaging on a lavender background'},
+  {src:'/images/ashbi/kalm/sticker-pack-1200.png',client:'Kalm · production artwork',alt:'Kalm College Circle sticker and name-tag production sheet by Ashbi'},
 ];
 ---
 <section class="section services-showcase" aria-labelledby="services-heading">
@@ -38,7 +38,7 @@ const visuals=[
   .showcase-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:clamp(34px,6vw,100px);align-items:start}
   .showcase-visual{position:sticky;top:112px;height:min(72vh,650px);min-height:480px;border-radius:28px;overflow:hidden;background:#ded9f5;box-shadow:0 26px 60px #2027461a}
   .showcase-visual-layer{position:absolute;inset:0;opacity:0;transform:scale(1.045);transition:opacity .55s ease,transform .9s cubic-bezier(.2,.7,.2,1);pointer-events:none;overflow:hidden;background:var(--stage)}
-  .showcase-visual-layer-1{--stage:#4b218b}.showcase-visual-layer-2{--stage:#edae70}.showcase-visual-layer-3{--stage:#e7a5c9}.showcase-visual-layer-4{--stage:#cda8c0}
+  .showcase-visual-layer-1{--stage:#4b218b}.showcase-visual-layer-2{--stage:#edae70}.showcase-visual-layer-3{--stage:#e7a5c9}.showcase-visual-layer-4{--stage:#29234d}
   .showcase-visual-layer:before{content:'';position:absolute;width:82%;aspect-ratio:1;border:1px solid #ffffff72;border-radius:50%;left:-25%;bottom:-34%;box-shadow:0 0 0 70px #ffffff0b}
   .showcase-visual-layer.is-active{opacity:1;transform:scale(1);z-index:1}
   .showcase-visual-layer img{position:absolute;display:block;object-fit:cover;border:8px solid #fff;border-radius:18px;box-shadow:0 24px 45px #15113255}
@@ -46,7 +46,7 @@ const visuals=[
   .showcase-visual-layer .showcase-detail-image{width:43%;height:36%;right:5%;bottom:7%;transform:rotate(7deg)}
   .showcase-visual-layer-2 .showcase-detail-image{object-position:right center}
   .showcase-visual-layer-2 .showcase-main-image{object-fit:contain;background:#f7b46f}
-  .showcase-visual-layer-4 .showcase-main-image{width:78%;height:82%;left:11%;top:6%;transform:rotate(-3deg)}
+  .showcase-visual-layer-4 .showcase-main-image{width:86%;height:66%;left:7%;top:14%;transform:rotate(-2deg);object-fit:contain;background:#151122}
   .showcase-visual-caption{position:absolute;z-index:2;left:20px;bottom:20px;display:flex;justify-content:space-between;gap:16px;min-width:49%;padding:13px 16px;border-radius:12px;background:#f7f8f1f2;backdrop-filter:blur(10px);font-size:.65rem;font-weight:800;letter-spacing:.12em}
   .service-story-list{list-style:none;padding:0;margin:0;display:grid;gap:20px}
   .service-story{min-height:360px;padding:clamp(28px,3.5vw,48px);border:1px solid var(--line);border-radius:24px;background:#fff;transition:border-color .3s,box-shadow .3s,transform .3s}
@@ -69,9 +69,10 @@ const visuals=[
     .service-story-list{grid-template-columns:repeat(2,minmax(0,1fr))}
     .service-story{min-height:0;padding:20px;transform:none!important}
     .service-story-image{display:block;width:100%;height:clamp(190px,25vw,250px);object-fit:cover;border-radius:15px;margin-bottom:24px}
+    .service-story:last-child .service-story-image{object-fit:contain;background:#151122}
     .service-story-number{margin-bottom:18px}.service-story h3{font-size:clamp(1.7rem,3.8vw,2.4rem)}
   }
   @media(max-width:620px){.services-showcase{padding-bottom:54px}.service-story-list{grid-template-columns:1fr}.service-story{padding:18px}.service-story h3{font-size:2rem}.service-story-image{height:190px}.showcase-next{align-items:flex-start;flex-direction:column}}
-  @media(prefers-reduced-motion:reduce){.showcase-visual{display:none}.showcase-layout{grid-template-columns:1fr}.service-story-list{grid-template-columns:repeat(2,minmax(0,1fr))}.service-story{min-height:0;transform:none!important;transition:none}.service-story-image{display:block;width:100%;height:clamp(190px,25vw,250px);object-fit:cover;border-radius:15px;margin-bottom:24px}}
+  @media(prefers-reduced-motion:reduce){.showcase-visual{display:none}.showcase-layout{grid-template-columns:1fr}.service-story-list{grid-template-columns:repeat(2,minmax(0,1fr))}.service-story{min-height:0;transform:none!important;transition:none}.service-story-image{display:block;width:100%;height:clamp(190px,25vw,250px);object-fit:cover;border-radius:15px;margin-bottom:24px}.service-story:last-child .service-story-image{object-fit:contain;background:#151122}}
   @media(max-width:620px) and (prefers-reduced-motion:reduce){.service-story-list{grid-template-columns:1fr}}
 </style>
