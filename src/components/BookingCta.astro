@@ -1,18 +1,20 @@
 ---
+import BrandAccent from './BrandAccent.astro';
 import BookingPortrait from './BookingPortrait.astro';
 import {site} from '../data/site';
-interface Props {service?:string;}
-const {service}=Astro.props;
+interface Props {service?:string; expressive?:boolean;}
+const {service,expressive=false}=Astro.props;
 const brief=`/contact/${service?`?service=${encodeURIComponent(service)}`:''}#project-brief`;
 ---
-<section class="conversation-cta container" aria-labelledby="cta-title">
+<section class:list={["conversation-cta container",{"conversation-expressive":expressive}]} aria-labelledby="cta-title">
   <BookingPortrait />
-  <div class="conversation-copy"><span class="eyebrow">30 MINUTES WITH BIANCA</span><h2 id="cta-title">What are you<br />working on?</h2><p>A new product, a website that needs attention, or a brand ready for its next step. Tell Bianca what you have in mind, and we’ll work out where Ashbi can help.</p><div class="cta-actions"><a class="button button-lime" href={site.bookingUrl} target="_blank" rel="noopener" data-track="booking_calendar_click">Book a call <span aria-hidden="true">↗</span></a><a class="button button-outline" href={brief}>Send a project brief <span aria-hidden="true">↗</span></a></div><a class="cta-email" href="mailto:hello@ashbi.ca">hello@ashbi.ca</a></div>
+  {expressive && <div class="closing-character"><BrandAccent /></div>}
+  <div class="conversation-copy"><span class="eyebrow">30 MINUTES WITH BIANCA</span><h2 id="cta-title">What are you<br /><em class:list={[{editorial:expressive}]}>working on?</em></h2><p>A new product, a website that needs attention, or a brand ready for its next step. Tell Bianca what you have in mind, and we’ll work out where Ashbi can help.</p><div class="cta-actions"><a class="button button-lime" href={site.bookingUrl} target="_blank" rel="noopener" data-track="booking_calendar_click">Book a call <span aria-hidden="true">↗</span></a><a class="button button-outline" href={brief}>Send a project brief <span aria-hidden="true">↗</span></a></div><a class="cta-email" href="mailto:hello@ashbi.ca">hello@ashbi.ca</a></div>
 </section>
 <style>
  .conversation-cta{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);align-items:center;gap:clamp(35px,7vw,110px);padding:clamp(28px,5vw,72px);background:var(--ink2);color:#fff;border-radius:24px;margin-bottom:24px}
  .conversation-cta :global(.booking-portrait){max-width:340px}.conversation-cta :global(.booking-portrait img){aspect-ratio:1;object-position:center 60%}
- .conversation-copy h2{font-size:clamp(2.8rem,5vw,5.7rem);margin-bottom:28px}.conversation-copy p{max-width:580px;color:#e1e3ee}
+ .conversation-copy h2 em{color:inherit;font-style:normal}.conversation-copy h2{font-size:clamp(2.8rem,5vw,5.7rem);margin-bottom:28px}.conversation-copy p{max-width:580px;color:#e1e3ee}
  .cta-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.cta-email{display:inline-block;margin-top:22px;text-decoration:underline;text-underline-offset:4px;font-size:.9rem}
  @media(max-width:760px){.conversation-cta{grid-template-columns:1fr;gap:30px}.conversation-cta :global(.booking-portrait){display:grid;grid-template-columns:100px 1fr;align-items:center;gap:18px;max-width:none}.conversation-cta :global(.booking-portrait figcaption){padding:0}.conversation-copy h2 br{display:none}}
 </style>

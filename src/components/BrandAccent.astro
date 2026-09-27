@@ -1,0 +1,5 @@
+---
+interface Props { variant?: 'hand' | 'stamp'; label?: string; }
+const {variant='hand',label='Made with personality'}=Astro.props;
+---
+{variant==='hand'?<img class="brand-hand" src="/images/ashbi/brand/hello-hand.svg" alt="" aria-hidden="true" width="438" height="656" />:<span class="brand-stamp" aria-hidden="true"><span>✳</span>{label}</span>}

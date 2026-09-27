@@ -20,6 +20,10 @@ export function initHomeMotion() {
 
       const hero = document.querySelector('.hero')!;
       gsap.from('.hero-copy > *',{y:distance,opacity:.2,duration:1.15,stagger:.13,ease:'power3.out'});
+      const character = hero.querySelector('.hero-character');
+      if(character) gsap.from(character,{rotation:-8,y:18,opacity:0,duration:1.1,delay:.35,ease:'power2.out'});
+      const stamp = document.querySelector('.ways-section > .brand-stamp');
+      if(stamp) enter(stamp,stamp,{scale:.8,rotation:-12,y:20});
       const stage = hero.querySelector('.hero-reel-stage');
       if(stage) drift(stage,hero,{y:desktop?40:14,scale:.95},{y:desktop?-45:-12,scale:1});
       document.querySelectorAll('.client-logos').forEach(row=>enter(row.children,row,{y:30,scale:.85,stagger:.15}));
