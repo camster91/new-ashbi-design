@@ -5,8 +5,8 @@ import '../styles/work-carousel.css';
 import { site } from '../data/site';
 import Header from '../components/AshbiHeader.astro';
 import Footer from '../components/AshbiFooter.astro';
-interface Props { title: string; description: string; image?: string; noindex?: boolean; canonicalPath?: string; campaign?: boolean; }
-const { title, description, image = '/images/ashbi/og-default.webp', noindex = false, canonicalPath, campaign = false } = Astro.props;
+interface Props { title: string; description: string; image?: string; noindex?: boolean; canonicalPath?: string; campaign?: boolean; briefHref?: string; }
+const { title, description, image = '/images/ashbi/og-default.webp', noindex = false, canonicalPath, campaign = false, briefHref } = Astro.props;
 const canonical = new URL(canonicalPath || Astro.url.pathname, Astro.site).toString();
 const ogImage = new URL(image, Astro.site).toString();
 const schema = JSON.stringify({ '@context': 'https://schema.org', '@type': 'Organization', name: site.name, url: Astro.site?.toString(), logo: new URL('/images/ashbi/logo.png', Astro.site).toString(), email: site.email, address: { '@type': 'PostalAddress', addressLocality: 'Toronto', addressRegion: 'ON', addressCountry: 'CA' } }).replace(/</g,'\\u003c');
@@ -36,7 +36,7 @@ const schema = JSON.stringify({ '@context': 'https://schema.org', '@type': 'Orga
     <a class="skip-link" href="#main">Skip to content</a>
     <Header campaign={campaign} />
     <slot />
-    <Footer />
+    <Footer briefHref={briefHref} />
     <script>
       import '../scripts/ashbi.ts';
     </script>
