@@ -16,7 +16,7 @@ const notices={
   redacted:'The saved brief content was removed. Mailbox copies and Mailgun records are separate.',
 };
 const leadStates={pending:'Awaiting delivery result','delivery-failed':'Delivery needs review','accepted-by-mailgun':'Accepted by Mailgun'};
-const leadFields={email:'Email',company:'Company',website:'Website',service:'Interested in',timing:'Timing',campaign:'Campaign',description:'Project brief'};
+const leadFields={email:'Email',company:'Company',website:'Website',service:'Interested in',timing:'Timing',campaign:'Campaign',project:'Project reference',description:'Project brief'};
 const leadServices={branding:'Brand identity and strategy','web-design':'Web design and development','packaging-design-services':'Packaging design','design-and-dev-subscription':'Ongoing creative support','not-sure':'Not sure yet'};
 const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const leadValue=(field,value)=>field==='service'?leadServices[String(value)]||value:value;

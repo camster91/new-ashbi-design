@@ -1,9 +1,11 @@
+import {commerceProjectSlugs} from '../data/commerce-project-slugs.ts';
 export const serviceOptions=['branding','web-design','packaging-design-services','design-and-dev-subscription','not-sure'] as const;
 export const campaignOptions=['creative-partner','shopify-design','packaging-design','brand-launch','website-redesign'] as const;
 export function knownCampaign(value:unknown):string{return typeof value==='string'&&campaignOptions.some(slug=>slug===value)?value:'';}
-export type Brief={name:string;email:string;service:string;description:string;company:string;website:string;timing:string;campaign:string};
+export function knownProject(value:unknown):string{return typeof value==='string'&&commerceProjectSlugs.some(slug=>slug===value)?value:'';}
+export type Brief={name:string;email:string;service:string;description:string;company:string;website:string;timing:string;campaign:string;project:string};
 export type Errors=Partial<Record<keyof Brief,string>>;
-const limits:Record<keyof Brief,number>={name:100,email:254,service:60,description:5000,company:150,website:300,timing:200,campaign:60};
+const limits:Record<keyof Brief,number>={name:100,email:254,service:60,description:5000,company:150,website:300,timing:200,campaign:60,project:60};
 export function readBrief(values:Record<string,unknown>):Brief {
   return Object.fromEntries(Object.keys(limits).map(key=>[key,typeof values[key]==='string'?(values[key] as string).trim():''])) as Brief;
 }
@@ -14,6 +16,7 @@ export function validateBrief(brief:Brief):Errors {
   if(brief.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(brief.email))errors.email='Please enter a valid email address.';
   if(brief.service&&!serviceOptions.some(s=>s===brief.service))errors.service='Please choose one of the listed services.';
   if(brief.campaign&&!knownCampaign(brief.campaign))errors.campaign='Unknown campaign.';
+  if(brief.project&&!knownProject(brief.project))errors.project='Unknown project.';
   if(brief.website){try{const url=new URL(/^https?:\/\//i.test(brief.website)?brief.website:`https://${brief.website}`);if(!['https:','http:'].includes(url.protocol)||!url.hostname.includes('.')||url.username||url.password||/\s/.test(brief.website))throw new Error();}catch{errors.website='Please enter a website such as example.com.';}}
   return errors;
 }
@@ -41,6 +44,6 @@ export function createBriefSender(endpoint:string,transport:typeof fetch=fetch,t
   };
 }
 export function emailDraft(brief:Brief):string {
-  const body=`Name: ${brief.name}\nEmail: ${brief.email}\nService: ${brief.service}\nCompany: ${brief.company||'—'}\nWebsite: ${brief.website||'—'}\nTiming: ${brief.timing||'—'}\nCampaign: ${brief.campaign||'Direct enquiry'}\n\n${brief.description}`;
+  const body=`Name: ${brief.name}\nEmail: ${brief.email}\nService: ${brief.service}\nCompany: ${brief.company||'—'}\nWebsite: ${brief.website||'—'}\nTiming: ${brief.timing||'—'}\nCampaign: ${brief.campaign||'Direct enquiry'}\nProject reference: ${brief.project||'—'}\n\n${brief.description}`;
   return `mailto:hello@ashbi.ca?subject=${encodeURIComponent('A project for Ashbi')}&body=${encodeURIComponent(body)}`;
 }

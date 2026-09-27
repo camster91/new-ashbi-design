@@ -53,9 +53,12 @@ test('retry reuses its submission key; editing the brief creates a new key',asyn
  assert.match(keys[0],/^[0-9a-f-]{36}$/);assert.equal(keys[0],keys[1]);assert.notEqual(keys[1],keys[2]);
 });
 
-test('campaign attribution accepts known routes and rejects arbitrary values',()=>{
+test('campaign and project attribution accept known routes and reject arbitrary values',()=>{
  assert.deepEqual(validateBrief({...brief,campaign:'shopify-design'}),{});
  assert.ok(validateBrief({...brief,campaign:'person@example.test'}).campaign);
+ assert.deepEqual(validateBrief({...brief,project:'cocofro'}),{});
+ assert.ok(validateBrief({...brief,project:'person@example.test'}).project);
  assert.equal(readBrief({...brief,utm_term:'private search text'}).campaign,'');
  assert.ok(decodeURIComponent(emailDraft({...brief,campaign:'shopify-design'})).includes('Campaign: shopify-design'));
+ assert.ok(decodeURIComponent(emailDraft({...brief,project:'cocofro'})).includes('Project reference: cocofro'));
 });

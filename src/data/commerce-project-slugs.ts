@@ -1,0 +1,1 @@
+export const commerceProjectSlugs=['della','bpm','marin-food','cocofro','chef-tanya','ancient-bliss','mom-water','clypse-beauty','shongoni-skin','hopscotch','waagbag','tres','gemzy','better-sour'] as const;

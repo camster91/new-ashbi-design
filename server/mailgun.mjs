@@ -47,7 +47,7 @@ export function projectBriefMessage(brief){
     text:[
       ['Name',brief.name],['Email',brief.email],['Service',brief.service],
       ['Company',brief.company||'—'],['Website',brief.website||'—'],
-      ['Timing',brief.timing||'—'],['Campaign',brief.campaign||'Direct enquiry'],['Project',brief.description],
+      ['Timing',brief.timing||'—'],['Campaign',brief.campaign||'Direct enquiry'],['Project reference',brief.project||'—'],['Project',brief.description],
     ].map(([label,value])=>`${label}: ${value}`).join('\n\n'),
   };
 }

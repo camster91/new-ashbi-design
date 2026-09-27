@@ -4,7 +4,7 @@ import http from 'node:http';
 import {createEnquiryHandler} from '../server/enquiry-handler.mjs';
 
 const origin='https://preview.ashbi.ca';
-const valid={name:'Isolated Visitor',email:'visitor@example.test',service:'branding',description:'A fabricated project for a local endpoint test.',company:'Example Studio',website:'example.test',timing:'Next quarter',campaign:'shopify-design'};
+const valid={name:'Isolated Visitor',email:'visitor@example.test',service:'branding',description:'A fabricated project for a local endpoint test.',company:'Example Studio',website:'example.test',timing:'Next quarter',campaign:'shopify-design',project:'chef-tanya'};
 
 async function withServer(deliver:(brief:typeof valid)=>Promise<void>,run:(url:string)=>Promise<void>,now?:()=>number){
   const server=http.createServer(createEnquiryHandler({origin,deliver,now}));
@@ -51,10 +51,11 @@ test('honeypot is suppressed and requests are rate limited',async()=>{
   });
 });
 
-test('unrecognised campaign attribution is rejected before delivery',async()=>{
+test('unrecognised campaign and project attribution are rejected before delivery',async()=>{
  let calls=0;
  await withServer(async()=>{calls++;},async url=>{
   assert.equal((await post(url,{...valid,campaign:'private@example.test'})).status,400);
+  assert.equal((await post(url,{...valid,project:'private@example.test'})).status,400);
   assert.equal(calls,0);
  });
 });
@@ -77,9 +78,10 @@ test('real gateway persists attribution and deduplicates accepted retries with a
     assert.equal(response.status,200);assert.deepEqual(await response.json(),{accepted:true});
    }
   });
-  assert.equal(messages.length,1);assert.match(messages[0].text,/Campaign: shopify-design/);
+  assert.equal(messages.length,1);assert.match(messages[0].text,/Campaign: shopify-design/);assert.match(messages[0].text,/Project reference: chef-tanya/);
   const records=await leads.list();assert.equal(records.length,1);
   assert.equal(records[0].brief.campaign,'shopify-design');
+  assert.equal(records[0].brief.project,'chef-tanya');
   assert.equal(records[0].status,'accepted-by-mailgun');
  }finally{await rm(directory,{recursive:true,force:true});}
 });

@@ -2,9 +2,12 @@
 import BrandAccent from './BrandAccent.astro';
 import BookingPortrait from './BookingPortrait.astro';
 import {site} from '../data/site';
-interface Props {service?:string; expressive?:boolean;}
-const {service,expressive=false}=Astro.props;
-const brief=`/contact/${service?`?service=${encodeURIComponent(service)}`:''}#project-brief`;
+interface Props {service?:string;project?:string; expressive?:boolean;}
+const {service,project,expressive=false}=Astro.props;
+const briefParams=new URLSearchParams();
+if(service)briefParams.set('service',service);
+if(project)briefParams.set('project',project);
+const brief=`/contact/${briefParams.size?`?${briefParams}`:''}#project-brief`;
 ---
 <section class:list={["conversation-cta container",{"conversation-expressive":expressive}]} aria-labelledby="cta-title">
   <BookingPortrait />

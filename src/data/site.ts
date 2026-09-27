@@ -1,4 +1,5 @@
 import portfolioAssets from './portfolio-assets.json';
+import {commerceProjectSlugs} from './commerce-project-slugs';
 
 export const site = {
   name: 'Ashbi Design', email: 'hello@ashbi.ca',
@@ -45,7 +46,7 @@ export const projects:Project[]=seeds.map(p=>{
   return {...p,gallery,detail:gallery[1]?.src||p.image};
 });
 // Keep historical case-study URLs, but show product brands and stores in current portfolio journeys.
-export const commerceProjectSlugs=['della','bpm','marin-food','cocofro','chef-tanya','ancient-bliss','mom-water','clypse-beauty','shongoni-skin','hopscotch','waagbag','tres','gemzy','better-sour'] as const;
+export {commerceProjectSlugs};
 export const commerceProjects:Project[]=commerceProjectSlugs.map(slug=>projects.find(project=>project.slug===slug)!);
 export const testimonials=[
  {id:'kate',quote:'I got a full rebrand and new website for my business and Ashbi Design exceeded every expectation.',person:'Kate T',client:'Tough Kitten Crafts'},
