@@ -9,17 +9,21 @@ const normalize=text=>text.replace(/&#(?:x([a-f0-9]+)|(\d+));/gi,(_,hex,decimal)
 export async function checkBuiltContent(root,home,catalog){
  const documents=[{route:'index.html',content:validateHomeContent(home)},...Object.entries(catalog).map(([id,entry])=>{
   const [kind,slug]=id.split(':');
-  if(!/^[a-z0-9-]+$/.test(slug)||kind!==entry.kind||!['service','campaign'].includes(kind))throw new Error('Invalid editorial route');
-  return {route:`${kind==='service'?'services':'campaigns'}/${slug}/index.html`,content:validateContent(entry.kind,entry.content)};
+  if(!/^[a-z0-9-]+$/.test(slug)||kind!==entry.kind||!['service','campaign','project','article'].includes(kind))throw new Error('Invalid editorial route');
+  return {kind,route:`${kind==='article'?'':kind==='service'?'services/':kind==='project'?'work/':'campaigns/'}${slug}/index.html`,content:validateContent(entry.kind,entry.content)};
  })];
+ const bodyText=async route=>{
+  const html=await readFile(path.join(root,route),'utf8');
+  const body=html.match(/<body\b[^>]*>([\s\S]*?)<\/body>/i)?.[1];
+  if(!body)throw new Error(`Missing body: ${route}`);
+  return normalize(body.replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi,'').replace(/<[^>]*>/g,' '));
+ };
  let checked=0;
  for(const document of documents){
-  const html=await readFile(path.join(root,document.route),'utf8');
-  const body=html.match(/<body\b[^>]*>([\s\S]*?)<\/body>/i)?.[1];
-  if(!body)throw new Error(`Missing body: ${document.route}`);
-  const text=normalize(body.replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi,'').replace(/<[^>]*>/g,' '));
+  const text=await bodyText(document.route);
   for(const [field,value] of Object.entries(document.content)){
-   if(!text.includes(normalize(value)))throw new Error(`Editorial field missing from page body: ${document.route} (${field})`);
+   const fieldText=document.kind==='article'&&field==='shortTitle'?await bodyText('insights/index.html'):text;
+   if(!fieldText.includes(normalize(value.replace(/<[^>]*>/g,' '))))throw new Error(`Editorial field missing from page body: ${document.route} (${field})`);
    checked++;
   }
  }

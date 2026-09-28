@@ -6,7 +6,7 @@ import {validateContent} from '../src/lib/content.ts';
 const hash=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
 /** Website editorial state only. Hub remains owner of clients/projects/portals. */
 export function createContentStore({directory,base,id='home',kind=/** @type {import('../src/lib/content.ts').ContentKind} */ ('home'),now=()=>new Date().toISOString()}){
-  if(!/^(home|(?:service|campaign):[a-z0-9-]+)$/.test(id))throw new Error('Unsupported document ID');
+  if(!/^(home|(?:service|campaign|project|article):[a-z0-9-]+)$/.test(id))throw new Error('Unsupported document ID');
   const validate=input=>validateContent(kind,input);
   const initial=validate(base);
   const baseRevision=hash(initial);
@@ -81,7 +81,7 @@ export async function createEditorialStores({directory,home,catalog}){
   /** @type {Record<string,{label:string,kind:import('../src/lib/content.ts').ContentKind,store:ReturnType<typeof createContentStore>}>} */
   const documents={home:{label:'Homepage copy',kind:'home',store:createContentStore({directory,base:home})}};
   for(const [id,entry] of Object.entries(catalog)){
-    if(!['service','campaign'].includes(entry.kind)||!id.startsWith(`${entry.kind}:`))throw new Error('Invalid editorial catalog');
+    if(!['service','campaign','project','article'].includes(entry.kind)||!id.startsWith(`${entry.kind}:`))throw new Error('Invalid editorial catalog');
     documents[id]={label:entry.label,kind:entry.kind,store:createContentStore({directory,base:entry.content,id,kind:entry.kind})};
   }
   await Promise.all(Object.values(documents).map(document=>document.store.init()));
