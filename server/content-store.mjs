@@ -7,8 +7,12 @@ const hash=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex
 /** Website editorial state only. Hub remains owner of clients/projects/portals. */
 export function createContentStore({directory,base,id='home',kind=/** @type {import('../src/lib/content.ts').ContentKind} */ ('home'),now=()=>new Date().toISOString()}){
   if(!/^(home|(?:service|campaign|project|article):[a-z0-9-]+)$/.test(id))throw new Error('Unsupported document ID');
-  const validate=input=>validateContent(kind,input);
+  const validate=input=>validateContent(kind,input,id);
   const initial=validate(base);
+  const readCompatible=record=>{
+    const input=kind==='project'&&record.baseRevision!==baseRevision?{...(!Object.hasOwn(record.content,'cardAsset')?{cardAsset:initial.cardAsset}:{}),...(!Object.hasOwn(record.content,'heroAsset')?{heroAsset:initial.heroAsset}:{}),...record.content}:record.content;
+    return validate(input);
+  };
   const baseRevision=hash(initial);
   const file=path.join(directory,`${id.replace(':','-')}.json`);
   const historyDir=path.join(directory,`${id.replace(':','-')}-history`);
@@ -42,7 +46,8 @@ export function createContentStore({directory,base,id='home',kind=/** @type {imp
       try{
         const saved=JSON.parse(await readFile(file,'utf8'));
         if(saved.version!==1||!['draft','approved'].includes(saved.status)||!/^(?:[a-f0-9]{64}|[a-f0-9-]{36})$/.test(saved.revision)||!/^[a-f0-9]{64}$/.test(saved.baseRevision))throw new Error('Invalid content state');
-        validate(saved.content);
+        // Older narrative drafts remain readable; their old baseline keeps writes blocked.
+        saved.content=readCompatible(saved);
         state=saved;
       }catch(error){if(error.code!=='ENOENT')throw error;}
     },
@@ -57,8 +62,8 @@ export function createContentStore({directory,base,id='home',kind=/** @type {imp
       const names=await readdir(historyDir).catch(error=>{if(error.code==='ENOENT')return [];throw error;});
       const records=await Promise.all(names.filter(name=>/^(?:[a-f0-9]{64}|[a-f0-9-]{36})\.json$/.test(name)).map(async name=>{
         const record=JSON.parse(await readFile(path.join(historyDir,name),'utf8'));
-        validate(record.content);
-        return {revision:record.revision,updatedAt:record.updatedAt,status:record.status,content:record.content};
+        const content=readCompatible(record);
+        return {revision:record.revision,updatedAt:record.updatedAt,status:record.status,content};
       }));
       return records.sort((a,b)=>String(b.updatedAt||'').localeCompare(String(a.updatedAt||''))).slice(0,20);
     },
@@ -69,6 +74,10 @@ export function createContentStore({directory,base,id='home',kind=/** @type {imp
         if(archived.baseRevision!==baseRevision)throw new Error('Revision has a different source baseline');
         return {...previous,content:validate(archived.content),revision:randomUUID(),status:'draft',updatedAt:now(),approvedAt:null};
       });
+    },
+    draft(){
+      if(state.baseRevision!==baseRevision)throw new Error('Reconcile this draft with the current source first');
+      return {version:1,type:'ashbi-draft',documentId:id,kind,baseRevision,revision:state.revision,content:structuredClone(state.content)};
     },
     export(){
       if(state.status!=='approved'||state.baseRevision!==baseRevision)throw new Error('Approve a current draft before exporting');

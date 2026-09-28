@@ -97,7 +97,9 @@
       "intro": "Big flavour. An unmistakable family of packs.",
       "context": "A freeze-dried ice cream range needs to communicate flavour and personality at a glance. CocoFro brings both together in a colourful brand and packaging system.",
       "approach": "Expressive type anchors the identity. A distinct colour palette for each flavour creates variety while keeping the range recognisable as one family.",
-      "outcome": "The identity extends from the ice cream packs into playful branded applications."
+      "outcome": "The identity extends from the ice cream packs into playful branded applications.",
+      "cardAsset": "default-card",
+      "heroAsset": "default-hero"
     }
   },
   "project:clypse-beauty": {
@@ -107,7 +109,9 @@
       "intro": "A beauty website with an editorial rhythm.",
       "context": "A digital expression of Clypse Beauty, bringing product imagery, brand personality, and clear calls to action together.",
       "approach": "Bold headlines and generous imagery establish a visual rhythm across desktop and mobile layouts.",
-      "outcome": "Explore the website composition, from its first impression to its product storytelling."
+      "outcome": "Explore the website composition, from its first impression to its product storytelling.",
+      "cardAsset": "default-card",
+      "heroAsset": "default-hero"
     }
   },
   "project:waagbag": {
@@ -116,7 +120,9 @@
     "content": {
       "intro": "A brand system with personality in every detail.",
       "approach": "A coordinated set of identity, packaging, and digital applications gives WaagBag a consistent visual language.",
-      "outcome": "Explore the identity and its applications across the original project gallery."
+      "outcome": "Explore the identity and its applications across the original project gallery.",
+      "cardAsset": "default-card",
+      "heroAsset": "default-hero"
     }
   },
   "project:tres": {
@@ -126,7 +132,9 @@
       "intro": "Skincare, with room to breathe.",
       "context": "Tres takes a minimal approach to skincare, using a simple and approachable identity.",
       "approach": "Neutral colours and understated typography create a calm visual system, letting the product take centre stage.",
-      "outcome": "A pared-back identity carried through product packaging and brand imagery."
+      "outcome": "A pared-back identity carried through product packaging and brand imagery.",
+      "cardAsset": "default-card",
+      "heroAsset": "default-hero"
     }
   },
   "project:shongoni-skin": {
@@ -135,7 +143,9 @@
     "content": {
       "intro": "An inviting world of colour and skincare.",
       "approach": "Warm colour, soft gradients, and playful typography create a fresh, welcoming identity across the brand’s touchpoints.",
-      "outcome": "The visual system connects the product range with its digital and social presence."
+      "outcome": "The visual system connects the product range with its digital and social presence.",
+      "cardAsset": "default-card",
+      "heroAsset": "default-hero"
     }
   },
   "project:marin-food": {
@@ -144,7 +154,9 @@
     "content": {
       "intro": "A colourful new expression of everyday dairy.",
       "approach": "Expressive display type and lively colours give familiar dairy products a bold, contemporary presentation.",
-      "outcome": "A connected family of product, campaign, and brand applications."
+      "outcome": "A connected family of product, campaign, and brand applications.",
+      "cardAsset": "default-card",
+      "heroAsset": "default-hero"
     }
   },
   "project:hopscotch": {
@@ -154,7 +166,9 @@
       "intro": "A little joy at the breakfast table.",
       "context": "Hopscotch’s identity brings a playful spirit to a Korean-inspired fermented breakfast pudding.",
       "approach": "Friendly colours, expressive typography, and custom illustration make the product feel warm and approachable.",
-      "outcome": "A characterful identity expressed across the product range and its supporting materials."
+      "outcome": "A characterful identity expressed across the product range and its supporting materials.",
+      "cardAsset": "default-card",
+      "heroAsset": "default-hero"
     }
   },
   "project:gemzy": {
@@ -163,7 +177,9 @@
     "content": {
       "intro": "Nature-inspired colour meets a playful imagination.",
       "approach": "Earth and sky tones are paired with custom illustrations to create a calm, joyful identity.",
-      "outcome": "A visual system that brings the same personality to retail and brand applications."
+      "outcome": "A visual system that brings the same personality to retail and brand applications.",
+      "cardAsset": "default-card",
+      "heroAsset": "default-hero"
     }
   },
   "project:mom-water": {
@@ -173,7 +189,9 @@
       "intro": "A colourful digital experience for a product-led drinks brand.",
       "context": "Mom Water sells fruit-infused vodka water online. The website brings the product range, brand story, and paths to shop into one experience.",
       "approach": "Ashbi’s website design uses bright product photography, expressive type, and clear shopping paths across desktop and mobile layouts.",
-      "outcome": "The public design presentation shows how Mom Water’s products and online shopping journey come together."
+      "outcome": "The public design presentation shows how Mom Water’s products and online shopping journey come together.",
+      "cardAsset": "default-card",
+      "heroAsset": "default-hero"
     }
   },
   "project:better-sour": {
@@ -183,7 +201,9 @@
       "intro": "A vivid web experience for a playful sour candy brand.",
       "context": "Better Sour’s product range called for a website that could carry its high-energy visual world into product discovery.",
       "approach": "Ashbi Design and Hannah Faust created the website design, using bold colour, oversized type, and product-led compositions. The brand refresh was created by r.Vh Design, Robert Van Horne, and Ashleigh Brewer.",
-      "outcome": "The public project artwork shows the website concept across home, product, and shopping views."
+      "outcome": "The public project artwork shows the website concept across home, product, and shopping views.",
+      "cardAsset": "default-card",
+      "heroAsset": "default-hero"
     }
   },
   "project:della": {
@@ -193,7 +213,9 @@
       "intro": "Campaign creative for Della Rice.",
       "context": "Della’s rice range now appears in a refreshed visual system. The images on this page show the current products from Della’s website.",
       "approach": "After The Lads Studio’s Della rebrand, Bianca and Ashbi supported follow-on creative. Ashbi’s portfolio identifies a campaign composition as its deliverable. The new packs shown here belong to the wider rebrand and are included for context.",
-      "outcome": "Explore the current Della product family alongside Ashbi’s documented campaign role."
+      "outcome": "Explore the current Della product family alongside Ashbi’s documented campaign role.",
+      "cardAsset": "default-card",
+      "heroAsset": "default-hero"
     }
   },
   "project:bpm": {
@@ -203,7 +225,9 @@
       "intro": "A bold, product-led storefront for BPM natural deodorant.",
       "context": "BPM’s Figma design file covers the full storefront: home, shop, product detail, about, and contact pages for its natural deodorant range.",
       "approach": "The homepage leads with a warm lifestyle hero and a clear shop action, then moves into a colour-coded line-up that matches each pack. The product page carries the same colours into scent options, subscription pricing, and usage details.",
-      "outcome": "The design carries each scent’s colour from pack to page, giving the range a consistent visual cue throughout the storefront."
+      "outcome": "The design carries each scent’s colour from pack to page, giving the range a consistent visual cue throughout the storefront.",
+      "cardAsset": "default-card",
+      "heroAsset": "default-hero"
     }
   },
   "project:chef-tanya": {
@@ -213,7 +237,9 @@
       "intro": "A colourful shop for plant-based food and everyday favourites.",
       "context": "Chef Tanya’s Kitchen brings its seitan range and merchandise together in one online shop. The original Figma layouts show how the product range, navigation and purchasing controls work together.",
       "approach": "Bright product panels distinguish the range, while a consistent grid gives each item a clear name and add-to-cart action. The green and yellow brand palette carries through navigation and the footer.",
-      "outcome": "Shown here is the original shop design. Live implementation and performance results are not part of this case study."
+      "outcome": "Shown here is the original shop design. Live implementation and performance results are not part of this case study.",
+      "cardAsset": "default-card",
+      "heroAsset": "default-hero"
     }
   },
   "project:ancient-bliss": {
@@ -223,7 +249,9 @@
       "intro": "A botanical storefront built around a varied supplement range.",
       "context": "Ancient Bliss brings a range of herbal supplements into one storefront. The original design files include desktop and mobile home layouts, a supplement collection and product detail pages.",
       "approach": "A pale botanical palette and prominent product photography introduce the brand. Consistent collection cards organise each product’s name, price and purchase action, while the shared navigation connects the range with brand and quality information.",
-      "outcome": "These original Figma exports show the website design. This case study does not claim measured sales results or verify the live implementation."
+      "outcome": "These original Figma exports show the website design. This case study does not claim measured sales results or verify the live implementation.",
+      "cardAsset": "default-card",
+      "heroAsset": "default-hero"
     }
   },
   "article:10-principles-of-good-web-design": {

@@ -1,0 +1,510 @@
+{
+  "cocofro": {
+    "default-hero": {
+      "src": "/images/ashbi/cocofro-main.webp",
+      "alt": "Pink, blue, purple and yellow CocoFro freeze-dried dessert packs for four flavours",
+      "label": "Current case-study image"
+    },
+    "default-card": {
+      "src": "/images/ashbi/gallery/cocofro-01-1200.webp",
+      "alt": "Four colourful CocoFro freeze dried ice cream packs",
+      "label": "Current project card image"
+    },
+    "view-01": {
+      "src": "/images/ashbi/gallery/cocofro-01-1800.webp",
+      "alt": "Close-up of four CocoFro freeze-dried dessert pouches in pink, blue, purple and yellow",
+      "label": "Close-up of four CocoFro freeze-dried dessert pouches in pink, blue, purple and yellow"
+    },
+    "view-02": {
+      "src": "/images/ashbi/gallery/cocofro-02-1800.webp",
+      "alt": "CocoFro tote bag with flavour badges photographed on grass",
+      "label": "CocoFro tote bag with flavour badges photographed on grass"
+    },
+    "view-03": {
+      "src": "/images/ashbi/gallery/cocofro-03-1800.webp",
+      "alt": "CocoFro space-themed brand typography in yellow and purple",
+      "label": "CocoFro space-themed brand typography in yellow and purple"
+    },
+    "view-04": {
+      "src": "/images/ashbi/gallery/cocofro-04-1800.webp",
+      "alt": "CocoFro flavour posters displayed in a street-facing window",
+      "label": "CocoFro flavour posters displayed in a street-facing window"
+    },
+    "view-05": {
+      "src": "/images/ashbi/gallery/cocofro-05-1800.webp",
+      "alt": "CocoFro illustrated characters in pink and yellow spacesuits",
+      "label": "CocoFro illustrated characters in pink and yellow spacesuits"
+    },
+    "view-06": {
+      "src": "/images/ashbi/gallery/cocofro-06-1800.webp",
+      "alt": "Back of a CocoFro pouch with a brand note beside colourful flavour stickers",
+      "label": "Back of a CocoFro pouch with a brand note beside colourful flavour stickers"
+    },
+    "view-07": {
+      "src": "/images/ashbi/gallery/cocofro-07-1800.webp",
+      "alt": "CocoFro orbit mark over repeated illustrated astronaut stickers",
+      "label": "CocoFro orbit mark over repeated illustrated astronaut stickers"
+    },
+    "view-08": {
+      "src": "/images/ashbi/gallery/cocofro-08-1800.webp",
+      "alt": "Close-up of layered CocoFro pouches showing the wordmark and flavour messages",
+      "label": "Close-up of layered CocoFro pouches showing the wordmark and flavour messages"
+    },
+    "view-09": {
+      "src": "/images/ashbi/gallery/cocofro-09-1800.webp",
+      "alt": "CocoFro product page shown on a phone beside a purple astronaut illustration",
+      "label": "CocoFro product page shown on a phone beside a purple astronaut illustration"
+    },
+    "view-10": {
+      "src": "/images/ashbi/gallery/cocofro-10-1800.webp",
+      "alt": "Purple CocoFro cap with the orbit mark against a yellow background",
+      "label": "Purple CocoFro cap with the orbit mark against a yellow background"
+    },
+    "view-11": {
+      "src": "/images/ashbi/gallery/cocofro-11-1800.webp",
+      "alt": "CocoFro kraft boxes wrapped with purple and yellow A Taste of Space tape",
+      "label": "CocoFro kraft boxes wrapped with purple and yellow A Taste of Space tape"
+    },
+    "view-12": {
+      "src": "/images/ashbi/gallery/cocofro-13-1800.webp",
+      "alt": "CocoFro Amazon campaign artwork shown in a bus shelter mockup",
+      "label": "CocoFro Amazon campaign artwork shown in a bus shelter mockup"
+    },
+    "view-13": {
+      "src": "/images/ashbi/gallery/cocofro-14-1800.webp",
+      "alt": "Four CocoFro freeze-dried dessert flavours arranged beneath A Taste of Space banners",
+      "label": "Four CocoFro freeze-dried dessert flavours arranged beneath A Taste of Space banners"
+    }
+  },
+  "clypse-beauty": {
+    "default-hero": {
+      "src": "/images/ashbi/clypse-main.webp",
+      "alt": "Clypse Beauty website design showing the full home page composition and product story panels",
+      "label": "Current case-study image"
+    },
+    "default-card": {
+      "src": "/images/ashbi/clypse-main.webp",
+      "alt": "Clypse Beauty website design showing the full home page composition and product story panels",
+      "label": "Current project card image"
+    }
+  },
+  "waagbag": {
+    "default-hero": {
+      "src": "/images/ashbi/waagbag.webp",
+      "alt": "WaagBag project artwork",
+      "label": "Current case-study image"
+    },
+    "default-card": {
+      "src": "/images/ashbi/waagbag.webp",
+      "alt": "WaagBag project artwork",
+      "label": "Current project card image"
+    },
+    "view-01": {
+      "src": "/images/ashbi/gallery/waagbag-01-1800.webp",
+      "alt": "WaagBag project artwork, view 1",
+      "label": "Verified project gallery, view 1"
+    },
+    "view-02": {
+      "src": "/images/ashbi/gallery/waagbag-02-1800.webp",
+      "alt": "WaagBag project artwork, view 2",
+      "label": "Verified project gallery, view 2"
+    },
+    "view-03": {
+      "src": "/images/ashbi/gallery/waagbag-03-1800.webp",
+      "alt": "WaagBag project artwork, view 3",
+      "label": "Verified project gallery, view 3"
+    },
+    "view-04": {
+      "src": "/images/ashbi/gallery/waagbag-04-1800.webp",
+      "alt": "WaagBag project artwork, view 4",
+      "label": "Verified project gallery, view 4"
+    },
+    "view-05": {
+      "src": "/images/ashbi/gallery/waagbag-05-1800.webp",
+      "alt": "WaagBag project artwork, view 5",
+      "label": "Verified project gallery, view 5"
+    },
+    "view-06": {
+      "src": "/images/ashbi/gallery/waagbag-06-1800.webp",
+      "alt": "WaagBag project artwork, view 6",
+      "label": "Verified project gallery, view 6"
+    },
+    "view-07": {
+      "src": "/images/ashbi/gallery/waagbag-07-1800.webp",
+      "alt": "WaagBag project artwork, view 7",
+      "label": "Verified project gallery, view 7"
+    }
+  },
+  "tres": {
+    "default-hero": {
+      "src": "/images/ashbi/tres.webp",
+      "alt": "Tres project artwork",
+      "label": "Current case-study image"
+    },
+    "default-card": {
+      "src": "/images/ashbi/tres.webp",
+      "alt": "Tres project artwork",
+      "label": "Current project card image"
+    },
+    "view-01": {
+      "src": "/images/ashbi/gallery/tres-01-1800.webp",
+      "alt": "Tres project artwork, view 1",
+      "label": "Verified project gallery, view 1"
+    },
+    "view-02": {
+      "src": "/images/ashbi/gallery/tres-02-1800.webp",
+      "alt": "Tres project artwork, view 2",
+      "label": "Verified project gallery, view 2"
+    },
+    "view-03": {
+      "src": "/images/ashbi/gallery/tres-03-1800.webp",
+      "alt": "Tres project artwork, view 3",
+      "label": "Verified project gallery, view 3"
+    },
+    "view-04": {
+      "src": "/images/ashbi/gallery/tres-04-1800.webp",
+      "alt": "Tres project artwork, view 4",
+      "label": "Verified project gallery, view 4"
+    },
+    "view-05": {
+      "src": "/images/ashbi/gallery/tres-05-1800.webp",
+      "alt": "Tres project artwork, view 5",
+      "label": "Verified project gallery, view 5"
+    },
+    "view-06": {
+      "src": "/images/ashbi/gallery/tres-06-1620.webp",
+      "alt": "Tres project artwork, view 6",
+      "label": "Verified project gallery, view 6"
+    },
+    "view-07": {
+      "src": "/images/ashbi/gallery/tres-07-1800.webp",
+      "alt": "Tres project artwork, view 7",
+      "label": "Verified project gallery, view 7"
+    }
+  },
+  "shongoni-skin": {
+    "default-hero": {
+      "src": "/images/ashbi/shongoni-skin.webp",
+      "alt": "Shongani Skin project artwork",
+      "label": "Current case-study image"
+    },
+    "default-card": {
+      "src": "/images/ashbi/shongoni-skin.webp",
+      "alt": "Shongani Skin project artwork",
+      "label": "Current project card image"
+    },
+    "view-01": {
+      "src": "/images/ashbi/gallery/shongoni-skin-01-1620.webp",
+      "alt": "Shongani Skin project artwork, view 1",
+      "label": "Verified project gallery, view 1"
+    },
+    "view-02": {
+      "src": "/images/ashbi/gallery/shongoni-skin-02-1800.webp",
+      "alt": "Shongani Skin project artwork, view 2",
+      "label": "Verified project gallery, view 2"
+    },
+    "view-03": {
+      "src": "/images/ashbi/gallery/shongoni-skin-03-1080.webp",
+      "alt": "Shongani Skin project artwork, view 3",
+      "label": "Verified project gallery, view 3"
+    },
+    "view-04": {
+      "src": "/images/ashbi/gallery/shongoni-skin-04-1800.webp",
+      "alt": "Shongani Skin project artwork, view 4",
+      "label": "Verified project gallery, view 4"
+    },
+    "view-05": {
+      "src": "/images/ashbi/gallery/shongoni-skin-05-1620.webp",
+      "alt": "Shongani Skin project artwork, view 5",
+      "label": "Verified project gallery, view 5"
+    },
+    "view-06": {
+      "src": "/images/ashbi/gallery/shongoni-skin-06-1620.webp",
+      "alt": "Shongani Skin project artwork, view 6",
+      "label": "Verified project gallery, view 6"
+    },
+    "view-07": {
+      "src": "/images/ashbi/gallery/shongoni-skin-07-1800.webp",
+      "alt": "Shongani Skin project artwork, view 7",
+      "label": "Verified project gallery, view 7"
+    },
+    "view-08": {
+      "src": "/images/ashbi/gallery/shongoni-skin-08-1620.webp",
+      "alt": "Shongani Skin project artwork, view 8",
+      "label": "Verified project gallery, view 8"
+    }
+  },
+  "marin-food": {
+    "default-hero": {
+      "src": "/images/ashbi/marin-food.webp",
+      "alt": "Marin Food website layouts for smoked butter shown on a tablet and phone",
+      "label": "Current case-study image"
+    },
+    "default-card": {
+      "src": "/images/ashbi/gallery/marin-food-05-1800.webp",
+      "alt": "Marin Food gourmet butter packaging in five flavour variants",
+      "label": "Current project card image"
+    },
+    "view-01": {
+      "src": "/images/ashbi/gallery/marin-food-01-1620.webp",
+      "alt": "Marin Food outdoor mural combining cheese snacks and butter packaging with bold launch messages",
+      "label": "Marin Food outdoor mural combining cheese snacks and butter packaging with bold launch messages"
+    },
+    "view-02": {
+      "src": "/images/ashbi/gallery/marin-food-02-1800.webp",
+      "alt": "Three Marin Food snack cheese packs with almond, cheddar and cherry flavours",
+      "label": "Three Marin Food snack cheese packs with almond, cheddar and cherry flavours"
+    },
+    "view-05": {
+      "src": "/images/ashbi/gallery/marin-food-05-1800.webp",
+      "alt": "Five Marin Food butter packs in garlic, smoked, honey, plant and uni varieties",
+      "label": "Five Marin Food butter packs in garlic, smoked, honey, plant and uni varieties"
+    },
+    "view-06": {
+      "src": "/images/ashbi/gallery/marin-food-06-1800.webp",
+      "alt": "Marin Food smoked butter website layouts shown on a tablet and phone",
+      "label": "Marin Food smoked butter website layouts shown on a tablet and phone"
+    },
+    "view-09": {
+      "src": "/images/ashbi/gallery/marin-food-09-1620.webp",
+      "alt": "Marin Food butter advertisement with an illustrated cow in a bus shelter mockup",
+      "label": "Marin Food butter advertisement with an illustrated cow in a bus shelter mockup"
+    },
+    "view-10": {
+      "src": "/images/ashbi/gallery/marin-food-10-1656.webp",
+      "alt": "Marin Food kraft delivery box mockups sealed with yellow branded tape",
+      "label": "Marin Food kraft delivery box mockups sealed with yellow branded tape"
+    },
+    "view-11": {
+      "src": "/images/ashbi/gallery/marin-food-11-1800.webp",
+      "alt": "Three Marin Food Snack’n Cheese packs against a red checkerboard background",
+      "label": "Three Marin Food Snack’n Cheese packs against a red checkerboard background"
+    },
+    "view-12": {
+      "src": "/images/ashbi/gallery/marin-food-12-1800.webp",
+      "alt": "Marin Food smoked butter exhibition banner with product pack and illustrated icons",
+      "label": "Marin Food smoked butter exhibition banner with product pack and illustrated icons"
+    }
+  },
+  "hopscotch": {
+    "default-hero": {
+      "src": "/images/ashbi/hopscotch.webp",
+      "alt": "Hopscotch project artwork",
+      "label": "Current case-study image"
+    },
+    "default-card": {
+      "src": "/images/ashbi/hopscotch.webp",
+      "alt": "Hopscotch project artwork",
+      "label": "Current project card image"
+    },
+    "view-01": {
+      "src": "/images/ashbi/gallery/hopscotch-01-1620.webp",
+      "alt": "Hopscotch project artwork, view 1",
+      "label": "Verified project gallery, view 1"
+    },
+    "view-02": {
+      "src": "/images/ashbi/gallery/hopscotch-02-1800.webp",
+      "alt": "Hopscotch project artwork, view 2",
+      "label": "Verified project gallery, view 2"
+    },
+    "view-03": {
+      "src": "/images/ashbi/gallery/hopscotch-03-1440.webp",
+      "alt": "Hopscotch project artwork, view 3",
+      "label": "Verified project gallery, view 3"
+    },
+    "view-04": {
+      "src": "/images/ashbi/gallery/hopscotch-04-1440.webp",
+      "alt": "Hopscotch project artwork, view 4",
+      "label": "Verified project gallery, view 4"
+    },
+    "view-05": {
+      "src": "/images/ashbi/gallery/hopscotch-05-1536.webp",
+      "alt": "Hopscotch project artwork, view 5",
+      "label": "Verified project gallery, view 5"
+    },
+    "view-06": {
+      "src": "/images/ashbi/gallery/hopscotch-06-1800.webp",
+      "alt": "Hopscotch project artwork, view 6",
+      "label": "Verified project gallery, view 6"
+    },
+    "view-07": {
+      "src": "/images/ashbi/gallery/hopscotch-07-1440.webp",
+      "alt": "Hopscotch project artwork, view 7",
+      "label": "Verified project gallery, view 7"
+    }
+  },
+  "gemzy": {
+    "default-hero": {
+      "src": "/images/ashbi/gemzy.webp",
+      "alt": "Gemzy project artwork",
+      "label": "Current case-study image"
+    },
+    "default-card": {
+      "src": "/images/ashbi/gemzy.webp",
+      "alt": "Gemzy project artwork",
+      "label": "Current project card image"
+    },
+    "view-01": {
+      "src": "/images/ashbi/gallery/gemzy-01-1620.webp",
+      "alt": "Gemzy project artwork, view 1",
+      "label": "Verified project gallery, view 1"
+    },
+    "view-02": {
+      "src": "/images/ashbi/gallery/gemzy-02-1800.webp",
+      "alt": "Gemzy project artwork, view 2",
+      "label": "Verified project gallery, view 2"
+    },
+    "view-03": {
+      "src": "/images/ashbi/gallery/gemzy-03-1800.webp",
+      "alt": "Gemzy project artwork, view 3",
+      "label": "Verified project gallery, view 3"
+    },
+    "view-04": {
+      "src": "/images/ashbi/gallery/gemzy-04-1800.webp",
+      "alt": "Gemzy project artwork, view 4",
+      "label": "Verified project gallery, view 4"
+    },
+    "view-05": {
+      "src": "/images/ashbi/gallery/gemzy-05-1800.webp",
+      "alt": "Gemzy project artwork, view 5",
+      "label": "Verified project gallery, view 5"
+    },
+    "view-06": {
+      "src": "/images/ashbi/gallery/gemzy-06-1800.webp",
+      "alt": "Gemzy project artwork, view 6",
+      "label": "Verified project gallery, view 6"
+    }
+  },
+  "mom-water": {
+    "default-hero": {
+      "src": "/images/ashbi/commerce/mom-water-web-01.webp",
+      "alt": "Mom Water website design with a fruit-infused vodka water homepage and cans on a blue background",
+      "label": "Current case-study image"
+    },
+    "default-card": {
+      "src": "/images/ashbi/commerce/mom-water-web-01.webp",
+      "alt": "Mom Water website design with a fruit-infused vodka water homepage and cans on a blue background",
+      "label": "Current project card image"
+    },
+    "view-01": {
+      "src": "/images/ashbi/commerce/mom-water-web-01.webp",
+      "alt": "Mom Water website design with a fruit-infused vodka water homepage and cans on a blue background",
+      "label": "Mom Water website design with a fruit-infused vodka water homepage and cans on a blue background"
+    }
+  },
+  "better-sour": {
+    "default-hero": {
+      "src": "/images/ashbi/commerce/better-sour-web-01.webp",
+      "alt": "Better Sour website concept showing home and product pages in yellow, lime and pink",
+      "label": "Current case-study image"
+    },
+    "default-card": {
+      "src": "/images/ashbi/commerce/better-sour-web-01.webp",
+      "alt": "Better Sour website concept showing home and product pages in yellow, lime and pink",
+      "label": "Current project card image"
+    },
+    "view-01": {
+      "src": "/images/ashbi/commerce/better-sour-web-01.webp",
+      "alt": "Better Sour website concept showing home and product pages in yellow, lime and pink",
+      "label": "Better Sour website concept showing home and product pages in yellow, lime and pink"
+    }
+  },
+  "della": {
+    "default-hero": {
+      "src": "/images/ashbi/commerce/della-current-hero.webp",
+      "alt": "Current Della Rice Arborio bag held against a lavender background",
+      "label": "Current case-study image"
+    },
+    "default-card": {
+      "src": "/images/ashbi/commerce/della-current-hero.webp",
+      "alt": "Current Della Rice Arborio bag held against a lavender background",
+      "label": "Current project card image"
+    },
+    "view-01": {
+      "src": "/images/ashbi/commerce/della-current-hero.webp",
+      "alt": "Current Della Rice Arborio bag held against a lavender background",
+      "label": "Current Della Rice Arborio bag held against a lavender background"
+    },
+    "view-02": {
+      "src": "/images/ashbi/commerce/della-current-natural.webp",
+      "alt": "Current Della Rice all natural Basmati White Rice bag",
+      "label": "Current Della Rice all natural Basmati White Rice bag"
+    },
+    "view-03": {
+      "src": "/images/ashbi/commerce/della-current-organic.webp",
+      "alt": "Current Della Rice organic Jasmine White Rice bag",
+      "label": "Current Della Rice organic Jasmine White Rice bag"
+    },
+    "view-04": {
+      "src": "/images/ashbi/commerce/della-current-regenerative.webp",
+      "alt": "Current Della Rice regenerative Long Grain Light Brown Rice bag",
+      "label": "Current Della Rice regenerative Long Grain Light Brown Rice bag"
+    }
+  },
+  "bpm": {
+    "default-hero": {
+      "src": "/images/ashbi/bpm/web-hero-1440.webp",
+      "alt": "BPM homepage design: orange hero with a man holding the BPM tube and the headline Elevated protection for every day",
+      "label": "Current case-study image"
+    },
+    "default-card": {
+      "src": "/images/ashbi/bpm/web-hero-720.webp",
+      "alt": "BPM homepage hero design with a man holding a BPM deodorant tube",
+      "label": "Current project card image"
+    },
+    "view-01": {
+      "src": "/images/ashbi/bpm/web-home-1440.webp",
+      "alt": "Top of the BPM homepage design: hero, benefits bar, and product line-up",
+      "label": "Top of the BPM homepage design: hero, benefits bar, and product line-up"
+    },
+    "view-02": {
+      "src": "/images/ashbi/bpm/web-product-1440.webp",
+      "alt": "BPM Bergamot and Lime product page design with scent options and subscribe-and-save pricing",
+      "label": "BPM Bergamot and Lime product page design with scent options and subscribe-and-save pricing"
+    },
+    "view-03": {
+      "src": "/images/ashbi/bpm/web-range-banner-1440.webp",
+      "alt": "BPM homepage closing section: Upgrade your daily routine with BPM, with the full product range",
+      "label": "BPM homepage closing section: Upgrade your daily routine with BPM, with the full product range"
+    },
+    "view-04": {
+      "src": "/images/ashbi/bpm/pack-open-1600.webp",
+      "alt": "BPM Bergamot and Lime box render, opened, used in the website design",
+      "label": "BPM Bergamot and Lime box render, opened, used in the website design"
+    }
+  },
+  "chef-tanya": {
+    "default-hero": {
+      "src": "/images/ashbi/chef-tanya/shop.webp",
+      "alt": "Chef Tanya’s Kitchen original shop design with colourful seitan product cards",
+      "label": "Current case-study image"
+    },
+    "default-card": {
+      "src": "/images/ashbi/chef-tanya/shop.webp",
+      "alt": "Chef Tanya’s Kitchen original shop design with colourful seitan product cards",
+      "label": "Current project card image"
+    }
+  },
+  "ancient-bliss": {
+    "default-hero": {
+      "src": "/images/ashbi/ancient-bliss/home.webp",
+      "alt": "Original Ancient Bliss homepage design featuring a supplement bottle against a botanical background",
+      "label": "Current case-study image"
+    },
+    "default-card": {
+      "src": "/images/ashbi/ancient-bliss/home.webp",
+      "alt": "Original Ancient Bliss homepage design featuring a supplement bottle against a botanical background",
+      "label": "Current project card image"
+    },
+    "view-01": {
+      "src": "/images/ashbi/ancient-bliss/home.webp",
+      "alt": "Ancient Bliss original desktop homepage design",
+      "label": "Ancient Bliss original desktop homepage design"
+    },
+    "view-02": {
+      "src": "/images/ashbi/ancient-bliss/shop.webp",
+      "alt": "Ancient Bliss supplement collection design with a consistent product grid",
+      "label": "Ancient Bliss supplement collection design with a consistent product grid"
+    }
+  }
+}

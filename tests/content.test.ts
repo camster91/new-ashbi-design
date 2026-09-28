@@ -79,6 +79,7 @@ test('CMS admin requires login, CSRF, current revision and explicit approval',as
  const post=(route:string,form:Record<string,string>,cookie='')=>fetch(origin+route,{method:'POST',redirect:'manual',headers:{Origin:origin,Cookie:cookie,'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(form)});
  try{
   assert.equal((await fetch(origin+'/admin/content/export',{redirect:'manual'})).status,303);
+  assert.equal((await fetch(origin+'/admin/content/draft-export',{redirect:'manual'})).status,303);
   const login=await post('/admin/login',{email:'cameron@ashbi.ca',password:'fabricated local password'});
   const cookie=login.headers.get('set-cookie')?.split(';')[0]||'';assert.ok(cookie);
   const page=await fetch(origin+'/admin/content',{headers:{Cookie:cookie}});assert.equal(page.status,200);assert.equal(page.headers.get('cache-control'),'no-store');
@@ -88,6 +89,7 @@ test('CMS admin requires login, CSRF, current revision and explicit approval',as
   assert.equal((await fetch(origin+'/admin/content/export',{headers:{Cookie:cookie}})).status,400);
   assert.equal((await post('/admin/content/approve',{csrf,revision:content.get().revision},cookie)).status,400);
   assert.equal((await post('/admin/content/approve',{csrf,revision:content.get().revision,confirm:'yes'},cookie)).status,303);
+  const previewExport=await fetch(origin+'/admin/content/draft-export',{headers:{Cookie:cookie}});assert.equal(previewExport.status,200);assert.equal(previewExport.headers.get('cache-control'),'no-store');assert.equal((await previewExport.json()).type,'ashbi-draft');
   const exported=await fetch(origin+'/admin/content/export',{headers:{Cookie:cookie}});assert.equal(exported.status,200);assert.match(exported.headers.get('content-disposition')||'',/attachment/);assert.equal((await exported.json()).content.heroIntro,'Fabricated saved draft.');
   assert.equal((await fetch(origin+'/admin/content?document=../../state',{headers:{Cookie:cookie}})).status,404);
   const campaign=documents['campaign:shopify-design'].store,original=campaign.get();
@@ -117,7 +119,7 @@ test('CMS admin requires login, CSRF, current revision and explicit approval',as
 test('article bodies reject active HTML, unbalanced tags and unapproved references',()=>{
  assert.equal(validateArticleBody('<h2>A heading</h2><p>Safe <strong>copy</strong>.</p>'),'<h2>A heading</h2><p>Safe <strong>copy</strong>.</p>');
  for(const body of ['<script>alert(1)</script>','<img src=x onerror=alert(1)>','<p style="color:red">Text</p>','<p>Unclosed','<p><strong>Bad</p></strong>','<a href="javascript:alert(1)">Link</a>','<a href="https://example.com">Link</a>','<a href="https://help.elements.envato.com" onclick="bad()">Link</a>'])assert.throws(()=>validateArticleBody(body));
- for(const entry of Object.values(catalog) as Array<{kind:any,content:any}>)assert.doesNotThrow(()=>validateContent(entry.kind,entry.content));
+ for(const [id,entry] of Object.entries(catalog) as Array<[string,{kind:any,content:any}]>)assert.doesNotThrow(()=>validateContent(entry.kind,entry.content,id));
  assert.throws(()=>validateContent('project',{intro:'Draft',approach:'Draft',outcome:'Draft',services:'Invented role'}));
 });
 

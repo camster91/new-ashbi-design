@@ -14,10 +14,10 @@ export function reviewedDocument(snapshot,catalog){
  if(snapshot?.version!==1||snapshot.type!=='ashbi-document'||!Object.hasOwn(catalog,snapshot.documentId))throw new Error('Unknown document export');
  const entry=catalog[snapshot.documentId];
  if(entry.kind!==snapshot.kind)throw new Error('Document type mismatch');
- const base=validateContent(entry.kind,entry.content);
+ const base=validateContent(entry.kind,entry.content,snapshot.documentId);
  const revision=createHash('sha256').update(JSON.stringify(base)).digest('hex');
  if(snapshot.baseRevision!==revision||!snapshot.revision||!snapshot.approvedAt||Number.isNaN(Date.parse(snapshot.approvedAt)))throw new Error('Unapproved or stale document export');
- return {...catalog,[snapshot.documentId]:{...entry,content:validateContent(entry.kind,snapshot.content)}};
+ return {...catalog,[snapshot.documentId]:{...entry,content:validateContent(entry.kind,snapshot.content,snapshot.documentId)}};
 }
 
 if(process.argv[1]===fileURLToPath(import.meta.url)){

@@ -7,6 +7,7 @@ import Header from '../components/AshbiHeader.astro';
 import Footer from '../components/AshbiFooter.astro';
 interface Props { title: string; description: string; image?: string; noindex?: boolean; canonicalPath?: string; campaign?: boolean; briefHref?: string; }
 const { title, description, image = '/images/ashbi/og-default.webp', noindex = false, canonicalPath, campaign = false, briefHref } = Astro.props;
+const draftPreview=import.meta.env.ASHBI_DRAFT_PREVIEW==='1';
 const canonical = new URL(canonicalPath || Astro.url.pathname, Astro.site).toString();
 const ogImage = new URL(image, Astro.site).toString();
 const schema = JSON.stringify({ '@context': 'https://schema.org', '@type': 'Organization', name: site.name, url: Astro.site?.toString(), logo: new URL('/images/ashbi/logo.png', Astro.site).toString(), email: site.email, address: { '@type': 'PostalAddress', addressLocality: 'Toronto', addressRegion: 'ON', addressCountry: 'CA' } }).replace(/</g,'\\u003c');
@@ -16,10 +17,10 @@ const schema = JSON.stringify({ '@context': 'https://schema.org', '@type': 'Orga
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
+    <title>{draftPreview?`DRAFT PREVIEW — ${title}`:title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex" />}
+    {(noindex||draftPreview) && <meta name="robots" content="noindex" />}
     <meta name="theme-color" content="#242743" />
     <meta property="og:site_name" content="Ashbi Design" />
     <meta property="og:type" content="website" />
@@ -35,6 +36,7 @@ const schema = JSON.stringify({ '@context': 'https://schema.org', '@type': 'Orga
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <Header campaign={campaign} />
+    {draftPreview&&<aside class="draft-preview-banner" aria-label="Draft preview">LOCAL DRAFT PREVIEW · Saved copy for review · Not published</aside>}
     <slot />
     <Footer briefHref={briefHref} />
     <script>
@@ -42,3 +44,5 @@ const schema = JSON.stringify({ '@context': 'https://schema.org', '@type': 'Orga
     </script>
   </body>
 </html>
+
+<style>.draft-preview-banner{position:relative;z-index:5;padding:14px 24px;background:#e7f4a8;color:#242743;text-align:center;font-size:14px;font-weight:700}</style>

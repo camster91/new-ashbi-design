@@ -1,3 +1,4 @@
+import {projectAsset} from '../lib/editorial-assets';
 import {editorialContent} from '../lib/editorial';
 import portfolioAssets from './portfolio-assets.json';
 import {commerceProjectSlugs} from './commerce-project-slugs';
@@ -13,7 +14,7 @@ export type GalleryImage = {src:string;srcset?:string;width:number;height:number
 export type Project = {
   slug:string;name:string;category:Category;categories:Category[];services:string[];presentationLabel?:string;
   intro:string;context?:string;approach:string;deliverables:string[];outcome:string;
-  image:string;imageAlt?:string;cardImage?:string;cardImageAlt?:string;cardImagePosition?:string;detail:string;legacy:string;year?:string;client?:string;gallery:GalleryImage[];testimonialId?:string;
+  image:string;imageAlt?:string;imagePosition?:string;cardImage?:string;cardImageAlt?:string;cardImagePosition?:string;detail:string;legacy:string;year?:string;client?:string;gallery:GalleryImage[];testimonialId?:string;
   visualSource?:{label:string;url:string;note:string;creditSource?:{label:string;url:string}};
 };
 type ProjectSeed = Omit<Project,'gallery'|'detail'|'intro'|'approach'|'outcome'> & Partial<Pick<Project,'intro'|'approach'|'outcome'>>;
@@ -45,7 +46,10 @@ export const projects:Project[]=seeds.map(seed=>{
   const p=commerceProjectSlugs.some(slug=>slug===seed.slug)?{...seed,...editorialContent(`project:${seed.slug}`,'project')}:seed as ProjectSeed & Pick<Project,'intro'|'approach'|'outcome'>;
   const sourceImages=p.slug==='production-work'?[{src:'/images/ashbi/hty-foods/thanksgiving-email.webp',width:800,height:2024,alt:'HTY Foods Thanksgiving email design'},{src:'/images/ashbi/kalm/sticker-pack-1200.png',width:1200,height:637,alt:'Kalm College Circle sticker and name-tag production sheet'}]:assets[p.slug]||[{src:p.image,width:p.slug==='splashtown'?1400:1440,height:p.slug==='splashtown'?1050:1080,alt:p.imageAlt}];
   const gallery=sourceImages.map((image,i)=>({...image,alt:image.alt||`${p.name} — ${p.category==='Websites'?'website design':'brand and packaging'} artwork, view ${i+1}`}));
-  return {...p,gallery,detail:gallery[1]?.src||p.image};
+  const selection=commerceProjectSlugs.some(slug=>slug===p.slug)?editorialContent(`project:${p.slug}`,'project'):null;
+  const hero=selection&&projectAsset(`project:${p.slug}`,selection.heroAsset);
+  const card=selection&&projectAsset(`project:${p.slug}`,selection.cardAsset);
+  return {...p,...(hero?{image:hero.src,imageAlt:hero.alt,...(selection?.heroAsset!=='default-hero'?{imagePosition:'center'}:{})}:{}),...(card?{cardImage:card.src,cardImageAlt:card.alt,...(selection?.cardAsset!=='default-card'?{cardImagePosition:'center'}:{})}:{}),gallery,detail:gallery[1]?.src||p.image};
 });
 // Keep historical case-study URLs, but show product brands and stores in current portfolio journeys.
 export {commerceProjectSlugs};
