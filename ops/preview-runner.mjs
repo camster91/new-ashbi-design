@@ -7,9 +7,13 @@ export function previewEnvironment(source=process.env){
 }
 /** Reap timed-out builders before reporting completion; logs remain private and bounded. */
 export function runPreviewBuild({cli,directory,timeoutMs=90000,killGraceMs=1000,environment=process.env}){
+ return runBoundedNode({args:[cli,'build'],directory,timeoutMs,killGraceMs,environment:previewEnvironment(environment)});
+}
+/** Trusted local tools only: args and environment never come from public requests. */
+export function runBoundedNode({args,directory,timeoutMs=90000,killGraceMs=1000,environment}){
  return new Promise((resolve,reject)=>{
   let log='',timedOut=false,settled=false;
-  const child=spawn(process.execPath,[cli,'build'],{cwd:directory,env:previewEnvironment(environment),stdio:['ignore','pipe','pipe']});
+  const child=spawn(process.execPath,args,{cwd:directory,env:environment,stdio:['ignore','pipe','pipe']});
   const append=chunk=>{log=(log+chunk).slice(-20000);};
   child.stdout.on('data',append);child.stderr.on('data',append);
   let killTimer;

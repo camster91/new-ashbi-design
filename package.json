@@ -15,6 +15,7 @@
     "typecheck": "tsc --noEmit",
     "check:links": "node ops/check-built-links.mjs",
     "preview:content": "node --experimental-strip-types ops/preview-content.mjs",
+    "prepare:content-release": "node --experimental-strip-types ops/prepare-content-release.mjs",
     "check:content": "node --experimental-strip-types ops/check-built-content.mjs",
     "enquiry-server": "node --experimental-strip-types server/index.mjs"
   },

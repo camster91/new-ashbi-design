@@ -81,3 +81,15 @@ The CMS publication handoff continues through approved exports, source review an
 Restart tests cover expired owned sessions, preservation of unmarked/symlinked files, active-session exclusion, repeated release, exclusive locking and retained stale-lock recovery evidence. 51 tests and typecheck passed locally. Container build/restart and hosted staff review remain unverified.
 
 The optional runtime was also started as real isolated Node processes: health readiness, rejection of a second worker, graceful shutdown preserving editorial data, and cleanup after an occupied-port startup failure all pass. This is local process evidence; Docker and hosted activation remain unverified.
+
+## Multi-document release candidate
+
+`npm run prepare:content-release -- /new/private/candidate-directory approved-home.json approved-service.json`
+
+Use exports downloaded after approving saved revisions in the private editor. The parent directory must already exist; the candidate directory must be new and outside the checkout (or under ignored `data/`). The command rejects drafts, duplicate documents, empty changes, stale baselines and unsupported editorial fields before preparing a candidate. Export approval metadata is a review record, not a digital signature: only use exports from the authenticated editor and review their diff.
+
+The command copies source and public assets into a private workspace, supplies no gateway/GitHub/Mailgun keys to the builder, and keeps named rollback content copies. It performs a full Astro build, local link/fragment checks and body/asset CMS checks. The manifest binds the source and result to content digests of all actual source/public/config/lockfile inputs; changes during copying or building prevent a ready manifest. It records every changed field and approval revision. This review artifact uses the preview canonical destination with enquiries unconfigured; final CI settings and hosted acceptance remain separate.
+
+Review `REVIEW.md`, `release-candidate.json` and the changed pages in `workspace/dist`. Apply the original approved exports to the reconciled checkout using `ops/apply-content.mjs`, review/commit the diff, and follow the existing approved repository release path. The tool does not apply source edits, publish, push, merge, deploy, configure the Hub or send email. Rollback copies must only be used against the corresponding result baseline so they cannot overwrite newer accepted work.
+
+Verified locally: fabricated one- and two-document candidates built successfully, all 162 CMS placements and local links passed, source digests stayed unchanged, and the result digest reflected only the approved edits. Unit coverage includes duplicate/stale/unapproved/structural changes and input/asset tampering. Candidate preparation does not establish hosted CMS or live release acceptance.
