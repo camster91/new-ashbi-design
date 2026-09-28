@@ -22,7 +22,12 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: python3 -m unittest discover -s ops/tests
-      - run: npm run build
+      - name: Build the configured preview enquiry mode
+        run: npm run build
+        env:
+          PUBLIC_ENQUIRY_MODE: ${{ vars.PREVIEW_ENQUIRY_MODE || 'mailgun' }}
+          PUBLIC_HUB_INQUIRY_BASE: ${{ vars.PREVIEW_HUB_INQUIRY_BASE }}
+          PUBLIC_ENQUIRY_ENDPOINT: ${{ vars.PREVIEW_ENQUIRY_ENDPOINT }}
       - run: npm run check:links
       - run: npm run check:content
       - name: Package verified preview build

@@ -20,7 +20,7 @@ test('website, service, requested outcome and attribution map to the governed Hu
  assert.equal(hubInquiryPayload(brief,config,key,'//outside.invalid/?email=private').attribution.landingPage,'/contact/');
  assert.equal(hubInquiryPayload({...brief,service:'branding'},config,key,'/contact/').serviceLine,'brand_packaging');
  assert.ok(hubBriefErrors({...brief,consent:false},config).consent);assert.throws(()=>hubInquiryPayload({...brief,consent:false},config,key,'/contact/'));
- assert.ok(hubBriefErrors({...brief,requestedOutcome:''},config).requestedOutcome);assert.ok(hubBriefErrors(brief,{...config,serviceLines:['unknown']}).service);
+ assert.ok(hubBriefErrors({...brief,requestedOutcome:''},config).requestedOutcome);assert.ok(hubBriefErrors(brief,{...config,serviceLines:['unknown']}).service);assert.equal(hubBriefErrors({...brief,service:''},config).service,'Please complete this field.');
  assert.ok(hubBriefErrors({...brief,timing:'tomorrow'},config).timing);
  assert.throws(()=>hubInquiryPayload({...brief,description:'界'.repeat(4500),requestedOutcome:'界'.repeat(2000)},config,key,'/contact/'));
 });

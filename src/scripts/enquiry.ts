@@ -41,7 +41,7 @@ if(form){
   const send=createBriefSender(endpoint);
   const sendHub=createHubSender(hubBase);
   let busy=false;let started=false;
-  form.addEventListener('input',()=>{if(!started){started=true;track('brief_start',{service:select.value||'not-sure',campaign,project,plan:select.value==='design-and-dev-subscription'?plan:undefined});}});
+  form.addEventListener('input',()=>{if(!busy&&status.textContent?.startsWith('Thanks'))status.textContent='';if(!started){started=true;track('brief_start',{service:select.value||'not-sure',campaign,project,plan:select.value==='design-and-dev-subscription'?plan:undefined});}});
   const brief=()=>readBrief({...Object.fromEntries(new FormData(form)),campaign,project,plan:select.value==='design-and-dev-subscription'?plan:''});
   const hubBrief=(value:ReturnType<typeof brief>):HubBrief=>({...value,requestedOutcome:String(new FormData(form).get('requestedOutcome')||'').trim(),consent:(form.elements.namedItem('consent') as HTMLInputElement|null)?.checked===true});
   const validate=(online=false)=>{

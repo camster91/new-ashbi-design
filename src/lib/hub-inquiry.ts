@@ -29,7 +29,7 @@ export function hubBriefErrors(brief:HubBrief,config:HubConfig|null,requireConse
  if(!brief.requestedOutcome.trim()||brief.requestedOutcome.length>2000)errors.requestedOutcome='Tell us what you would like to achieve, using 2,000 characters or fewer.';
  if(brief.timing&&!HUB_TIMING_OPTIONS.some(value=>value===brief.timing))errors.timing='Choose one of the listed timing options.';
  if(requireConsent&&brief.consent!==true)errors.consent='Please read the privacy notice and agree to enquiry processing.';
- if(config&&!config.serviceLines.includes(mapping[brief.service]))errors.service='This service is not available for online enquiries. Please use email.';
+ if(config&&mapping[brief.service]&&!config.serviceLines.includes(mapping[brief.service]))errors.service='This service is not available for online enquiries. Please use email.';
  return errors;
 }
 export function hubInquiryPayload(brief:HubBrief,config:HubConfig,idempotencyKey:string,pathname:string){
