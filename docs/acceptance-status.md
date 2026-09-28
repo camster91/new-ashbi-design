@@ -29,3 +29,7 @@ Hub TLS repair is a concrete two-line candidate in `hub-https-repair.md`, with e
 ## Current bounded next work
 
 Finish representative full-section visual and keyboard reviews; resolve actual findings. Hosted CMS/Hub verification and release depend on the gates above. Do not substitute successful local builds for those outcomes.
+
+### 28 September: approved CMS gateway now live
+
+CMS gateway deployed at `ee84464`; private backup and rollback container retained. Actual read-only Docker draft build passed all 162 placements; 53 tests/typecheck passed. Static workflow 36499508822 succeeded and live release marker matches. `/admin/` is ready for Cameron's one-time account setup; authenticated CMS acceptance and Mailgun key/test/receipt are outstanding user inputs. Hub TLS is repaired, but its deployed intake config endpoint returns 404, so live Hub intake remains unfinished. These findings supersede earlier statements that the CMS was local-only or Hub access was TLS-blocked. See `website-cms.md` deployment entry for evidence and rollback.
