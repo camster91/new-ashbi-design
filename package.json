@@ -14,6 +14,7 @@
     "test": "node --experimental-strip-types --test tests/*.test.ts",
     "typecheck": "tsc --noEmit",
     "check:links": "node ops/check-built-links.mjs",
+    "check:content": "node --experimental-strip-types ops/check-built-content.mjs",
     "enquiry-server": "node --experimental-strip-types server/index.mjs"
   },
   "dependencies": {

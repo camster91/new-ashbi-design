@@ -14,7 +14,7 @@ Canonical scope for this continuation, 28 September 2026. Historical plans remai
 |---|---|---|
 | Website/CRO fixes | Implemented locally | Release approved candidate, verify exact marker and mobile/desktop landing → proof → service → brief/calendar journeys |
 | Homepage CMS | First vertical slice implemented | Authenticated plain-text draft/edit/review, stale-write protection, approval/export, validated source application, unchanged default build. Local 375/1440 editor review, save/approve/export flow, 30 tests, typecheck, 75-page build and built-link checks pass. Gateway/static release remains separate |
-| CMS expansion | Next | Add service, campaign, article and project fields incrementally; approved local asset choices, previews, version history/recovery. Protect role/source credits, prices, routes and featured ordering from accidental edits |
+| CMS expansion | Services/campaigns implemented locally | Homepage plus four service/five campaign records now support private drafts, approval/export and version restore. 32 tests, typecheck, 42 CMS fields in 10 built page bodies and all local links/fragments pass. Mobile save/approve/export/restore verified at 375 px. Next: articles, projects, approved local asset choices and rendered draft previews. Protect role/source credits, prices, routes and featured ordering from accidental edits |
 | Hub lead connection | Reconciling | Use the existing governed `/api/client-acquisition/config` and `/intake` contract (#426), with explicit origin, organization/owner, privacy version and idempotency gates. Verify isolated integration and target configuration before sending visitor data |
 | Hub projects/client portals | Existing code, target verification pending | Reuse existing modules and issue acceptance criteria; verify staff/client boundaries and isolated lead → client → project → portal journey before integration release |
 | Custom brand system | Homepage first pass implemented | Extend accepted tokens/art to interiors and campaign/editorial covers. Licensed Neue Haas and PP Editorial webfont files remain Cameron input; use honest fallbacks meanwhile |
@@ -28,7 +28,7 @@ Canonical scope for this continuation, 28 September 2026. Historical plans remai
 
 ## Current CMS increment
 
-See [website-cms.md](website-cms.md). This is private editing and reviewed build export, not live self-service publication. Homepage text is the initial supported content type. Server-side drafts live in `/data/content`; committed JSON drives static builds. Deploying the static site does not deploy the gateway or CMS automatically.
+See [website-cms.md](website-cms.md). This is private editing and reviewed build export, not live self-service publication. Homepage, service and campaign text are supported editorial types. Server-side drafts live in `/data/content`; committed JSON drives static builds. Deploying the static site does not deploy the gateway or CMS automatically.
 
 ## Integration findings to resolve
 

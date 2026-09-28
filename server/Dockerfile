@@ -6,6 +6,7 @@ COPY server ./server
 COPY src/lib/enquiry.ts ./src/lib/enquiry.ts
 COPY src/lib/content.ts ./src/lib/content.ts
 COPY src/data/home-content.json ./src/data/home-content.json
+COPY src/data/editorial-content.json ./src/data/editorial-content.json
 ENV NODE_ENV=production PORT=3000 DATA_DIR=/data
 USER node
 EXPOSE 3000

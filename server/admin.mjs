@@ -3,7 +3,6 @@ import {hashPassword,verifyPassword} from './state.mjs';
 import {validateMailgunSettings} from './mailgun.mjs';
 import {clientIdentity,chargeBucket} from './client-identity.mjs';
 import {contentEditor} from './content-admin.mjs';
-import {homeFields} from '../src/lib/content.ts';
 
 const ADMIN_EMAIL='cameron@ashbi.ca';
 const SESSION_MS=8*60*60*1000;
@@ -16,8 +15,9 @@ const notices={
   password:'Password changed. Please sign in again.',
   failed:'That action could not be completed. Check the settings and try again.',
   redacted:'The saved brief content was removed. Mailbox copies and Mailgun records are separate.',
-  draft:'Homepage draft saved. The public site is unchanged.',
-  approved:'Saved homepage copy approved for export. The public site is unchanged.',
+  draft:'Website draft saved. The public site is unchanged.',
+  approved:'Saved website copy approved for export. The public site is unchanged.',
+  restored:'Earlier words restored as a new draft. Review and approve before export.',
 };
 const leadStates={pending:'Awaiting delivery result','delivery-failed':'Delivery needs review','accepted-by-mailgun':'Accepted by Mailgun'};
 const leadFields={email:'Email',company:'Company',website:'Website',service:'Interested in',timing:'Timing',plan:'Monthly option',campaign:'Campaign',project:'Project reference',description:'Project brief'};
@@ -34,7 +34,7 @@ function equalSecret(a,b){
   return left.length===right.length&&left.length>0&&timingSafeEqual(left,right);
 }
 
-const css=`:root{font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#272b4a;background:#f9faf5}*{box-sizing:border-box}body{margin:0}header{padding:22px max(24px,5vw);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #dde2dc;background:#fff}header strong{font-size:27px;font-style:italic;letter-spacing:-2px}header span{font-size:12px;text-transform:uppercase;letter-spacing:.14em}main{max-width:1050px;margin:clamp(36px,6vw,84px) auto;padding:0 24px 80px}h1{font-size:clamp(38px,6vw,70px);line-height:1.04;letter-spacing:-.055em;margin:12px 0 20px}h2{font-size:24px;letter-spacing:-.035em;margin:0 0 14px}p{line-height:1.6;color:#5b6173}.eyebrow{font-size:12px;letter-spacing:.16em;font-weight:700;text-transform:uppercase}.intro{max-width:670px;margin-bottom:35px}.grid{display:grid;grid-template-columns:1.3fr 1fr;gap:22px;align-items:start}.grid .settings{grid-column:1;grid-row:1}.grid .actions{grid-column:2;grid-row:1 / span 2}.grid .account{grid-column:1;grid-row:2}.card{border:1px solid #d9dedb;border-radius:24px;padding:clamp(22px,3vw,34px);background:#fff;box-shadow:0 18px 50px #272b4a0b}.card.lime{background:#f3facd}.stack{display:grid;gap:16px}label{display:grid;gap:7px;font-size:14px;font-weight:650}input,select,textarea{font:inherit;color:#272b4a;border:1px solid #c8ceca;border-radius:12px;padding:12px 14px;width:100%;background:#fff}input:focus,select:focus,textarea:focus,button:focus-visible{outline:3px solid #a9c6ff;outline-offset:2px}button{font:inherit;font-weight:750;cursor:pointer;border:0;border-radius:999px;background:#272b4a;color:#fff;padding:13px 19px}textarea{resize:vertical;min-height:110px;line-height:1.5;font-weight:400}.card+.card{margin-top:22px}dd{margin:8px 0 22px;line-height:1.6;overflow-wrap:anywhere}button:disabled{cursor:not-allowed;opacity:.55}button.secondary{background:transparent;color:#272b4a;border:1px solid #272b4a}button.danger{background:#a13c49}.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.notice{padding:13px 17px;border-radius:12px;background:#eaf6dd;color:#263f27;margin:20px 0}.error{background:#fce9eb;color:#6d222a}.muted{font-size:13px;color:#687083}.status{font-size:14px;font-weight:700;padding:6px 12px;border-radius:999px;background:#e9eceb}.status.on{background:#e2f1c3;color:#304b1a}hr{border:0;border-top:1px solid #e5e8e4;margin:26px 0}.check{display:flex;align-items:flex-start;gap:10px;font-weight:500}.check input{width:auto;margin-top:4px}a{color:inherit}.field-note{font-size:12px;color:#687083;font-weight:400}@media(max-width:760px){.grid{grid-template-columns:1fr}.grid .settings,.grid .actions,.grid .account{grid-column:1;grid-row:auto}header span{display:none}}`;
+const css=`:root{font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#272b4a;background:#f9faf5}*{box-sizing:border-box}body{margin:0}header{padding:22px max(24px,5vw);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #dde2dc;background:#fff}header strong{font-size:27px;font-style:italic;letter-spacing:-2px}header span{font-size:12px;text-transform:uppercase;letter-spacing:.14em}main{max-width:1050px;margin:clamp(36px,6vw,84px) auto;padding:0 24px 80px}h1{font-size:clamp(38px,6vw,70px);line-height:1.04;letter-spacing:-.055em;margin:12px 0 20px}h2{font-size:24px;letter-spacing:-.035em;margin:0 0 14px}p{line-height:1.6;color:#5b6173}.eyebrow{font-size:12px;letter-spacing:.16em;font-weight:700;text-transform:uppercase}.intro{max-width:670px;margin-bottom:35px}.grid{display:grid;grid-template-columns:1.3fr 1fr;gap:22px;align-items:start}.grid .settings{grid-column:1;grid-row:1}.grid .actions{grid-column:2;grid-row:1 / span 2}.grid .account{grid-column:1;grid-row:2}.card{border:1px solid #d9dedb;border-radius:24px;padding:clamp(22px,3vw,34px);background:#fff;box-shadow:0 18px 50px #272b4a0b}.card.lime{background:#f3facd}.stack{display:grid;gap:16px}label{display:grid;gap:7px;font-size:14px;font-weight:650}input,select,textarea{font:inherit;color:#272b4a;border:1px solid #c8ceca;border-radius:12px;padding:12px 14px;width:100%;background:#fff}input:focus,select:focus,textarea:focus,button:focus-visible{outline:3px solid #a9c6ff;outline-offset:2px}button{font:inherit;font-weight:750;cursor:pointer;border:0;border-radius:999px;background:#272b4a;color:#fff;padding:13px 19px}textarea{resize:vertical;min-height:110px;line-height:1.5;font-weight:400}.card+.card{margin-top:22px}dd{margin:8px 0 22px;line-height:1.6;overflow-wrap:anywhere}button:disabled{cursor:not-allowed;opacity:.55}button.secondary{background:transparent;color:#272b4a;border:1px solid #272b4a}button.danger{background:#a13c49}.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.notice{padding:13px 17px;border-radius:12px;background:#eaf6dd;color:#263f27;margin:20px 0}.error{background:#fce9eb;color:#6d222a}.muted{font-size:13px;color:#687083}.status{font-size:14px;font-weight:700;padding:6px 12px;border-radius:999px;background:#e9eceb}.status.on{background:#e2f1c3;color:#304b1a}hr{border:0;border-top:1px solid #e5e8e4;margin:26px 0}.check{display:flex;align-items:flex-start;gap:10px;font-weight:500}.check input{width:auto;margin-top:4px}a{color:inherit}nav[aria-label="Content documents"] a{display:inline-flex;align-items:center;min-height:44px;padding:8px 12px;border:1px solid #d9dedb;border-radius:12px;font-size:14px;text-decoration:none}nav[aria-label="Content documents"] a[aria-current="page"]{background:#eaf6dd;font-weight:700}.field-note{font-size:12px;color:#687083;font-weight:400}@media(max-width:760px){.grid{grid-template-columns:1fr}.grid .settings,.grid .actions,.grid .account{grid-column:1;grid-row:auto}header span{display:none}}`;
 
 function page(content,{notice='',error=''}={}){
   const message=error?`<p class="notice error" role="alert">${esc(error)}</p>`:notice?`<p class="notice" role="status">${esc(notices[notice]||'')}</p>`:'';
@@ -69,8 +69,11 @@ function dashboard(state,csrf,notice,contentAvailable=false){
   return page(`<div class="intro"><span class="eyebrow">STUDIO OPERATIONS</span><h1>Project brief delivery.</h1><p>Set up Mailgun, confirm a test reaches your inbox, then turn on direct submissions. The public form stays off until the website is built with its endpoint.</p>${contentAvailable?'<p><a href="/admin/content">Edit website content →</a></p>':''}</div><div class="grid">${settings}${actions}${account}</div>`,{notice});
 }
 
-export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date.now,trustedProxyAddress='',content=/** @type {ReturnType<typeof import('./content-store.mjs').createContentStore> | null} */ (null),leads=/** @type {{list: (options?:{offset?:number,limit?:number}) => Promise<Array<{id:string,createdAt:string,status:string,brief:Record<string,unknown>|null}>>,redact:(id:string)=>Promise<void>} | null} */ (null)}){
+export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date.now,trustedProxyAddress='',documents=/** @type {Record<string,{label:string,kind:import('../src/lib/content.ts').ContentKind,store:ReturnType<typeof import('./content-store.mjs').createContentStore>}>} */ ({}),content=/** @type {ReturnType<typeof import('./content-store.mjs').createContentStore> | null} */ (null),leads=/** @type {{list: (options?:{offset?:number,limit?:number}) => Promise<Array<{id:string,createdAt:string,status:string,brief:Record<string,unknown>|null}>>,redact:(id:string)=>Promise<void>} | null} */ (null)}){
   const sessions=new Map(),attempts=new Map();
+  const documentFor=id=>Object.hasOwn(documents,id)?documents[id]:id==='home'&&content?{label:'Homepage copy',kind:'home',store:content}:null;
+  const documentList=Object.entries(documents).map(([id,doc])=>({id,label:doc.label}));
+  const contentUrl=id=>`/admin/content?document=${encodeURIComponent(id)}`;
   const secure=origin.startsWith('https://');
   const cookieName=secure?'__Host-ashbi_admin':'ashbi_admin_local';
   function sessionFor(req){
@@ -102,18 +105,20 @@ export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date
       const session=sessionFor(req);
       if(req.method==='GET'&&pathname==='/admin/'){
         const notice=new URL(req.url,origin).searchParams.get('notice')||'';
-        sendHtml(res,200,!state.password?setupPage(Boolean(setupToken)):!session?loginPage():dashboard(state,session.csrf,notice,Boolean(content)));
+        sendHtml(res,200,!state.password?setupPage(Boolean(setupToken)):!session?loginPage():dashboard(state,session.csrf,notice,Boolean(content||Object.keys(documents).length)));
         return true;
       }
       if(req.method==='GET'&&(pathname==='/admin/content'||pathname==='/admin/content/export')){
         if(!state.password||!session){redirect(res,'/admin/');return true;}
-        if(!content){sendHtml(res,503,page('<h1>Content editing unavailable.</h1>'));return true;}
+        const id=new URL(req.url,origin).searchParams.get('document')||'home';
+        const doc=documentFor(id);
+        if(!doc){sendHtml(res,404,page('<h1>Content document unavailable.</h1>'));return true;}
         if(pathname.endsWith('/export')){
-          const snapshot=content.export();
-          res.writeHead(200,{'Content-Type':'application/json','Content-Disposition':'attachment; filename="ashbi-home-approved.json"','Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow','X-Content-Type-Options':'nosniff'});
+          const snapshot=doc.store.export();
+          res.writeHead(200,{'Content-Type':'application/json','Content-Disposition':`attachment; filename="ashbi-${id.replace(':','-')}-approved.json"`,'Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow','X-Content-Type-Options':'nosniff'});
           res.end(JSON.stringify(snapshot,null,2));return true;
         }
-        sendHtml(res,200,page(contentEditor(content.get(),session.csrf),{notice:new URL(req.url,origin).searchParams.get('notice')||''}));return true;
+        sendHtml(res,200,page(contentEditor(doc.store.get(),session.csrf,{id,kind:doc.kind,label:doc.label,documents:documentList,history:await doc.store.history()}),{notice:new URL(req.url,origin).searchParams.get('notice')||''}));return true;
       }
       if(req.method==='GET'&&pathname==='/admin/leads'){
         if(!state.password||!session){redirect(res,'/admin/');return true;}
@@ -151,14 +156,26 @@ export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date
       const value=await formBody(req);
       if(!equalSecret(value('csrf'),session.csrf)||!currentSession(session)){sendHtml(res,403,page('<h1>Request denied.</h1>'));return true;}
       if(pathname==='/admin/content/save'){
-        if(!content)throw new Error('Content unavailable');
-        await content.save(Object.fromEntries(Object.keys(homeFields).map(key=>[key,value(key)])),value('revision'));
-        redirect(res,'/admin/content?notice=draft');return true;
+        const id=value('document')||'home',doc=documentFor(id);
+        if(!doc)throw new Error('Content unavailable');
+        const input=Object.fromEntries(Object.keys(doc.store.get().content).map(key=>[key,value(key)]));
+        try{await doc.store.save(input,value('revision'));}
+        catch{
+          sendHtml(res,400,page(contentEditor(doc.store.get(),session.csrf,{id,kind:doc.kind,label:doc.label,documents:documentList,history:await doc.store.history(),formContent:input,formRevision:value('revision')}),{error:'The draft was not saved. Check the required fields and length limits. If another tab or the website source changed, reload and reconcile before saving. Your entered words remain below for correction; the review still shows the saved draft.'}));return true;
+        }
+        redirect(res,contentUrl(id)+'&notice=draft');return true;
       }
       if(pathname==='/admin/content/approve'){
-        if(!content||value('confirm')!=='yes')throw new Error('Approval not confirmed');
-        await content.approve(value('revision'));
-        redirect(res,'/admin/content?notice=approved');return true;
+        const id=value('document')||'home',doc=documentFor(id);
+        if(!doc||value('confirm')!=='yes')throw new Error('Approval not confirmed');
+        await doc.store.approve(value('revision'));
+        redirect(res,contentUrl(id)+'&notice=approved');return true;
+      }
+      if(pathname==='/admin/content/restore'){
+        const id=value('document')||'home',doc=documentFor(id);
+        if(!doc||value('confirm')!=='yes')throw new Error('Restore not confirmed');
+        await doc.store.restore(value('restoreRevision'),value('revision'));
+        redirect(res,contentUrl(id)+'&notice=restored');return true;
       }
       if(pathname==='/admin/logout'){
         sessions.delete(tokenHash(session.raw));

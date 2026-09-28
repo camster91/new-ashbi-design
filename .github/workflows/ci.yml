@@ -24,6 +24,7 @@ jobs:
       - run: python3 -m unittest discover -s ops/tests
       - run: npm run build
       - run: npm run check:links
+      - run: npm run check:content
       - name: Package verified preview build
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |

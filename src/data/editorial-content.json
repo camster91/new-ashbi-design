@@ -1,0 +1,93 @@
+{
+  "service:branding": {
+    "kind": "service",
+    "label": "Brand identity & strategy",
+    "content": {
+      "summary": "Give your business a clear point of view and a visual identity people can recognise.",
+      "fit": "For a new business finding its voice, or an established brand ready for its next chapter."
+    }
+  },
+  "service:web-design": {
+    "kind": "service",
+    "label": "Web design & development",
+    "content": {
+      "summary": "A considered website that tells your story clearly and makes the next step easy.",
+      "fit": "For businesses launching a site, improving an existing experience, or bringing an established brand online."
+    }
+  },
+  "service:packaging-design-services": {
+    "kind": "service",
+    "label": "Packaging design",
+    "content": {
+      "summary": "Bring your brand to the shelf, the doorstep, and the moment someone opens it.",
+      "fit": "For CPG and DTC brands launching a product, expanding a range, or refreshing an existing pack."
+    }
+  },
+  "service:design-and-dev-subscription": {
+    "kind": "service",
+    "label": "Ongoing creative support",
+    "content": {
+      "summary": "A familiar creative and development partner for the work that keeps coming.",
+      "fit": "For teams with an established direction and recurring design or website needs."
+    }
+  },
+  "campaign:shopify-design": {
+    "kind": "campaign",
+    "label": "Shopify design campaign",
+    "content": {
+      "title": "Make your products",
+      "highlight": "easy to choose.",
+      "intro": "Bring your brand into a Shopify store that helps people browse the range, understand each product and take the next step. Work directly with Bianca and Cameron on the design and agreed build.",
+      "question": "Where are shoppers getting stuck?",
+      "answer": "We start with your catalogue, current store and the questions customers ask. That shapes the navigation, collection pages and product details your store needs.",
+      "projectNote": "The original Chef Tanya’s Kitchen shop design brings seitan and merchandise into a colourful product grid with a clear add-to-cart action."
+    }
+  },
+  "campaign:brand-launch": {
+    "kind": "campaign",
+    "label": "Brand launch campaign",
+    "content": {
+      "title": "A brand people can",
+      "highlight": "recognise.",
+      "intro": "Launching something new or ready to move beyond a patchwork identity? We bring strategy and design together so every first impression feels like yours.",
+      "question": "What needs to come together?",
+      "answer": "A useful brand system starts with your audience and point of view, then gives your team visual tools to show up consistently.",
+      "projectNote": "CocoFro brings a bold identity together with a family of colourful product packs."
+    }
+  },
+  "campaign:website-redesign": {
+    "kind": "campaign",
+    "label": "Website redesign campaign",
+    "content": {
+      "title": "A website built to",
+      "highlight": "move you forward.",
+      "intro": "Your website should make the offer clear, show your work well, and give visitors an easy next step. We design and build around those real tasks.",
+      "question": "Where should the work begin?",
+      "answer": "We look at the pages you have, the audience you want to reach, and the actions visitors need to take before deciding what to retain or change.",
+      "projectNote": "Clypse Beauty shows Ashbi’s approach to an editorial website with strong visual rhythm."
+    }
+  },
+  "campaign:packaging-design": {
+    "kind": "campaign",
+    "label": "Packaging design campaign",
+    "content": {
+      "title": "Packaging with",
+      "highlight": "personality and purpose.",
+      "intro": "Bring your product into focus with a visual system that works across formats, variants, and the moments people encounter it.",
+      "question": "What does a strong range need?",
+      "answer": "Clear product information, a recognisable family resemblance, and enough distinction to help people find the right variant.",
+      "projectNote": "Marin Food shows how one packaging system keeps its range recognisable while giving each product its own colour and name."
+    }
+  },
+  "campaign:creative-partner": {
+    "kind": "campaign",
+    "label": "Creative partnership campaign",
+    "content": {
+      "title": "Creative support that",
+      "highlight": "knows your brand.",
+      "intro": "When campaigns, content, and website changes keep coming, work directly with a studio that can carry your visual direction through the details.",
+      "question": "What can we work on together?",
+      "answer": "We agree priorities and capacity around your recurring needs, from campaign graphics to website updates and new brand applications."
+    }
+  }
+}

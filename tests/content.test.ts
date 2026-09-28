@@ -5,16 +5,43 @@ import os from 'node:os';
 import path from 'node:path';
 import http from 'node:http';
 import {randomBytes} from 'node:crypto';
-import {validateHomeContent} from '../src/lib/content.ts';
-import {createContentStore} from '../server/content-store.mjs';
+import {validateHomeContent,validateContent} from '../src/lib/content.ts';
+import {createContentStore,createEditorialStores} from '../server/content-store.mjs';
 import {createStateStore,hashPassword} from '../server/state.mjs';
 import {createAdminHandler} from '../server/admin.mjs';
-import {reviewedContent} from '../ops/apply-content.mjs';
+import {reviewedContent,reviewedDocument} from '../ops/apply-content.mjs';
 const base=JSON.parse(await readFile(new URL('../src/data/home-content.json',import.meta.url),'utf8'));
+const catalog=JSON.parse(await readFile(new URL('../src/data/editorial-content.json',import.meta.url),'utf8'));
 
 test('CMS validates plain text and rejects missing, oversized and unknown fields',()=>{
  assert.deepEqual(validateHomeContent(base),base);
  for(const invalid of [{...base,heroIntro:'<script>bad()</script>'},{...base,heroIntro:''},{...base,heroIntro:'a'.repeat(401)},{...base,price:'999'},{}])assert.throws(()=>validateHomeContent(invalid));
+});
+
+test('services and campaigns have isolated drafts; restoring a revision revokes approval',async()=>{
+ const directory=await mkdtemp(path.join(os.tmpdir(),'ashbi-editorial-'));
+ try{
+  const documents=await createEditorialStores({directory,home:base,catalog});
+  assert.equal(Object.keys(documents).length,10);
+  const id='service:web-design',service=documents[id].store;
+  const original=service.get();
+  const changed=await service.save({...original.content,summary:'Fabricated service draft.'},original.revision);
+  assert.equal(documents['campaign:shopify-design'].store.get().content.intro,catalog['campaign:shopify-design'].content.intro);
+  await service.approve(changed.revision);
+  const snapshot=service.export();
+  const applied=reviewedDocument(snapshot,catalog);
+  assert.equal(applied[id].content.summary,'Fabricated service draft.');
+  assert.deepEqual(applied['campaign:shopify-design'],catalog['campaign:shopify-design']);
+  assert.throws(()=>reviewedDocument({...snapshot,documentId:'../../state'},catalog));
+  assert.throws(()=>reviewedDocument({...snapshot,kind:'campaign'},catalog));
+  assert.throws(()=>validateContent('service',{...original.content,price:'$1'}));
+  const history=await service.history();assert.equal(history.length,2);assert.ok(history.some(record=>record.revision===original.revision));
+  await assert.rejects(service.restore('../../state',service.get().revision));
+  await assert.rejects(service.restore(original.revision,'stale'));
+  const restored=await service.restore(original.revision,service.get().revision);
+  assert.equal(restored.status,'draft');assert.deepEqual(restored.content,original.content);assert.throws(()=>service.export());
+  const restart=await createEditorialStores({directory,home:base,catalog});assert.deepEqual(restart[id].store.get().content,original.content);assert.ok((await restart[id].store.history()).length>=3);
+ }finally{await rm(directory,{recursive:true,force:true});}
 });
 
 test('CMS draft revisions, approval and source compatibility survive restart',async()=>{
@@ -43,11 +70,12 @@ test('CMS admin requires login, CSRF, current revision and explicit approval',as
  const password=await hashPassword('fabricated local password');
  await store.update((state:any)=>{state.password=password;});
  const content=createContentStore({directory:path.join(directory,'content'),base});await content.init();
+ const documents=await createEditorialStores({directory:path.join(directory,'documents'),home:base,catalog});
  let handler:any;
  const server=http.createServer((req,res)=>{void handler(req,res);});
  await new Promise<void>(resolve=>server.listen(0,'127.0.0.1',resolve));
  const address=server.address();assert.ok(address&&typeof address!=='string');const origin=`http://127.0.0.1:${address.port}`;
- handler=createAdminHandler({store,origin,content,sendTest:async()=>{throw new Error('No email in CMS tests');}});
+ handler=createAdminHandler({store,origin,content,documents:{'campaign:shopify-design':documents['campaign:shopify-design']},sendTest:async()=>{throw new Error('No email in CMS tests');}});
  const post=(route:string,form:Record<string,string>,cookie='')=>fetch(origin+route,{method:'POST',redirect:'manual',headers:{Origin:origin,Cookie:cookie,'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(form)});
  try{
   assert.equal((await fetch(origin+'/admin/content/export',{redirect:'manual'})).status,303);
@@ -61,5 +89,18 @@ test('CMS admin requires login, CSRF, current revision and explicit approval',as
   assert.equal((await post('/admin/content/approve',{csrf,revision:content.get().revision},cookie)).status,400);
   assert.equal((await post('/admin/content/approve',{csrf,revision:content.get().revision,confirm:'yes'},cookie)).status,303);
   const exported=await fetch(origin+'/admin/content/export',{headers:{Cookie:cookie}});assert.equal(exported.status,200);assert.match(exported.headers.get('content-disposition')||'',/attachment/);assert.equal((await exported.json()).content.heroIntro,'Fabricated saved draft.');
+  assert.equal((await fetch(origin+'/admin/content?document=../../state',{headers:{Cookie:cookie}})).status,404);
+  const campaign=documents['campaign:shopify-design'].store,original=campaign.get();
+  const invalidSave=await post('/admin/content/save',{...original.content,intro:'a'.repeat(1001),document:'campaign:shopify-design',csrf,revision:original.revision},cookie);
+  assert.equal(invalidSave.status,400);const recovery=await invalidSave.text();assert.match(recovery,/draft was not saved/);assert.ok(recovery.includes('a'.repeat(1001)));assert.deepEqual(campaign.get().content,original.content);
+  assert.equal((await post('/admin/content/save',{...original.content,intro:'Fabricated campaign draft.',document:'campaign:shopify-design',csrf,revision:original.revision},cookie)).status,303);
+  const staleSave=await post('/admin/content/save',{...original.content,intro:'Stale tab words.',document:'campaign:shopify-design',csrf,revision:original.revision},cookie);
+  assert.equal(staleSave.status,400);const staleHtml=await staleSave.text();const saveForm=staleHtml.match(/<form method="post" action="\/admin\/content\/save"[\s\S]*?<\/form>/)?.[0]||'';
+  assert.ok(saveForm.includes(`name="revision" value="${original.revision}"`));assert.equal(campaign.get().content.intro,'Fabricated campaign draft.');
+  const campaignPage=await (await fetch(origin+'/admin/content?document=campaign:shopify-design',{headers:{Cookie:cookie}})).text();assert.match(campaignPage,/Fabricated campaign draft/);assert.match(campaignPage,/Earlier revisions/);
+  assert.equal(content.get().content.heroIntro,'Fabricated saved draft.');
+  assert.equal((await post('/admin/content/restore',{document:'campaign:shopify-design',csrf:'bad',revision:campaign.get().revision,restoreRevision:original.revision,confirm:'yes'},cookie)).status,403);
+  assert.equal((await post('/admin/content/restore',{document:'campaign:shopify-design',csrf,revision:campaign.get().revision,restoreRevision:original.revision,confirm:'yes'},cookie)).status,303);
+  assert.deepEqual(campaign.get().content,original.content);assert.equal(campaign.get().status,'draft');
  }finally{await new Promise<void>(resolve=>server.close(()=>resolve()));await rm(directory,{recursive:true,force:true});}
 });
