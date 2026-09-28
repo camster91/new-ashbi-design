@@ -6,3 +6,11 @@
 !src/
 !src/lib/
 !src/lib/enquiry.ts
+
+!src/**
+!ops/
+!ops/**
+!public/
+!public/**
+!astro.config.mjs
+!tsconfig.json

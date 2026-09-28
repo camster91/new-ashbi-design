@@ -3,6 +3,7 @@ import {hashPassword,verifyPassword} from './state.mjs';
 import {validateMailgunSettings} from './mailgun.mjs';
 import {clientIdentity,chargeBucket} from './client-identity.mjs';
 import {contentEditor} from './content-admin.mjs';
+import {previewAsset} from './content-preview-view.mjs';
 
 const ADMIN_EMAIL='cameron@ashbi.ca';
 const SESSION_MS=8*60*60*1000;
@@ -41,7 +42,7 @@ function page(content,{notice='',error=''}={}){
   return `<!doctype html><html lang="en-CA"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ashbi Admin</title><style>${css}</style></head><body><header><strong>ashbi.</strong><span>Private studio settings</span></header><main>${message}${content}</main></body></html>`;
 }
 function sendHtml(res,status,html){
-  res.writeHead(status,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow','X-Content-Type-Options':'nosniff','X-Frame-Options':'DENY','Referrer-Policy':'no-referrer','Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'"});
+  res.writeHead(status,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow','X-Content-Type-Options':'nosniff','X-Frame-Options':'DENY','Referrer-Policy':'no-referrer','Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; img-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'"});
   res.end(html);
 }
 function redirect(res,path){res.writeHead(303,{Location:path,'Cache-Control':'no-store'});res.end();}
@@ -69,7 +70,7 @@ function dashboard(state,csrf,notice,contentAvailable=false){
   return page(`<div class="intro"><span class="eyebrow">STUDIO OPERATIONS</span><h1>Project brief delivery.</h1><p>Set up Mailgun, confirm a test reaches your inbox, then turn on direct submissions. The public form stays off until the website is built with its endpoint.</p>${contentAvailable?'<p><a href="/admin/content">Edit website content →</a></p>':''}</div><div class="grid">${settings}${actions}${account}</div>`,{notice});
 }
 
-export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date.now,trustedProxyAddress='',documents=/** @type {Record<string,{label:string,kind:import('../src/lib/content.ts').ContentKind,store:ReturnType<typeof import('./content-store.mjs').createContentStore>}>} */ ({}),content=/** @type {ReturnType<typeof import('./content-store.mjs').createContentStore> | null} */ (null),leads=/** @type {{list: (options?:{offset?:number,limit?:number}) => Promise<Array<{id:string,createdAt:string,status:string,brief:Record<string,unknown>|null}>>,redact:(id:string)=>Promise<void>} | null} */ (null)}){
+export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date.now,trustedProxyAddress='',previews=/** @type {ReturnType<typeof import('./content-preview-queue.mjs').createPreviewQueue>|null} */ (null),documents=/** @type {Record<string,{label:string,kind:import('../src/lib/content.ts').ContentKind,store:ReturnType<typeof import('./content-store.mjs').createContentStore>}>} */ ({}),content=/** @type {ReturnType<typeof import('./content-store.mjs').createContentStore> | null} */ (null),leads=/** @type {{list: (options?:{offset?:number,limit?:number}) => Promise<Array<{id:string,createdAt:string,status:string,brief:Record<string,unknown>|null}>>,redact:(id:string)=>Promise<void>} | null} */ (null)}){
   const sessions=new Map(),attempts=new Map();
   const documentFor=id=>Object.hasOwn(documents,id)?documents[id]:id==='home'&&content?{label:'Homepage copy',kind:'home',store:content}:null;
   const documentList=Object.entries(documents).map(([id,doc])=>({id,label:doc.label}));
@@ -108,6 +109,19 @@ export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date
         sendHtml(res,200,!state.password?setupPage(Boolean(setupToken)):!session?loginPage():dashboard(state,session.csrf,notice,Boolean(content||Object.keys(documents).length)));
         return true;
       }
+      if(req.method==='GET'&&(pathname==='/admin/content/preview-status'||pathname.startsWith('/admin/content/preview/'))){
+        if(!state.password||!session){redirect(res,'/admin/');return true;}
+        const id=pathname==='/admin/content/preview-status'?new URL(req.url,origin).searchParams.get('id'):pathname.split('/')[4];
+        const job=previews?.get(id);
+        if(!job){sendHtml(res,404,page('<h1>Preview unavailable.</h1><p>It may have expired. Return to the content editor and request a new preview.</p>'));return true;}
+        if(pathname.startsWith('/admin/content/preview/')){
+          const directory=previews.artifact(id),asset=directory?await previewAsset({directory,id,pathname}):null;
+          if(!asset){sendHtml(res,404,page('<h1>Preview asset unavailable.</h1>'));return true;}
+          res.writeHead(200,{'Content-Type':asset.type,...asset.headers});res.end(asset.body);return true;
+        }
+        const doc=documentFor(job.documentId),changed=doc?.store.get().revision!==job.revision;
+        sendHtml(res,200,page(`<a href="${contentUrl(job.documentId)}">← Content editor</a><h1>Saved draft preview.</h1><p>Status: <strong>${esc(job.status)}</strong></p><p>Revision: ${esc(job.revision)}</p>${changed?'<p class="notice error">The saved draft has changed since this preview was requested. Request a new preview before approving.</p>':''}${job.status==='ready'?`<p><a href="/admin/content/preview/${job.id}${esc(job.route)}">Open static page layout →</a></p><p>Motion and submissions are disabled in this private layout review. This preview is not published.</p>`:job.status==='failed'?'<p>The build could not complete. Check the saved draft and source baseline, then request a new preview. Private compiler diagnostics are not shown here.</p>':`<p>One preview builds at a time. <a href="/admin/content/preview-status?id=${job.id}">Refresh build status →</a></p>`}`));return true;
+      }
       if(req.method==='GET'&&(pathname==='/admin/content'||pathname==='/admin/content/export'||pathname==='/admin/content/draft-export')){
         if(!state.password||!session){redirect(res,'/admin/');return true;}
         const id=new URL(req.url,origin).searchParams.get('document')||'home';
@@ -119,7 +133,7 @@ export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date
           res.writeHead(200,{'Content-Type':'application/json','Content-Disposition':`attachment; filename="ashbi-${id.replace(':','-')}-${draft?'draft':'approved'}.json"`,'Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow','X-Content-Type-Options':'nosniff'});
           res.end(JSON.stringify(snapshot,null,2));return true;
         }
-        sendHtml(res,200,page(contentEditor(doc.store.get(),session.csrf,{id,kind:doc.kind,label:doc.label,documents:documentList,history:await doc.store.history()}),{notice:new URL(req.url,origin).searchParams.get('notice')||''}));return true;
+        sendHtml(res,200,page(contentEditor(doc.store.get(),session.csrf,{id,kind:doc.kind,label:doc.label,documents:documentList,previewAvailable:Boolean(previews),history:await doc.store.history()}),{notice:new URL(req.url,origin).searchParams.get('notice')||''}));return true;
       }
       if(req.method==='GET'&&pathname==='/admin/leads'){
         if(!state.password||!session){redirect(res,'/admin/');return true;}
@@ -162,9 +176,15 @@ export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date
         const input=Object.fromEntries(Object.keys(doc.store.get().content).map(key=>[key,value(key)]));
         try{await doc.store.save(input,value('revision'));}
         catch{
-          sendHtml(res,400,page(contentEditor(doc.store.get(),session.csrf,{id,kind:doc.kind,label:doc.label,documents:documentList,history:await doc.store.history(),formContent:input,formRevision:value('revision')}),{error:'The draft was not saved. Check the required fields and length limits. If another tab or the website source changed, reload and reconcile before saving. Your entered words remain below for correction; the review still shows the saved draft.'}));return true;
+          sendHtml(res,400,page(contentEditor(doc.store.get(),session.csrf,{id,kind:doc.kind,label:doc.label,documents:documentList,previewAvailable:Boolean(previews),history:await doc.store.history(),formContent:input,formRevision:value('revision')}),{error:'The draft was not saved. Check the required fields and length limits. If another tab or the website source changed, reload and reconcile before saving. Your entered words remain below for correction; the review still shows the saved draft.'}));return true;
         }
         redirect(res,contentUrl(id)+'&notice=draft');return true;
+      }
+      if(pathname==='/admin/content/preview'){
+        const id=value('document')||'home',doc=documentFor(id);
+        if(!previews||!doc||doc.store.get().sourceChanged||doc.store.get().revision!==value('revision'))throw new Error('Preview unavailable or stale');
+        const job=await previews.request(doc.store.draft());
+        redirect(res,`/admin/content/preview-status?id=${job.id}`);return true;
       }
       if(pathname==='/admin/content/approve'){
         const id=value('document')||'home',doc=documentFor(id);

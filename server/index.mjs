@@ -1,7 +1,7 @@
 import http from 'node:http';
 import {isIP} from 'node:net';
 import path from 'node:path';
-import {readFile} from 'node:fs/promises';
+import {readFile,mkdir,mkdtemp,rm,realpath} from 'node:fs/promises';
 import {createEditorialStores} from './content-store.mjs';
 import {createLeadStore,persistThenDeliver} from './lead-store.mjs';
 import {createEnquiryHandler} from './enquiry-handler.mjs';
@@ -26,8 +26,18 @@ const leads=createLeadStore({directory:path.join(dataDir,'leads'),key});
 await leads.init();
 const documents=await createEditorialStores({directory:path.join(dataDir,'content'),home:JSON.parse(await readFile(new URL('../src/data/home-content.json',import.meta.url),'utf8')),catalog:JSON.parse(await readFile(new URL('../src/data/editorial-content.json',import.meta.url),'utf8'))});
 
+// Optional trusted-source runtime. The default gateway image remains an editor only.
+let previews=null,previewDirectory=null;
+if(process.env.CONTENT_PREVIEW_SOURCE_ROOT){
+  const root=await realpath(process.env.CONTENT_PREVIEW_SOURCE_ROOT);
+  const {buildContentPreview}=await import('../ops/preview-content.mjs');
+  const {createPreviewQueue}=await import('./content-preview-queue.mjs');
+  const parent=path.join(dataDir,'layout-previews');await mkdir(parent,{recursive:true,mode:0o700});
+  previewDirectory=await mkdtemp(path.join(parent,'session-'));
+  previews=createPreviewQueue({directory:previewDirectory,build:options=>buildContentPreview({root,...options})});await previews.init();
+}
 const admin=createAdminHandler({
-  store,origin,setupToken,trustedProxyAddress,leads,documents,
+  store,origin,setupToken,trustedProxyAddress,leads,documents,previews,
   sendTest:(config,to)=>sendMailgunMessage(config,{to,subject:'Ashbi project brief delivery test',text:'This is a test of Ashbi project brief delivery. If you received it, return to the admin page and enable submissions.'}),
 });
 const enquiry=createEnquiryHandler({
@@ -55,3 +65,9 @@ server.requestTimeout=15000;
 server.timeout=20000;
 server.maxRequestsPerSocket=100;
 server.listen(port,'0.0.0.0');
+
+async function stopPreviewWorker(){
+ previews?.close();await previews?.idle();
+ if(previewDirectory)await rm(previewDirectory,{recursive:true,force:true});
+}
+for(const signal of ['SIGTERM','SIGINT'])process.once(signal,()=>{server.close();void stopPreviewWorker().finally(()=>process.exit(0));});

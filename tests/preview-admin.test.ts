@@ -1,0 +1,21 @@
+import test from 'node:test';import assert from 'node:assert/strict';import http from 'node:http';import {randomBytes} from 'node:crypto';import {mkdtemp,mkdir,writeFile,readFile,rm} from 'node:fs/promises';import os from 'node:os';import path from 'node:path';
+import {createAdminHandler} from '../server/admin.mjs';import {createStateStore,hashPassword} from '../server/state.mjs';import {createContentStore} from '../server/content-store.mjs';import {createPreviewQueue} from '../server/content-preview-queue.mjs';
+test('admin preview request and every artifact require login, CSRF and the saved revision',async()=>{
+ const directory=await mkdtemp(path.join(os.tmpdir(),'ashbi-preview-admin-'));const state=createStateStore({file:path.join(directory,'state.json'),key:randomBytes(32)});await state.init();const password='fabricated-local-review-password';const hashed=await hashPassword(password);await state.update((next:{password:unknown})=>{next.password=hashed;});
+ const base=JSON.parse(await readFile(new URL('../src/data/home-content.json',import.meta.url),'utf8'));const content=createContentStore({directory:path.join(directory,'content'),base});await content.init();let calls=0;
+ const previews=createPreviewQueue({directory:path.join(directory,'previews'),build:async({directory:out}:{directory:string})=>{calls++;await mkdir(path.join(out,'dist'),{recursive:true});await writeFile(path.join(out,'dist/index.html'),'<html><body><h1>Fabricated saved layout</h1><img src="/asset.webp"></body></html>');return {route:'/'};}});await previews.init();
+ let handler:ReturnType<typeof createAdminHandler>;const server=http.createServer((req,res)=>void handler(req,res));await new Promise<void>(done=>server.listen(0,'127.0.0.1',done));const origin='http://127.0.0.1:'+((server.address() as {port:number}).port);handler=createAdminHandler({store:state,origin,content,previews,sendTest:async()=>{throw new Error('No email allowed');}});
+ const post=(route:string,body:Record<string,string>,cookie='')=>fetch(origin+route,{method:'POST',headers:{Origin:origin,Cookie:cookie,'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(body),redirect:'manual'});
+ try{
+  assert.equal((await fetch(origin+'/admin/content/preview-status?id=unknown',{redirect:'manual'})).status,303);
+  const login=await post('/admin/login',{email:'cameron@ashbi.ca',password});const cookie=(login.headers.get('set-cookie')||'').split(';')[0];assert.ok(cookie);
+  const editor=await(await fetch(origin+'/admin/content',{headers:{Cookie:cookie}})).text();assert.match(editor,/Build saved draft layout/);const csrf=editor.match(/name="csrf" value="([^"]+)"/)![1];
+  assert.equal((await post('/admin/content/preview',{document:'home',csrf:'wrong',revision:content.get().revision},cookie)).status,403);assert.equal(calls,0);
+  assert.equal((await post('/admin/content/preview',{document:'home',csrf,revision:'stale'},cookie)).status,400);assert.equal(calls,0);
+  const start=await post('/admin/content/preview',{document:'home',csrf,revision:content.get().revision},cookie);assert.equal(start.status,303);const statusPath=start.headers.get('location')!;await previews.idle();assert.equal(calls,1);
+  const status=await(await fetch(origin+statusPath,{headers:{Cookie:cookie}})).text();assert.match(status,/ready/);const view=status.match(/href="(\/admin\/content\/preview\/[^"]+)"/)![1];
+  assert.equal((await fetch(origin+view,{redirect:'manual'})).status,303);const page=await fetch(origin+view,{headers:{Cookie:cookie}});assert.equal(page.status,200);assert.equal(page.headers.get('cache-control'),'no-store');assert.match(page.headers.get('content-security-policy')!,/script-src 'none'/);assert.match(await page.text(),/Fabricated saved layout/);
+  await content.save({...base,heroIntro:'Newer saved draft.'},content.get().revision);assert.match(await(await fetch(origin+statusPath,{headers:{Cookie:cookie}})).text(),/draft has changed/);
+  await post('/admin/logout',{csrf},cookie);assert.equal((await fetch(origin+view,{headers:{Cookie:cookie},redirect:'manual'})).status,303);
+ }finally{previews.close();await previews.idle();server.closeAllConnections();await new Promise<void>(done=>server.close(()=>done()));await rm(directory,{recursive:true,force:true});}
+});
