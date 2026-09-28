@@ -5,7 +5,6 @@ import {initHomeMotion} from './home-motion';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
-const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const menu=document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
 const nav=document.querySelector<HTMLElement>('#main-nav');
 const setMenu=(open:boolean,restoreFocus=false)=>{
@@ -114,6 +113,13 @@ proofMarquee?.querySelectorAll<HTMLElement>('[data-proof-row]').forEach((row,ind
  let visible=false;
  let resetting=false;
  const centre=()=>{if(motionPreference.matches)return;const width=setWidth();if(width){resetting=true;row.scrollLeft=width;requestAnimationFrame(()=>{resetting=false})}};
+ // Return to the original quotes when duplicate sets disappear, and restore
+ // the seamless starting position if the visitor enables motion again.
+ motionPreference.addEventListener('change',()=>{
+  lastInput=performance.now();
+  if(motionPreference.matches)row.scrollTo({left:0,behavior:'instant'});
+  else centre();
+ });
  new ResizeObserver(centre).observe(set);
  new IntersectionObserver(([entry])=>{visible=entry.isIntersecting}).observe(row);
  row.addEventListener('scroll',()=>{
@@ -152,7 +158,10 @@ if(serviceShowcase){
  steps.forEach((step,index)=>{
   step.addEventListener('focusin',()=>activate(index));
   step.addEventListener('mouseenter',()=>activate(index));
-  if(!reduce)ScrollTrigger.create({trigger:step,start:'top 32%',end:'bottom 32%',onEnter:()=>activate(index),onEnterBack:()=>activate(index)});
+ });
+ const showcaseMotion=gsap.matchMedia();
+ showcaseMotion.add('(prefers-reduced-motion: no-preference)',()=>{
+  steps.forEach((step,index)=>ScrollTrigger.create({trigger:step,start:'top 32%',end:'bottom 32%',onEnter:()=>activate(index),onEnterBack:()=>activate(index)}));
  });
 }
 const interiorMotion=gsap.matchMedia();
