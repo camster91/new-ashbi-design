@@ -3,9 +3,12 @@ import {editorialContent} from '../lib/editorial';
 import portfolioAssets from './portfolio-assets.json';
 import {commerceProjectSlugs} from './commerce-project-slugs';
 
+const enquiryMode=import.meta.env.PUBLIC_ENQUIRY_MODE||'mailgun';
+if(!['mailgun','hub'].includes(enquiryMode))throw new Error('Unknown enquiry mode');
 export const site = {
   name: 'Ashbi Design', email: 'hello@ashbi.ca',
   bookingUrl: import.meta.env.PUBLIC_BOOKING_URL || 'https://calendar.app.google/nPYrApoorFLoUiJK8',
+  enquiryMode,hubInquiryBase:import.meta.env.PUBLIC_HUB_INQUIRY_BASE||'',
   enquiryEndpoint: import.meta.env.PUBLIC_ENQUIRY_ENDPOINT || '',
   description: 'A Toronto branding and web studio for growing businesses, with a particular love for CPG, DTC, and packaging.',
 };

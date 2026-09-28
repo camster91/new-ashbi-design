@@ -1,6 +1,6 @@
 # Project brief delivery and admin setup
 
-The Astro site is static. A separate Node service in `server/` provides `/admin/`, `/api/enquiries`, and `/health`. The public brief remains disabled until the service is deployed, Mailgun is configured and tested, and the site is rebuilt with `PUBLIC_ENQUIRY_ENDPOINT=/api/enquiries`. The email-draft fallback continues to work meanwhile.
+The Astro site is static. The default Mailgun mode uses a separate Node service in `server/` provides `/admin/`, `/api/enquiries`, and `/health`. The public brief remains disabled until the service is deployed, Mailgun is configured and tested, and the site is rebuilt with `PUBLIC_ENQUIRY_ENDPOINT=/api/enquiries`. The email-draft fallback continues to work meanwhile.
 
 ## Deploy the private service
 
@@ -78,3 +78,27 @@ Active case-study enquiry links also pass an optional `project` slug from the sh
 ## Preview readiness observation — 26 September 2026
 
 Read-only inspection found the preview gateway healthy, with `DATA_DIR=/data` empty and a setup token present. No admin-state file, saved Mailgun configuration or recorded test existed. No settings were changed and no secret values were printed. Cameron must complete the admin setup before live delivery can be verified. The public static marker still identified e5c62c88ef6bc7f2f40d15243c8b329e20fb1885 at this check. Local implementation and isolated browser success do not establish preview delivery readiness.
+
+## Existing Hub integration — local candidate, 28 September 2026
+
+The website now has two explicit build modes. `PUBLIC_ENQUIRY_MODE=mailgun` is the default and preserves the gateway above. `PUBLIC_ENQUIRY_MODE=hub` uses the existing Ashbi Hub intake; set `PUBLIC_HUB_INQUIRY_BASE` to `/api/client-acquisition` behind an approved same-origin proxy, or an approved HTTPS Hub URL ending in `/api/client-acquisition`. These are public routing values, never credentials. An invalid mode fails the build; absent/unavailable/mismatched Hub config disables online submission and retains the email draft fallback.
+
+The source contract was reconciled with `camster91/ashbi-platform` main `e8a0e5e84216f057868e81557928fdea6cd0c706`, `src/services/client-acquisition.contract.js` and issue #426. The browser fetches `/config` without cookies, then posts `/intake` without cookies. The JSON body contains an idempotency UUID; no custom idempotency header is sent because the Hub CORS policy allows Content-Type only. Retries of the unchanged page-session enquiry reuse the key; editing the enquiry creates a new key. No personal details are written to browser storage.
+
+Hub mode adds a desired-outcome field, a timing dropdown and an unchecked consent checkbox. The notice version is `ashbi-inquiry-2026-09-28`; the Hub must expose this exact version. Privacy changes clear consent and preserve the visitor's text. The visitor's actual website goes in business context: the Hub field named `website` is exclusively a honeypot. Only known campaign context and a same-site path are attributed; arbitrary referrers, query strings and click identifiers are not collected.
+
+Branding and packaging map to `brand_packaging`; websites to `web_commerce`; ongoing support to `managed_support`; undecided to `unknown`. Unsupported service lines fail validation. Only 200/201 with explicit accepted/replayed flags confirms Hub receipt. A honeypot 202, login HTML, network failure or timeout never produces a recorded-enquiry message. Hub receipt does not book a call, send an email or create a client/project/portal.
+
+### Activation and rollback
+
+1. Review the Hub-mode contact/privacy pages at 375 and 1440 px, including keyboard error focus, consent and preserved fields after failures. Browser review of this new mode remains unverified after interrupted local sessions.
+2. Cameron approves the privacy notice, retention approach, destination environment and public intake activation. Verify the Hub organization, owner, service allowlist, exact origins and notice version privately; do not commit identifiers or secrets. Verify migration/health and proxy/client-IP behavior under the Hub's existing release process.
+3. Build the website with the selected mode/base. Check allowed-origin CORS and configured endpoint availability. Do not enable both public capture paths as alternative automatic sends.
+4. With explicit test authorization, submit one fabricated enquiry in the approved preview, verify a single organization-owned inquiry and staff notification, then retry unchanged and verify no duplicate. Review client/staff boundaries separately; receipt is not lead conversion.
+5. Roll back by rebuilding with the previous mode and endpoint configuration and restoring the prior static release. Keep accepted inquiries in their existing owning system; no automatic deletion or migration.
+
+Draft CMS previews force Mailgun mode with an empty endpoint and empty Hub base, keeping direct submissions disabled. The private website CMS remains independent of Hub leads/projects/portals.
+
+### Verified local evidence
+
+42 tests passed, including config/version/origin-base validation, mappings, consent, attribution bounds, byte limits, retry identity, response interpretation, timeout and concurrency. Typecheck and the 75-page default build passed; 162 CMS placements, 3,149 local links/assets and 295 fragments passed. An isolated Hub-mode 75-page build also passed. The fetched actual Hub intake schema accepted all five website service mappings in an isolated Node check (using the available local Zod runtime). No live Hub enquiry, Mailgun email, deployment or hosted review occurred. Rendered Hub-mode mobile/desktop review and live target verification remain release gates.

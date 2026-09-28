@@ -29,7 +29,7 @@ export async function buildContentPreview({root,snapshot,directory}){
  await writeFile(path.join(directory,'src/data/editorial-content.json'),JSON.stringify(next.catalog,null,2));
  const astroPackage=JSON.parse(await readFile(path.join(root,'node_modules/astro/package.json'),'utf8'));
  const cli=path.resolve(root,'node_modules/astro',astroPackage.bin.astro);
- const environment={...process.env,ASHBI_DRAFT_PREVIEW:'1',PUBLIC_ENQUIRY_ENDPOINT:'',SITE_URL:'http://127.0.0.1:4357'};
+ const environment={...process.env,ASHBI_DRAFT_PREVIEW:'1',PUBLIC_ENQUIRY_ENDPOINT:'',PUBLIC_ENQUIRY_MODE:'mailgun',PUBLIC_HUB_INQUIRY_BASE:'',SITE_URL:'http://127.0.0.1:4357'};
  delete environment.NODE_OPTIONS;
  await new Promise((resolve,reject)=>{
   const child=spawn(process.execPath,[cli,'build'],{cwd:directory,env:environment,stdio:['ignore','pipe','pipe']});
