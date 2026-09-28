@@ -2,7 +2,7 @@ import {createHash} from 'node:crypto';
 import {readFile,writeFile,cp,mkdir,symlink,realpath} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {spawn} from 'node:child_process';
+import {runPreviewBuild} from './preview-runner.mjs';
 import {validateContent,validateHomeContent} from '../src/lib/content.ts';
 import {checkBuiltContent} from './check-built-content.mjs';
 
@@ -29,13 +29,7 @@ export async function buildContentPreview({root,snapshot,directory}){
  await writeFile(path.join(directory,'src/data/editorial-content.json'),JSON.stringify(next.catalog,null,2));
  const astroPackage=JSON.parse(await readFile(path.join(root,'node_modules/astro/package.json'),'utf8'));
  const cli=path.resolve(root,'node_modules/astro',astroPackage.bin.astro);
- const environment={...process.env,ASHBI_DRAFT_PREVIEW:'1',PUBLIC_ENQUIRY_ENDPOINT:'',PUBLIC_ENQUIRY_MODE:'mailgun',PUBLIC_HUB_INQUIRY_BASE:'',SITE_URL:'http://127.0.0.1:4357'};
- delete environment.NODE_OPTIONS;
- await new Promise((resolve,reject)=>{
-  const child=spawn(process.execPath,[cli,'build'],{cwd:directory,env:environment,stdio:['ignore','pipe','pipe']});
-  let log='';child.stdout.on('data',chunk=>{log=(log+chunk).slice(-20000);});child.stderr.on('data',chunk=>{log=(log+chunk).slice(-20000);});
-  child.once('error',reject);child.once('exit',code=>code===0?resolve(null):reject(new Error(`Preview build failed (${code}): ${log}`)));
- });
+ await runPreviewBuild({cli,directory});
  const checked=await checkBuiltContent(path.join(directory,'dist'),next.home,next.catalog,{allowDraft:true});
  const route=snapshot.documentId==='home'?'/':snapshot.kind==='article'?`/${snapshot.documentId.split(':')[1]}/`:`/${snapshot.kind==='project'?'work':snapshot.kind==='service'?'services':'campaigns'}/${snapshot.documentId.split(':')[1]}/`;
  await writeFile(path.join(directory,'preview.json'),JSON.stringify({documentId:snapshot.documentId,revision:snapshot.revision,route,checked},null,2),{mode:0o600});
