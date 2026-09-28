@@ -57,3 +57,7 @@ Remote main remains `e8a0e5e84216f057868e81557928fdea6cd0c706`. Current product-
 Direct browser navigation to `https://hub.ashbi.ca/` failed with `ERR_CERT_DATE_INVALID`. A separate normal `curl -I --max-time 10 https://hub.ashbi.ca/` failed certificate verification with exit 60 and “certificate has expired.” No insecure request, sign-in, visitor submission or hosting mutation was performed. Current runtime clock was verified at 2026-09-28 19:16 UTC.
 
 Owner: Cameron / the Hub hosting operator. Next action: identify the serving certificate/proxy and renewal failure with read-only infrastructure checks, prepare a scoped backup/repair, obtain explicit hosting-change approval, renew the certificate, then re-run normal verified HTTPS and the controlled authenticated Hub journey. Until then, live Hub integration is unverified and must remain disabled. This does not prevent local CMS/content work.
+
+### HTTPS repair prepared
+
+Read-only SSH confirmed the expired certificate is explicitly loaded in dynamic TLS configuration. A parsed two-line Hub-only removal candidate, original/result hashes and named-backup/rollback steps are recorded in hub-https-repair.md. Preview currently returns verified HTTPS 200. Specific hosting approval is pending; no remote configuration changed.
