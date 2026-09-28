@@ -102,3 +102,7 @@ Draft CMS previews force Mailgun mode with an empty endpoint and empty Hub base,
 ### Verified local evidence
 
 42 tests passed, including config/version/origin-base validation, mappings, consent, attribution bounds, byte limits, retry identity, response interpretation, timeout and concurrency. Typecheck and the 75-page default build passed; 162 CMS placements, 3,149 local links/assets and 295 fragments passed. An isolated Hub-mode 75-page build also passed. The fetched actual Hub intake schema accepted all five website service mappings in an isolated Node check (using the available local Zod runtime). No live Hub enquiry, Mailgun email, deployment or hosted review occurred. Local rendered Hub-mode mobile/desktop review passed subsequently. Live target verification remains a release gate.
+
+### Current target availability gate
+
+On 28 September 2026 at 19:16 UTC, the browser and normal verified curl request to `https://hub.ashbi.ca/` rejected an expired TLS certificate. Do not activate public Hub enquiry routing, transmit briefs, bypass certificate verification or infer portal availability from repository code. The hosting operator must restore valid HTTPS before controlled authenticated target verification can resume. No infrastructure changes were made by this check.

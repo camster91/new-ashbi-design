@@ -49,3 +49,11 @@ Optional authenticated layout-preview requests/status/viewer now use the isolate
 ### Preview lifecycle checkpoint — 28 September
 
 Single-worker ownership, marked expired-session cleanup and graceful/failed-start cleanup are implemented. 51 tests and typecheck pass, including real isolated gateway processes. An abandoned crash lock deliberately needs operator verification before recovery. No hosted configuration, push, merge or release changed.
+
+## Live Hub entry-point check — 28 September 2026, 19:16 UTC
+
+Remote main remains `e8a0e5e84216f057868e81557928fdea6cd0c706`. Current product-status source still distinguishes deployed authentication/operations code from pending authenticated portal/tenant/provider evidence.
+
+Direct browser navigation to `https://hub.ashbi.ca/` failed with `ERR_CERT_DATE_INVALID`. A separate normal `curl -I --max-time 10 https://hub.ashbi.ca/` failed certificate verification with exit 60 and “certificate has expired.” No insecure request, sign-in, visitor submission or hosting mutation was performed. Current runtime clock was verified at 2026-09-28 19:16 UTC.
+
+Owner: Cameron / the Hub hosting operator. Next action: identify the serving certificate/proxy and renewal failure with read-only infrastructure checks, prepare a scoped backup/repair, obtain explicit hosting-change approval, renew the certificate, then re-run normal verified HTTPS and the controlled authenticated Hub journey. Until then, live Hub integration is unverified and must remain disabled. This does not prevent local CMS/content work.
