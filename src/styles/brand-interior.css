@@ -1,0 +1,22 @@
+/* Approved Ashbi palette; licensed brand webfonts remain a separate input. */
+body[data-brand-interior]{--ink:#2b2e52;--ink2:#42467d;--cream:#fffdf4;--lime:#e6f254;--brand-mint:#d8ffc2;--brand-powder:#d2deea;background:var(--cream)}
+body[data-brand-interior] main :is(h1,h2) em{font-family:'PP Editorial New',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-.045em;color:var(--ink2)}
+body[data-brand-interior] :is(.interior-hero,.campaign-hero){border-bottom:1px solid #2b2e5226}
+body[data-brand-interior] :is(.interior-hero,.campaign-hero,.section-heading) .eyebrow:after{content:'';display:block;margin-top:14px;width:56px;height:2px;background:currentColor}
+body[data-brand-interior] :is(.project-hero,.service-detail-hero,.campaign-hero-image) img{border-radius:8px}
+body[data-brand-interior] .process-section{background:var(--ink2)}
+body[data-brand-interior] .process-section h2 em{color:var(--lime)}
+body[data-brand-interior] .campaign-includes{background:var(--brand-powder)}
+body[data-brand-interior] .campaign-includes-grid article{border-radius:8px;background:var(--cream)}
+body[data-brand-interior] .campaign-includes-grid article:nth-child(2){background:var(--brand-mint)}
+body[data-brand-interior] .campaign-proof{background:var(--brand-mint);border-radius:8px}
+body[data-brand-interior] .campaign-close{background:var(--ink2);border-radius:8px 8px 30px 30px}
+body[data-brand-interior] .campaign-close h2 em{color:var(--lime)}
+body[data-brand-interior] .conversation-cta{background:var(--ink2);border-radius:8px 8px 30px 30px}
+body[data-brand-interior] .conversation-copy h2 em{color:var(--lime);font-family:Georgia,serif;font-style:italic;font-weight:400}
+body[data-brand-interior] .article-hero{background:var(--brand-powder);border-radius:8px 8px 30px 30px;margin-top:24px;padding-inline:clamp(20px,5vw,70px)}
+body[data-brand-interior] .article-hero h1{max-width:1050px}
+body[data-brand-interior] .article-body{padding-top:48px}
+body[data-brand-interior] .article-next{border-top:1px solid var(--ink2)}
+body[data-brand-interior] :is(a,button,summary,input,select,textarea):focus-visible{outline:3px solid #2b2e52;outline-offset:3px;box-shadow:0 0 0 3px #fffdf4,0 0 0 6px #2b2e52,0 0 0 8px #fffdf4}
+@media(max-width:760px){body[data-brand-interior] .article-hero{margin-top:12px;padding-inline:20px}body[data-brand-interior] .article-body{padding-top:28px}}

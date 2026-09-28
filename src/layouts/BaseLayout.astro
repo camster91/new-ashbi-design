@@ -2,6 +2,7 @@
 import '../styles/fonts.css';
 import '../styles/ashbi.css';
 import '../styles/work-carousel.css';
+import '../styles/brand-interior.css';
 import { site } from '../data/site';
 import Header from '../components/AshbiHeader.astro';
 import Footer from '../components/AshbiFooter.astro';
@@ -33,7 +34,7 @@ const schema = JSON.stringify({ '@context': 'https://schema.org', '@type': 'Orga
     <link rel="icon" type="image/png" href="/images/ashbi/logo.png" />
     <script type="application/ld+json" set:html={schema} />
   </head>
-  <body>
+  <body data-brand-interior={Astro.url.pathname!=='/'?true:undefined}>
     <a class="skip-link" href="#main">Skip to content</a>
     <Header campaign={campaign} />
     {draftPreview&&<aside class="draft-preview-banner" aria-label="Draft preview">LOCAL DRAFT PREVIEW · Saved copy for review · Not published</aside>}

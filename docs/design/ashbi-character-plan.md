@@ -71,3 +71,12 @@ Ashbi's original visual assets and type are recognisable; real work remains domi
 - Verified: typecheck, 22 existing tests, 75-page build; local homepage HTTP 200.
 - Not verified: rendered desktop/mobile. In-app browser unavailable; native Chrome control denied by approval policy. Do not treat build as visual approval. Reopen browser access and review 375/768/1440 before rollout or deployment.
 - No deployment, push or production change.
+
+## Interior rollout implemented locally — 28 September 2026
+
+- Shared interior palette, editorial heading contrast, clearer section rules, cream/mint/powder surfaces and consistent closing invitations. Homepage remains separately scoped.
+- Six Insights covers use typography and four topic diagrams: browser frames, packaging, creative deliverables and brand marks. These are editorial diagrams, not client deliverables. Older featured articles now have visible cover titles too.
+- Mobile closing invitation preserves word spacing when the desktop line break is hidden.
+- Rendered 15 representative routes at 375/768/1440: 45 checks with no horizontal page overflow, broken loaded images or missing/duplicate main headings. Saved screenshots reviewed for Insights, services and ongoing campaign. Evidence: ../brand-interior-review-2026-09-28/.
+- Mobile Insights → Shopify guide → web service → brief journey passed with service context preserved. No form submitted.
+- Production build: 75 pages; 3149 local links/assets, 295 fragments and 162 CMS placements pass. This is representative local layout/journey evidence, not full-page visual acceptance of every route, licensed-font delivery or a hosted release.
