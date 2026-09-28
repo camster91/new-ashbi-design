@@ -2,7 +2,7 @@ import test from 'node:test';import assert from 'node:assert/strict';import {mkd
 import {previewEnvironment,runPreviewBuild} from '../ops/preview-runner.mjs';
 test('preview environment removes gateway secrets, telemetry and arbitrary node/build options',()=>{
  const env=previewEnvironment({PATH:'/bin',CONFIG_ENCRYPTION_KEY:'private',ADMIN_SETUP_TOKEN:'private',GH_TOKEN:'private',PUBLIC_ENQUIRY_ENDPOINT:'/api/enquiries',PUBLIC_ENQUIRY_MODE:'hub',PUBLIC_HUB_INQUIRY_BASE:'https://private.invalid/api/client-acquisition',NODE_OPTIONS:'--inspect',NODE_ENV:'production',PUBLIC_TRACKING_ID:'private'});
- assert.deepEqual(env,{PATH:'/bin',ASHBI_DRAFT_PREVIEW:'1',PUBLIC_ENQUIRY_ENDPOINT:'',PUBLIC_ENQUIRY_MODE:'mailgun',PUBLIC_HUB_INQUIRY_BASE:'',SITE_URL:'http://127.0.0.1:4357'});
+ assert.deepEqual(env,{PATH:'/bin',ASTRO_TELEMETRY_DISABLED:'1',ASHBI_DRAFT_PREVIEW:'1',PUBLIC_ENQUIRY_ENDPOINT:'',PUBLIC_ENQUIRY_MODE:'mailgun',PUBLIC_HUB_INQUIRY_BASE:'',SITE_URL:'http://127.0.0.1:4357'});
 });
 test('preview runner builds in isolation and kills overdue children before returning',async()=>{
  const dir=await mkdtemp(path.join(os.tmpdir(),'ashbi-preview-runner-'));

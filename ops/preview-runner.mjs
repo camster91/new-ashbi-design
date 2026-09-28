@@ -3,7 +3,7 @@ import {spawn} from 'node:child_process';
 export function previewEnvironment(source=process.env){
  const env={};
  for(const key of ['PATH','SystemRoot','TMPDIR','TMP','TEMP','LANG','LC_ALL'])if(source[key])env[key]=source[key];
- return {...env,ASHBI_DRAFT_PREVIEW:'1',PUBLIC_ENQUIRY_ENDPOINT:'',PUBLIC_ENQUIRY_MODE:'mailgun',PUBLIC_HUB_INQUIRY_BASE:'',SITE_URL:'http://127.0.0.1:4357'};
+ return {...env,ASTRO_TELEMETRY_DISABLED:'1',ASHBI_DRAFT_PREVIEW:'1',PUBLIC_ENQUIRY_ENDPOINT:'',PUBLIC_ENQUIRY_MODE:'mailgun',PUBLIC_HUB_INQUIRY_BASE:'',SITE_URL:'http://127.0.0.1:4357'};
 }
 /** Reap timed-out builders before reporting completion; logs remain private and bounded. */
 export function runPreviewBuild({cli,directory,timeoutMs=90000,killGraceMs=1000,environment=process.env}){
