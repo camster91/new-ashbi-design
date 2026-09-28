@@ -21,7 +21,7 @@ Canonical scope for this continuation, 28 September 2026. Historical plans remai
 | Portfolio | Mostly reconciled | Keep Della → BPM → Marin → CocoFro. Obtain actual Della campaign deliverable, Evergreen scope, Jill finished posts and final TMM site. Kalm remains production-only. No fictional mockups/results |
 | Services/pricing | Built, terms incomplete | Cameron confirms currency, commitment, rollover, turnaround and exclusions. Keep ongoing partnership prominent; preserve plan context into brief |
 | Five campaigns | Built locally | Review live creative-partner, Shopify, packaging, brand-launch and website-redesign. Specific audience/channel and ad/outreach creatives follow approval; do not add thin extra pages |
-| Insights | Four buyer guides and refreshed articles built | Maintain relationships to real work/services. Prepare an editorial calendar; research search priorities before claiming keyword opportunity |
+| Insights | Four buyer guides and refreshed articles built | Maintain relationships to real work/services. Twelve-week calendar prepared in `docs/editorial-calendar.md`; research search priorities before claiming keyword opportunity |
 | Mailgun/enquiries | Code tested with isolated sink | Cameron privately completes login/key setup, retention choice and approved receipt test. Verify stored brief/delivery before enabling public endpoint |
 | Measurement | Local event/context plumbing | Choose reporting destination and privacy/consent approach, establish actual baseline; a calendar click is not a booking |
 | Main-domain launch | Approval gate | Reviewed preview, working enquiry route, URL/redirect/legal/rollback checks, then explicit main-domain approval |

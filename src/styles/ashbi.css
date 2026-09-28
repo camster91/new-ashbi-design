@@ -278,3 +278,7 @@ img[src*="/bpm/web-"]{object-fit:contain!important;background:#f5eee2}
 #main img.image-contain-bpm{object-fit:contain;background:#f7b46f}
 /* Contain off-axis entrances without creating a scroll container for sticky work. */
 [data-home-motion]{overflow-x:clip}
+
+/* Keep in-page destinations readable beneath the fixed navigation. More
+   specific section offsets (such as the project brief) remain authoritative. */
+:where(main, main section[id]){scroll-margin-block-start:96px}
