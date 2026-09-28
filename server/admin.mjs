@@ -2,6 +2,8 @@ import {createHash,randomBytes,timingSafeEqual} from 'node:crypto';
 import {hashPassword,verifyPassword} from './state.mjs';
 import {validateMailgunSettings} from './mailgun.mjs';
 import {clientIdentity,chargeBucket} from './client-identity.mjs';
+import {contentEditor} from './content-admin.mjs';
+import {homeFields} from '../src/lib/content.ts';
 
 const ADMIN_EMAIL='cameron@ashbi.ca';
 const SESSION_MS=8*60*60*1000;
@@ -14,6 +16,8 @@ const notices={
   password:'Password changed. Please sign in again.',
   failed:'That action could not be completed. Check the settings and try again.',
   redacted:'The saved brief content was removed. Mailbox copies and Mailgun records are separate.',
+  draft:'Homepage draft saved. The public site is unchanged.',
+  approved:'Saved homepage copy approved for export. The public site is unchanged.',
 };
 const leadStates={pending:'Awaiting delivery result','delivery-failed':'Delivery needs review','accepted-by-mailgun':'Accepted by Mailgun'};
 const leadFields={email:'Email',company:'Company',website:'Website',service:'Interested in',timing:'Timing',plan:'Monthly option',campaign:'Campaign',project:'Project reference',description:'Project brief'};
@@ -30,7 +34,7 @@ function equalSecret(a,b){
   return left.length===right.length&&left.length>0&&timingSafeEqual(left,right);
 }
 
-const css=`:root{font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#272b4a;background:#f9faf5}*{box-sizing:border-box}body{margin:0}header{padding:22px max(24px,5vw);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #dde2dc;background:#fff}header strong{font-size:27px;font-style:italic;letter-spacing:-2px}header span{font-size:12px;text-transform:uppercase;letter-spacing:.14em}main{max-width:1050px;margin:clamp(36px,6vw,84px) auto;padding:0 24px 80px}h1{font-size:clamp(38px,6vw,70px);line-height:1.04;letter-spacing:-.055em;margin:12px 0 20px}h2{font-size:24px;letter-spacing:-.035em;margin:0 0 14px}p{line-height:1.6;color:#5b6173}.eyebrow{font-size:12px;letter-spacing:.16em;font-weight:700;text-transform:uppercase}.intro{max-width:670px;margin-bottom:35px}.grid{display:grid;grid-template-columns:1.3fr 1fr;gap:22px;align-items:start}.grid .settings{grid-column:1;grid-row:1}.grid .actions{grid-column:2;grid-row:1 / span 2}.grid .account{grid-column:1;grid-row:2}.card{border:1px solid #d9dedb;border-radius:24px;padding:clamp(22px,3vw,34px);background:#fff;box-shadow:0 18px 50px #272b4a0b}.card.lime{background:#f3facd}.stack{display:grid;gap:16px}label{display:grid;gap:7px;font-size:14px;font-weight:650}input,select{font:inherit;color:#272b4a;border:1px solid #c8ceca;border-radius:12px;padding:12px 14px;width:100%;background:#fff}input:focus,select:focus,button:focus-visible{outline:3px solid #a9c6ff;outline-offset:2px}button{font:inherit;font-weight:750;cursor:pointer;border:0;border-radius:999px;background:#272b4a;color:#fff;padding:13px 19px}button.secondary{background:transparent;color:#272b4a;border:1px solid #272b4a}button.danger{background:#a13c49}.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.notice{padding:13px 17px;border-radius:12px;background:#eaf6dd;color:#263f27;margin:20px 0}.error{background:#fce9eb;color:#6d222a}.muted{font-size:13px;color:#687083}.status{font-size:14px;font-weight:700;padding:6px 12px;border-radius:999px;background:#e9eceb}.status.on{background:#e2f1c3;color:#304b1a}hr{border:0;border-top:1px solid #e5e8e4;margin:26px 0}.check{display:flex;align-items:flex-start;gap:10px;font-weight:500}.check input{width:auto;margin-top:4px}a{color:inherit}.field-note{font-size:12px;color:#687083;font-weight:400}@media(max-width:760px){.grid{grid-template-columns:1fr}.grid .settings,.grid .actions,.grid .account{grid-column:1;grid-row:auto}header span{display:none}}`;
+const css=`:root{font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#272b4a;background:#f9faf5}*{box-sizing:border-box}body{margin:0}header{padding:22px max(24px,5vw);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #dde2dc;background:#fff}header strong{font-size:27px;font-style:italic;letter-spacing:-2px}header span{font-size:12px;text-transform:uppercase;letter-spacing:.14em}main{max-width:1050px;margin:clamp(36px,6vw,84px) auto;padding:0 24px 80px}h1{font-size:clamp(38px,6vw,70px);line-height:1.04;letter-spacing:-.055em;margin:12px 0 20px}h2{font-size:24px;letter-spacing:-.035em;margin:0 0 14px}p{line-height:1.6;color:#5b6173}.eyebrow{font-size:12px;letter-spacing:.16em;font-weight:700;text-transform:uppercase}.intro{max-width:670px;margin-bottom:35px}.grid{display:grid;grid-template-columns:1.3fr 1fr;gap:22px;align-items:start}.grid .settings{grid-column:1;grid-row:1}.grid .actions{grid-column:2;grid-row:1 / span 2}.grid .account{grid-column:1;grid-row:2}.card{border:1px solid #d9dedb;border-radius:24px;padding:clamp(22px,3vw,34px);background:#fff;box-shadow:0 18px 50px #272b4a0b}.card.lime{background:#f3facd}.stack{display:grid;gap:16px}label{display:grid;gap:7px;font-size:14px;font-weight:650}input,select,textarea{font:inherit;color:#272b4a;border:1px solid #c8ceca;border-radius:12px;padding:12px 14px;width:100%;background:#fff}input:focus,select:focus,textarea:focus,button:focus-visible{outline:3px solid #a9c6ff;outline-offset:2px}button{font:inherit;font-weight:750;cursor:pointer;border:0;border-radius:999px;background:#272b4a;color:#fff;padding:13px 19px}textarea{resize:vertical;min-height:110px;line-height:1.5;font-weight:400}.card+.card{margin-top:22px}dd{margin:8px 0 22px;line-height:1.6;overflow-wrap:anywhere}button:disabled{cursor:not-allowed;opacity:.55}button.secondary{background:transparent;color:#272b4a;border:1px solid #272b4a}button.danger{background:#a13c49}.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.notice{padding:13px 17px;border-radius:12px;background:#eaf6dd;color:#263f27;margin:20px 0}.error{background:#fce9eb;color:#6d222a}.muted{font-size:13px;color:#687083}.status{font-size:14px;font-weight:700;padding:6px 12px;border-radius:999px;background:#e9eceb}.status.on{background:#e2f1c3;color:#304b1a}hr{border:0;border-top:1px solid #e5e8e4;margin:26px 0}.check{display:flex;align-items:flex-start;gap:10px;font-weight:500}.check input{width:auto;margin-top:4px}a{color:inherit}.field-note{font-size:12px;color:#687083;font-weight:400}@media(max-width:760px){.grid{grid-template-columns:1fr}.grid .settings,.grid .actions,.grid .account{grid-column:1;grid-row:auto}header span{display:none}}`;
 
 function page(content,{notice='',error=''}={}){
   const message=error?`<p class="notice error" role="alert">${esc(error)}</p>`:notice?`<p class="notice" role="status">${esc(notices[notice]||'')}</p>`:'';
@@ -55,17 +59,17 @@ function setupPage(enabled,error=''){
 function loginPage(error=''){
   return page(`<div class="intro"><span class="eyebrow">ASHBI ADMIN</span><h1>Welcome back, Cameron.</h1><p>Sign in to manage project brief delivery.</p></div><div class="card" style="max-width:560px"><form class="stack" method="post" action="/admin/login"><label>Email<input name="email" type="email" required autocomplete="username" value="${ADMIN_EMAIL}"></label><label>Password<input name="password" type="password" required autocomplete="current-password"></label><button type="submit">Sign in →</button></form></div>`,{error});
 }
-function dashboard(state,csrf,notice){
+function dashboard(state,csrf,notice,contentAvailable=false){
   const config=state.mailgun;
   const status=state.enabled?'<span class="status on">Brief delivery on</span>':'<span class="status">Brief delivery off</span>';
   const hidden=`<input type="hidden" name="csrf" value="${esc(csrf)}">`;
   const settings=`<section class="card settings"><span class="eyebrow">01 / MAILGUN</span><h2>Sending settings</h2><p>Use a Mailgun domain sending key. The key is encrypted on the server and never shown again here. Saving changes turns brief delivery off until retested.</p><form method="post" action="/admin/settings" class="stack">${hidden}<input type="hidden" name="revision" value="${esc(state.configRevision||'')}"><label>Mailgun region<select name="region"><option value="US" ${config?.region==='US'?'selected':''}>United States</option><option value="EU" ${config?.region==='EU'?'selected':''}>European Union</option></select></label><label>Sending domain<input name="domain" required placeholder="mg.ashbi.ca" value="${esc(config?.domain||'')}"><span class="field-note">The domain configured in Mailgun, not the inbox domain unless they are the same.</span></label><label>From address<input name="from" type="email" required placeholder="hello@mg.ashbi.ca" value="${esc(config?.from||'')}"></label><label>Mailgun domain sending key<input name="apiKey" type="password" autocomplete="new-password" placeholder="${config?'Leave blank to keep saved key':'Paste key'}" ${config?'':'required'}><span class="field-note">${config?'A key is saved. Leave this blank unless replacing it.':'No key saved yet.'}</span></label><button type="submit">Save settings →</button></form></section>`;
   const actions=`<section class="card lime actions"><span class="eyebrow">02 / DELIVERY</span><h2>Ready when you are.</h2><div class="row">${status}</div><p>Project briefs go to <strong>hello@ashbi.ca</strong>. Your login and test mailbox is <strong>${ADMIN_EMAIL}</strong>.</p>${config?`<p class="muted">Last Mailgun test accepted: ${state.lastTestAt?esc(new Date(state.lastTestAt).toLocaleString('en-CA',{timeZone:'America/Toronto'})):'Not tested'}</p><hr><form method="post" action="/admin/test" class="stack">${hidden}<label class="check"><input type="checkbox" name="confirm" value="yes" required>Send a real test email to ${ADMIN_EMAIL}. Mailgun may charge for it.</label><button class="secondary" type="submit">Send test email ↗</button></form><hr>${state.enabled?`<form method="post" action="/admin/disable">${hidden}<button class="danger" type="submit">Disable brief delivery</button></form>`:state.lastTestAt?`<form method="post" action="/admin/enable" class="stack">${hidden}<label class="check"><input type="checkbox" name="received" value="yes" required>I checked ${ADMIN_EMAIL} and received the test email.</label><button type="submit">Enable brief delivery →</button></form>`:'<p>Send a test email and check receipt before enabling visitor briefs.</p>'}`:'<p>Save your Mailgun settings to continue.</p>'}</section>`;
   const account=`<section class="card account"><span class="eyebrow">03 / ACCOUNT</span><h2>Login security</h2><p><a href="/admin/leads">View saved project briefs →</a></p><p>Only ${ADMIN_EMAIL} can sign in. Sessions expire after eight hours.</p><form method="post" action="/admin/password" class="stack">${hidden}<label>Current password<input type="password" name="current" autocomplete="current-password" required></label><label>New password<input type="password" name="password" autocomplete="new-password" minlength="16" maxlength="128" required></label><button class="secondary" type="submit">Change password</button></form><hr><form method="post" action="/admin/logout">${hidden}<button class="secondary" type="submit">Sign out</button></form></section>`;
-  return page(`<div class="intro"><span class="eyebrow">STUDIO OPERATIONS</span><h1>Project brief delivery.</h1><p>Set up Mailgun, confirm a test reaches your inbox, then turn on direct submissions. The public form stays off until the website is built with its endpoint.</p></div><div class="grid">${settings}${actions}${account}</div>`,{notice});
+  return page(`<div class="intro"><span class="eyebrow">STUDIO OPERATIONS</span><h1>Project brief delivery.</h1><p>Set up Mailgun, confirm a test reaches your inbox, then turn on direct submissions. The public form stays off until the website is built with its endpoint.</p>${contentAvailable?'<p><a href="/admin/content">Edit website content →</a></p>':''}</div><div class="grid">${settings}${actions}${account}</div>`,{notice});
 }
 
-export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date.now,trustedProxyAddress='',leads=/** @type {{list: (options?:{offset?:number,limit?:number}) => Promise<Array<{id:string,createdAt:string,status:string,brief:Record<string,unknown>|null}>>,redact:(id:string)=>Promise<void>} | null} */ (null)}){
+export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date.now,trustedProxyAddress='',content=/** @type {ReturnType<typeof import('./content-store.mjs').createContentStore> | null} */ (null),leads=/** @type {{list: (options?:{offset?:number,limit?:number}) => Promise<Array<{id:string,createdAt:string,status:string,brief:Record<string,unknown>|null}>>,redact:(id:string)=>Promise<void>} | null} */ (null)}){
   const sessions=new Map(),attempts=new Map();
   const secure=origin.startsWith('https://');
   const cookieName=secure?'__Host-ashbi_admin':'ashbi_admin_local';
@@ -98,8 +102,18 @@ export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date
       const session=sessionFor(req);
       if(req.method==='GET'&&pathname==='/admin/'){
         const notice=new URL(req.url,origin).searchParams.get('notice')||'';
-        sendHtml(res,200,!state.password?setupPage(Boolean(setupToken)):!session?loginPage():dashboard(state,session.csrf,notice));
+        sendHtml(res,200,!state.password?setupPage(Boolean(setupToken)):!session?loginPage():dashboard(state,session.csrf,notice,Boolean(content)));
         return true;
+      }
+      if(req.method==='GET'&&(pathname==='/admin/content'||pathname==='/admin/content/export')){
+        if(!state.password||!session){redirect(res,'/admin/');return true;}
+        if(!content){sendHtml(res,503,page('<h1>Content editing unavailable.</h1>'));return true;}
+        if(pathname.endsWith('/export')){
+          const snapshot=content.export();
+          res.writeHead(200,{'Content-Type':'application/json','Content-Disposition':'attachment; filename="ashbi-home-approved.json"','Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow','X-Content-Type-Options':'nosniff'});
+          res.end(JSON.stringify(snapshot,null,2));return true;
+        }
+        sendHtml(res,200,page(contentEditor(content.get(),session.csrf),{notice:new URL(req.url,origin).searchParams.get('notice')||''}));return true;
       }
       if(req.method==='GET'&&pathname==='/admin/leads'){
         if(!state.password||!session){redirect(res,'/admin/');return true;}
@@ -136,6 +150,16 @@ export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date
       if(!session){redirect(res,'/admin/');return true;}
       const value=await formBody(req);
       if(!equalSecret(value('csrf'),session.csrf)||!currentSession(session)){sendHtml(res,403,page('<h1>Request denied.</h1>'));return true;}
+      if(pathname==='/admin/content/save'){
+        if(!content)throw new Error('Content unavailable');
+        await content.save(Object.fromEntries(Object.keys(homeFields).map(key=>[key,value(key)])),value('revision'));
+        redirect(res,'/admin/content?notice=draft');return true;
+      }
+      if(pathname==='/admin/content/approve'){
+        if(!content||value('confirm')!=='yes')throw new Error('Approval not confirmed');
+        await content.approve(value('revision'));
+        redirect(res,'/admin/content?notice=approved');return true;
+      }
       if(pathname==='/admin/logout'){
         sessions.delete(tokenHash(session.raw));
         res.setHeader('Set-Cookie',`${cookieName}=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0${secure?'; Secure':''}`);

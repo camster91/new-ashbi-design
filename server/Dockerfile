@@ -4,6 +4,8 @@ COPY package.json package-lock.json ./
 RUN npm ci --omit=dev --ignore-scripts && mkdir /data && chown node:node /data
 COPY server ./server
 COPY src/lib/enquiry.ts ./src/lib/enquiry.ts
+COPY src/lib/content.ts ./src/lib/content.ts
+COPY src/data/home-content.json ./src/data/home-content.json
 ENV NODE_ENV=production PORT=3000 DATA_DIR=/data
 USER node
 EXPOSE 3000

@@ -1,6 +1,8 @@
 import http from 'node:http';
 import {isIP} from 'node:net';
 import path from 'node:path';
+import {readFile} from 'node:fs/promises';
+import {createContentStore} from './content-store.mjs';
 import {createLeadStore,persistThenDeliver} from './lead-store.mjs';
 import {createEnquiryHandler} from './enquiry-handler.mjs';
 import {createAdminHandler} from './admin.mjs';
@@ -22,9 +24,11 @@ const store=createStateStore({file:path.join(dataDir,'admin-state.json'),key});
 await store.init();
 const leads=createLeadStore({directory:path.join(dataDir,'leads'),key});
 await leads.init();
+const content=createContentStore({directory:path.join(dataDir,'content'),base:JSON.parse(await readFile(new URL('../src/data/home-content.json',import.meta.url),'utf8'))});
+await content.init();
 
 const admin=createAdminHandler({
-  store,origin,setupToken,trustedProxyAddress,leads,
+  store,origin,setupToken,trustedProxyAddress,leads,content,
   sendTest:(config,to)=>sendMailgunMessage(config,{to,subject:'Ashbi project brief delivery test',text:'This is a test of Ashbi project brief delivery. If you received it, return to the admin page and enable submissions.'}),
 });
 const enquiry=createEnquiryHandler({
