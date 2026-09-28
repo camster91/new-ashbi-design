@@ -1,3 +1,4 @@
+import {tmpdir} from 'node:os';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {spawn} from 'node:child_process';
@@ -20,9 +21,9 @@ function worker(port:number,directory:string,key:string){
  return {child,exited,diagnostic:()=>diagnostic};
 }
 test('optional runtime locks a single worker and releases only its private workspace on shutdown',{timeout:15000},async()=>{
- const directory=await mkdtemp('/private/tmp/ashbi-runtime-test-');const key=randomBytes(32).toString('base64');
+ const directory=await mkdtemp(path.join(tmpdir(),'ashbi-runtime-test-'));const key=randomBytes(32).toString('base64');
  const port=await freePort();const first=worker(port,directory,key);let second:ReturnType<typeof worker>|undefined;
- const occupiedDirectory=await mkdtemp('/private/tmp/ashbi-runtime-busy-test-');let busy:ReturnType<typeof worker>|undefined;
+ const occupiedDirectory=await mkdtemp(path.join(tmpdir(),'ashbi-runtime-busy-test-'));let busy:ReturnType<typeof worker>|undefined;
  try{
   let ready=false;
   for(let attempt=0;attempt<60;attempt++){

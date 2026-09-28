@@ -1,6 +1,6 @@
 # Hub HTTPS repair candidate — 28 September 2026
 
-State: prepared locally; hosting approval pending. No VPS configuration changed.
+State: approved and applied on 28 September 2026. Verified HTTPS 200; the Hub certificate is now managed by Traefik ACME.
 
 ## Verified findings
 
@@ -34,3 +34,7 @@ Both YAML files were parsed and compared: all other certificate entries are iden
 6. If configuration causes regression, restore the named dynamic-file backup and verify other sites. Restoration returns Hub to its prior expired-certificate state; it is not successful HTTPS recovery. Do not blindly restore ACME storage after new certificates have been issued.
 
 The Hostinger VPS skill and user AGENTS.md require exact hosting-change approval. Pending approval is not deployment or completion of the integration goal.
+
+## Executed result
+
+The original hash matched before applying the exact two-line removal. Private backups of TLS configuration and ACME storage were saved at `/opt/traefik/backups/ashbi-hub-tls-20260928T231726Z/`. Result hash matches the prepared candidate. No shared proxy restart was performed. Normal certificate-verifying HTTPS returns 200; SAN is hub.ashbi.ca, valid 28 September 2026 through 27 December 2026. The ACME store now contains the Hub certificate. Preview remained available on its previous release while CI ran. Authenticated Hub/intake acceptance is still separate.

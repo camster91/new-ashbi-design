@@ -1,3 +1,5 @@
+import path from 'node:path';
+import {tmpdir} from 'node:os';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -20,7 +22,7 @@ test('release candidate reconciles multiple approvals without changing the basel
  for(const exports of [[],[homeExport,homeExport],[{...homeExport,type:'ashbi-draft'}],[{...serviceExport,baseRevision:'stale'}],[{...homeExport,approvedAt:null}],[{...homeExport,content:home}],[{...serviceExport,content:{...serviceExport.content,price:'$1'}}]])assert.throws(()=>contentReleaseChanges(exports,home,catalog));
 });
 test('candidate integrity binds nested source/assets and excludes private configuration',async()=>{
- const root=await mkdtemp('/private/tmp/ashbi-release-inputs-');
+ const root=await mkdtemp(path.join(tmpdir(),'ashbi-release-inputs-'));
  try{
   await mkdir(root+'/src');await mkdir(root+'/public');
   for(const name of ['astro.config.mjs','package.json','package-lock.json','tsconfig.json'])await writeFile(root+'/'+name,'fixture');
