@@ -45,3 +45,7 @@ See [enquiry-contract.md](enquiry-contract.md) for the explicit Hub build mode, 
 ## Admin preview checkpoint
 
 Optional authenticated layout-preview requests/status/viewer now use the isolated builder and bounded queue. A real local draft was reviewed at 375/1440 px; 48 tests and typecheck pass. Docker daemon unavailable: no container or hosted release verification. Default gateway remains editor-only. See website-cms.md for runtime, static-view limitations and remaining operational gates.
+
+### Preview lifecycle checkpoint — 28 September
+
+Single-worker ownership, marked expired-session cleanup and graceful/failed-start cleanup are implemented. 51 tests and typecheck pass, including real isolated gateway processes. An abandoned crash lock deliberately needs operator verification before recovery. No hosted configuration, push, merge or release changed.
