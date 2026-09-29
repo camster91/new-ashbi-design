@@ -1,1 +1,1 @@
-export const commerceProjectSlugs=['della','bpm','marin-food','cocofro','chef-tanya','ancient-bliss','mom-water','clypse-beauty','shongoni-skin','hopscotch','waagbag','tres','gemzy','better-sour'] as const;
+export const commerceProjectSlugs=['della','bpm','marin-food','cocofro','mom-water','shongoni-skin','chef-tanya','ancient-bliss','clypse-beauty','hopscotch','waagbag','tres','gemzy','better-sour'] as const;

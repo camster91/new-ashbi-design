@@ -60,3 +60,21 @@
 /* A drawn editorial rule gives every content chapter a distinct arrival. */
 [data-home-motion] :is(.section-heading,.faq-intro,.studio-copy,.conversation-copy)>.eyebrow:after{content:'';display:block;width:64px;height:2px;background:currentColor;margin-top:14px;transform:scaleX(var(--heading-rule,1));transform-origin:left}
 @media(hover:hover) and (prefers-reduced-motion:no-preference){body:not(.motion-paused) [data-home-motion] :is(.text-link,.round-link,.button) [aria-hidden]{display:inline-block;transition:transform .25s ease}body:not(.motion-paused) [data-home-motion] :is(.text-link,.round-link,.button):hover [aria-hidden]{transform:translate(3px,-3px)}}
+
+/* Full-bleed opening, readable cards, and an uncropped team portrait. */
+[data-home-motion] .hero.container{width:100%;max-width:none;margin-inline:0;border-radius:0}
+[data-home-motion] .studio-photo{border-radius:18px;min-height:0;height:auto;align-self:center}
+[data-home-motion] .studio-photo img{display:block;width:100%;height:auto;min-height:0;object-fit:contain}
+[data-home-motion] .process-section{padding-block:clamp(48px,6vw,88px)}
+[data-home-motion] .process-section .section-heading,[data-home-motion] .studio-benefits .section-heading{max-width:none;display:grid;grid-template-columns:1.15fr .85fr;gap:0 8%;align-items:end;margin-bottom:40px}
+[data-home-motion] :is(.process-section,.studio-benefits) .section-heading>.eyebrow{grid-column:1/-1}
+[data-home-motion] :is(.process-section,.studio-benefits) .section-heading>p{max-width:430px;margin:0 0 10px}
+.benefit-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 36px;margin-bottom:28px}
+.benefit-grid article{padding:28px 0;border-top:1px solid var(--line)}
+.benefit-grid article>span{display:grid;place-items:center;width:48px;height:48px;background:var(--brand-yellow);border-radius:50%;font-size:1.7rem;margin-bottom:22px}
+.benefit-grid article:nth-child(2n)>span{background:var(--brand-mint)}
+.benefit-grid h3{font-size:1.55rem;max-width:290px;line-height:1.15}
+.benefit-grid p{color:var(--muted);margin-bottom:0}
+@media(max-width:760px){[data-home-motion] :is(.process-section,.studio-benefits) .section-heading{display:block}[data-home-motion] :is(.process-section,.studio-benefits) .section-heading>p{margin-top:22px}.benefit-grid{grid-template-columns:1fr}.benefit-grid article{padding:22px 0}.benefit-grid article>span{float:left;margin:0 16px 16px 0}.benefit-grid h3{min-height:48px;display:flex;align-items:center;margin-bottom:14px}.benefit-grid p{clear:both}}
+@media(max-width:760px){.hero-character{width:32px;right:14px;top:10px;opacity:.75}}
+[data-home-motion] .offer-card{transition:box-shadow .25s}

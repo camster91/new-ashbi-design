@@ -63,10 +63,10 @@ export function initHomeMotion() {
           enter(row.querySelectorAll('.quote-mark'),row,{scale:.4,rotation:index===0?-18:18,y:12,stagger:.025,ease:'back.out(1.15)'});
         });
       }
-      document.querySelectorAll('.offer-card').forEach((card,index)=>{
+      document.querySelectorAll('.offer-card').forEach(card=>{
         // Cards in the mobile swipe track must be fully visible when scrolled sideways.
         if(window.matchMedia('(max-width: 760px)').matches) return;
-        enter(card,card,{y:desktop?90+(index%2)*28:35,rotationX:desktop?12:0,transformPerspective:1000,delay:desktop?index*.08:0});
+        gsap.fromTo(card,{y:24,opacity:.6},{y:0,opacity:1,duration:.7,ease:'power3.out',clearProps:'transform,opacity',scrollTrigger:{trigger:card,start:'top 91%',once:true}});
         const frame=card.querySelector('.offer-image');
         if(frame) gsap.fromTo(frame,{scale:.94,borderRadius:'32px'},{scale:1,borderRadius:'14px',duration:1.2,ease:'power3.out',scrollTrigger:{trigger:card,start:'top 82%',once:true}});
         const items=card.querySelectorAll('li');
@@ -74,9 +74,7 @@ export function initHomeMotion() {
       });
       const studio=document.querySelector('.studio-photo');
       if(studio){
-        enter(studio,studio,{rotation:desktop?-5:0,scale:.92});
-        const img=studio.querySelector('img');
-        if(img&&desktop) drift(img,studio,{yPercent:-6,scale:1.15},{yPercent:6,scale:1.15});
+        enter(studio,studio,{y:28});
         const label=studio.querySelector('.photo-label');
         if(label) enter(label,studio,{x:-25,y:0,rotation:-4,delay:.25,ease:'back.out(1.1)'});
       }

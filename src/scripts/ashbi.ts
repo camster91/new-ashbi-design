@@ -35,7 +35,7 @@ const gallery=document.querySelector<HTMLElement>('.hero-reel-stage');
 const motionPreference=window.matchMedia('(prefers-reduced-motion: reduce)');
 const rows=[...document.querySelectorAll<HTMLElement>('[data-hero-reel]')];
 const moveRows: ((direction:number)=>void)[]=[];
-// Hold the opening composition long enough for the featured projects to register.
+// Briefly hold the opening composition, then drift on every screen size.
 let lastGalleryInput=performance.now();
 let galleryVisible=true;
 if(gallery)new IntersectionObserver(([entry])=>{galleryVisible=entry.isIntersecting}).observe(gallery);
@@ -45,7 +45,6 @@ rows.forEach((reel,index)=>{
   let pointerStart: {x:number;left:number}|null=null;
   let dragged=false;
   let fraction=0;
-  let lastMobileAdvance=performance.now();
   const setWidth=()=>set?.getBoundingClientRect().width||0;
   const wrap=()=>{const width=setWidth();if(width&&reel.scrollLeft>=width)reel.scrollLeft-=width;};
   const move=(stepDirection:number,manual=true)=>{
@@ -78,11 +77,7 @@ rows.forEach((reel,index)=>{
   let previous=0;
   const advance=(now:number)=>{
     const elapsed=previous?Math.min(now-previous,64):0;previous=now;
-    if(window.innerWidth<=760&&galleryVisible&&!motionPreference.matches&&!document.hidden&&!document.body.classList.contains('motion-paused')&&!gallery?.querySelector(':focus-visible')&&now-lastGalleryInput>5000&&now-lastMobileAdvance>5000){
-      move(1,false);
-      lastMobileAdvance=now;
-    }
-    if(window.innerWidth>760&&galleryVisible&&!motionPreference.matches&&!document.hidden&&!document.body.classList.contains('motion-paused')&&!gallery?.matches(':hover')&&!gallery?.contains(document.activeElement)&&now-lastGalleryInput>12000){
+    if(galleryVisible&&!pointerStart&&!motionPreference.matches&&!document.hidden&&!document.body.classList.contains('motion-paused')&&!gallery?.querySelector(':focus-visible')&&now-lastGalleryInput>1800){
       fraction+=elapsed*(index===0?.014:.021)*direction;
       const pixels=Math.trunc(fraction);
       if(pixels){if(pixels<0&&reel.scrollLeft<-pixels)reel.scrollLeft+=setWidth();reel.scrollLeft+=pixels;fraction-=pixels;wrap()}
