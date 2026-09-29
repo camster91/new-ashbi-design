@@ -23,3 +23,7 @@ All six featured Insights covers are generated editorial artwork, stored under `
 Local review: all six Insights cards451px and covers292px at1280px, no overflow; desktop and375px hero row positions changed over time; explicit pause held both positions unchanged. Hero spans viewport. Service card transforms no longer contain perspective/rotation; portrait shows full source. Production build,53tests,typecheck,3112links/assets,295fragments and162CMSplacements pass.
 
 Preview nginx compression/cache configuration was syntax-checked and reloaded with a named backup at `/srv/ashbi-astro-preview/auto-nginx.conf.before-performance-20260929`. Fresh HTTPS headers confirm gzip. Static release remains to be verified after the final commit.
+
+## Preview release verification
+
+Release `eafe32c` passed GitHub run36507015165 and was verified via public `_release.json`. Live Insights images returned200, no loaded broken images or horizontal overflow; six covers measured332px at1440px. Compressed Studio HTML measured4,701bytes; mainJS53,076bytes, CSS23,916bytes. New editorial covers are16–60KB each. This is transfer/layout evidence, not a claim of field Core Web Vitals or all-device performance. A final spacing adjustment reduces the gap before the Insights archive.
