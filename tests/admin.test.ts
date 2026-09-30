@@ -81,11 +81,29 @@ test('admin setup, login, settings, test and enable require session and confirma
   const post=(route:string,form:Record<string,string>,cookie='',requestOrigin=origin)=>fetch(`${origin}${route}`,{method:'POST',redirect:'manual',headers:{Origin:requestOrigin,Cookie:cookie,'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(form)});
   try{
     assert.match(await (await get()).text(),/Set up your studio login/);
+    const setupLink=await fetch(`${origin}/admin/setup`,{redirect:'manual'});
+    assert.equal(setupLink.status,303);
+    assert.equal(setupLink.headers.get('location'),'/admin/');
     assert.equal((await post('/admin/setup',{token:'x'.repeat(32),password:'local test password 123'},'','https://wrong.test')).status,403);
+    for(const invalidPassword of ['', 'x'.repeat(15), 'x'.repeat(129)]){
+      const invalidSetup=await post('/admin/setup',{token:'x'.repeat(32),password:invalidPassword});
+      assert.equal(invalidSetup.status,400);
+      const invalidHtml=await invalidSetup.text();
+      assert.match(invalidHtml,/Your password must contain 16 to 128 characters/);
+      assert.match(invalidHtml,/action="\/admin\/setup"/);
+      assert.equal(invalidHtml.includes('Could not complete that request.'),false);
+      assert.equal(invalidHtml.includes('x'.repeat(32)),false);
+      assert.equal(invalidSetup.headers.get('set-cookie'),null);
+      assert.equal(store.get().password,null);
+    }
     const setup=await post('/admin/setup',{token:'x'.repeat(32),password:'local test password 123'});
     assert.equal(setup.status,303);
     const cookie=setup.headers.get('set-cookie')?.split(';')[0]||'';
     assert.ok(cookie);
+    const setupAfterCreation=await fetch(`${origin}/admin/setup`,{redirect:'manual'});
+    assert.equal(setupAfterCreation.status,303);
+    assert.equal(setupAfterCreation.headers.get('location'),'/admin/');
+    assert.match(await (await get()).text(),/Welcome back, Cameron/);
     const denied=await fetch(`${origin}/admin/leads`,{redirect:'manual'});
     assert.equal(denied.status,303);
     const leadPage=await fetch(`${origin}/admin/leads`,{headers:{Cookie:cookie}});
