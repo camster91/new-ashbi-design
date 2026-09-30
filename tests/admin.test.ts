@@ -58,6 +58,14 @@ test('Mailgun request uses fixed regional API, domain sending key and plain text
   await assert.rejects(sendMailgunMessage(config,{to:'cameron@ashbi.ca',subject:'Test',text:'Mock'},async()=>Response.json({})));
 });
 
+test('admin password hashing accepts generated passwords and enforces the shared bounds',async()=>{
+  for(const length of [12,15,128]){
+    const password='a'.repeat(length);
+    assert.equal(await verifyPassword(password,await hashPassword(password)),true);
+  }
+  for(const length of [0,11,129])await assert.rejects(hashPassword('a'.repeat(length)),/12 to 128 characters/);
+});
+
 test('admin setup, login, settings, test and enable require session and confirmation',async()=>{
   const dir=await mkdtemp(path.join(os.tmpdir(),'ashbi-admin-flow-'));
   const store=createStateStore({file:path.join(dir,'state.json'),key:randomBytes(32)});
@@ -84,19 +92,19 @@ test('admin setup, login, settings, test and enable require session and confirma
     const setupLink=await fetch(`${origin}/admin/setup`,{redirect:'manual'});
     assert.equal(setupLink.status,303);
     assert.equal(setupLink.headers.get('location'),'/admin/');
-    assert.equal((await post('/admin/setup',{token:'x'.repeat(32),password:'local test password 123'},'','https://wrong.test')).status,403);
-    for(const invalidPassword of ['', 'x'.repeat(15), 'x'.repeat(129)]){
+    assert.equal((await post('/admin/setup',{token:'x'.repeat(32),password:'FixturePass123!'},'','https://wrong.test')).status,403);
+    for(const invalidPassword of ['', 'x'.repeat(11), 'x'.repeat(129)]){
       const invalidSetup=await post('/admin/setup',{token:'x'.repeat(32),password:invalidPassword});
       assert.equal(invalidSetup.status,400);
       const invalidHtml=await invalidSetup.text();
-      assert.match(invalidHtml,/Your password must contain 16 to 128 characters/);
+      assert.match(invalidHtml,/Use a password between 12 and 128 characters/);
       assert.match(invalidHtml,/action="\/admin\/setup"/);
       assert.equal(invalidHtml.includes('Could not complete that request.'),false);
       assert.equal(invalidHtml.includes('x'.repeat(32)),false);
       assert.equal(invalidSetup.headers.get('set-cookie'),null);
       assert.equal(store.get().password,null);
     }
-    const setup=await post('/admin/setup',{token:'x'.repeat(32),password:'local test password 123'});
+    const setup=await post('/admin/setup',{token:'x'.repeat(32),password:'FixturePass123!'});
     assert.equal(setup.status,303);
     const cookie=setup.headers.get('set-cookie')?.split(';')[0]||'';
     assert.ok(cookie);
@@ -151,7 +159,7 @@ test('admin setup, login, settings, test and enable require session and confirma
     assert.match(await (await get(cookie)).text(),/Welcome back, Cameron/);
     assert.equal((await fetch(`${origin}/admin/leads`,{headers:{Cookie:cookie},redirect:'manual'})).status,303);
     assert.equal((await post('/admin/login',{email:'cameron@ashbi.ca',password:'wrong'})).status,403);
-    const login=await post('/admin/login',{email:'cameron@ashbi.ca',password:'local test password 123'},'','null');
+    const login=await post('/admin/login',{email:'cameron@ashbi.ca',password:'FixturePass123!'},'','null');
     assert.equal(login.status,303);
     const freshCookie=login.headers.get('set-cookie')?.split(';')[0]||'';
     const freshPage=await (await get(freshCookie)).text();

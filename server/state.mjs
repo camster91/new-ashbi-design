@@ -4,6 +4,8 @@ import {mkdir, readFile, writeFile, rename, chmod} from 'node:fs/promises';
 import path from 'node:path';
 
 const scrypt=promisify(scryptCallback);
+export const PASSWORD_MIN_LENGTH=12;
+export const PASSWORD_MAX_LENGTH=128;
 const emptyState=()=>({password:null, mailgun:null, enabled:false, lastTestAt:null, configRevision:null});
 
 export function encryptionKey(value){
@@ -28,7 +30,7 @@ export function decryptConfig(value,key){
 }
 
 export async function hashPassword(password){
-  if(typeof password!=='string'||password.length<16||password.length>128)throw new Error('Password must contain 16 to 128 characters');
+  if(typeof password!=='string'||password.length<PASSWORD_MIN_LENGTH||password.length>PASSWORD_MAX_LENGTH)throw new Error(`Password must contain ${PASSWORD_MIN_LENGTH} to ${PASSWORD_MAX_LENGTH} characters`);
   const salt=randomBytes(16);
   const hash=await scrypt(password,salt,64);
   return `${salt.toString('base64')}.${hash.toString('base64')}`;
