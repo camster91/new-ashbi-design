@@ -82,6 +82,17 @@ test('admin setup, login, settings, test and enable require session and confirma
   try{
     assert.match(await (await get()).text(),/Set up your studio login/);
     assert.equal((await post('/admin/setup',{token:'x'.repeat(32),password:'local test password 123'},'','https://wrong.test')).status,403);
+    for(const invalidPassword of ['', 'x'.repeat(15), 'x'.repeat(129)]){
+      const invalidSetup=await post('/admin/setup',{token:'x'.repeat(32),password:invalidPassword});
+      assert.equal(invalidSetup.status,400);
+      const invalidHtml=await invalidSetup.text();
+      assert.match(invalidHtml,/Your password must contain 16 to 128 characters/);
+      assert.match(invalidHtml,/action="\/admin\/setup"/);
+      assert.equal(invalidHtml.includes('Could not complete that request.'),false);
+      assert.equal(invalidHtml.includes('x'.repeat(32)),false);
+      assert.equal(invalidSetup.headers.get('set-cookie'),null);
+      assert.equal(store.get().password,null);
+    }
     const setup=await post('/admin/setup',{token:'x'.repeat(32),password:'local test password 123'});
     assert.equal(setup.status,303);
     const cookie=setup.headers.get('set-cookie')?.split(';')[0]||'';

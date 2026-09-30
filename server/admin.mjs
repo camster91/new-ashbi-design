@@ -155,7 +155,11 @@ export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date
         if(state.password||!setupToken||limited(req)){sendHtml(res,403,setupPage(Boolean(setupToken),'Setup is unavailable.'));return true;}
         const value=await formBody(req);
         if(!equalSecret(value('token'),setupToken)){failed(req);sendHtml(res,403,setupPage(true,'The setup token was not accepted.'));return true;}
-        const password=await hashPassword(value('password'));
+        const enteredPassword=value('password');
+        if(enteredPassword.length<16||enteredPassword.length>128){
+          sendHtml(res,400,setupPage(true,'Your password must contain 16 to 128 characters. Re-enter the setup token and choose a password within that range.'));return true;
+        }
+        const password=await hashPassword(enteredPassword);
         await store.update(next=>{if(next.password)throw new Error('Already set up');next.password=password;});
         newSession(res);redirect(res,'/admin/');return true;
       }
