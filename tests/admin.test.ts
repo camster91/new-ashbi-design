@@ -81,6 +81,9 @@ test('admin setup, login, settings, test and enable require session and confirma
   const post=(route:string,form:Record<string,string>,cookie='',requestOrigin=origin)=>fetch(`${origin}${route}`,{method:'POST',redirect:'manual',headers:{Origin:requestOrigin,Cookie:cookie,'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(form)});
   try{
     assert.match(await (await get()).text(),/Set up your studio login/);
+    const setupLink=await fetch(`${origin}/admin/setup`,{redirect:'manual'});
+    assert.equal(setupLink.status,303);
+    assert.equal(setupLink.headers.get('location'),'/admin/');
     assert.equal((await post('/admin/setup',{token:'x'.repeat(32),password:'local test password 123'},'','https://wrong.test')).status,403);
     for(const invalidPassword of ['', 'x'.repeat(15), 'x'.repeat(129)]){
       const invalidSetup=await post('/admin/setup',{token:'x'.repeat(32),password:invalidPassword});
@@ -97,6 +100,10 @@ test('admin setup, login, settings, test and enable require session and confirma
     assert.equal(setup.status,303);
     const cookie=setup.headers.get('set-cookie')?.split(';')[0]||'';
     assert.ok(cookie);
+    const setupAfterCreation=await fetch(`${origin}/admin/setup`,{redirect:'manual'});
+    assert.equal(setupAfterCreation.status,303);
+    assert.equal(setupAfterCreation.headers.get('location'),'/admin/');
+    assert.match(await (await get()).text(),/Welcome back, Cameron/);
     const denied=await fetch(`${origin}/admin/leads`,{redirect:'manual'});
     assert.equal(denied.status,303);
     const leadPage=await fetch(`${origin}/admin/leads`,{headers:{Cookie:cookie}});

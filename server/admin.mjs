@@ -104,6 +104,9 @@ export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date
     try{
       const state=store.get();
       const session=sessionFor(req);
+      if(req.method==='GET'&&pathname==='/admin/setup'){
+        redirect(res,'/admin/');return true;
+      }
       if(req.method==='GET'&&pathname==='/admin/'){
         const notice=new URL(req.url,origin).searchParams.get('notice')||'';
         sendHtml(res,200,!state.password?setupPage(Boolean(setupToken)):!session?loginPage():dashboard(state,session.csrf,notice,Boolean(content||Object.keys(documents).length)));
