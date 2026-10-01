@@ -29,6 +29,7 @@ jobs:
           PUBLIC_HUB_INQUIRY_BASE: ${{ vars.PREVIEW_HUB_INQUIRY_BASE }}
           PUBLIC_ENQUIRY_ENDPOINT: ${{ vars.PREVIEW_ENQUIRY_ENDPOINT }}
       - run: npm run check:links
+      - run: npm run check:sitemap
       - run: npm run check:content
       - name: Package verified preview build
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
