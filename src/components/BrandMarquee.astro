@@ -1,4 +1,5 @@
 ---
+import ActionIcon from './ActionIcon.astro';
 const brands=[
  {name:'Della',src:'della-logo.svg',width:117,height:35},
  {name:'BPM',src:'bpm-logo.svg',width:46,height:45},
@@ -9,10 +10,10 @@ const brands=[
 ];
 ---
 <section class="client-strip container brand-marquee" aria-labelledby="brands-heading" data-brand-marquee>
- <div class="brand-marquee-head"><h2 class="eyebrow" id="brands-heading">A few of the brands we work with</h2><button type="button" data-brand-pause aria-pressed="false" aria-controls="brand-marquee-track">Pause logos <span aria-hidden="true">Ⅱ</span></button></div>
- <div class="brand-marquee-window" tabindex="0" role="region" aria-label="Client logos. Motion pauses while focused.">
+ <div class="brand-marquee-head"><h2 class="eyebrow" id="brands-heading">A few of the brands we work with</h2><button type="button" data-brand-pause aria-pressed="false" aria-controls="brand-marquee-track"><span data-brand-pause-label>Pause logos</span><span class="motion-icon-pause"><ActionIcon name="pause" /></span><span class="motion-icon-play"><ActionIcon name="play" /></span></button></div>
+ <div class="brand-marquee-window" tabindex="0" role="region" aria-label="Client logos. Swipe, drag, or use the arrow keys to browse.">
   <div class="brand-marquee-track" id="brand-marquee-track">
-   {[0,1].map(copy=><ul class="brand-marquee-set" aria-hidden={copy===1?'true':undefined}>{brands.map(brand=><li><img src={`/images/ashbi/brands/${brand.src}`} alt={copy===0?brand.name:''} width={brand.width} height={brand.height} style={`width:${brand.width}px;height:${brand.height}px`} loading="lazy" decoding="async" /></li>)}</ul>)}
+   {[0,1,2].map(copy=><ul class="brand-marquee-set" aria-hidden={copy!==1?'true':undefined}>{brands.map(brand=><li><img draggable="false" src={`/images/ashbi/brands/${brand.src}`} alt={copy===1?brand.name:''} width={brand.width} height={brand.height} style={`width:${brand.width}px;height:${brand.height}px`} loading="lazy" decoding="async" /></li>)}</ul>)}
   </div>
  </div>
 </section>
@@ -21,16 +22,14 @@ const brands=[
  .brand-marquee-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px}
  .brand-marquee-head h2{font-size:.68rem;line-height:1.5;letter-spacing:.14em;margin:0}
  .brand-marquee-head button{flex:none;min-height:44px;padding:8px 14px;border:1px solid #42467d;border-radius:30px;background:transparent;color:#2b2e52;font:inherit;font-size:.7rem}
- .brand-marquee-window{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 22px),transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 22px),transparent)}
- .brand-marquee-track{display:flex;width:max-content;animation:brand-loop 42s linear infinite}
+ .brand-marquee-window{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;mask-image:linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 22px),transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 22px),transparent)}
+ .brand-marquee-track{display:flex;width:max-content;}
  .brand-marquee-set{display:flex;min-width:min(calc(100vw - 28px),1440px);justify-content:space-around;align-items:center;gap:28px;list-style:none;padding:12px 28px 12px 0;margin:0;flex:none}
  .brand-marquee-set li{width:clamp(140px,15vw,210px);height:104px;display:flex;align-items:center;justify-content:center;flex:none}
  .brand-marquee-set img{object-fit:contain;max-width:100%;filter:none}
- .brand-marquee-window:focus-within .brand-marquee-track,.brand-marquee.is-paused .brand-marquee-track,:global(.motion-paused) .brand-marquee-track{animation-play-state:paused}
+ .brand-marquee-window::-webkit-scrollbar{display:none}
  .brand-marquee-window:focus-visible{outline:3px solid #42467d;outline-offset:3px}
- @media(hover:hover) and (pointer:fine){.brand-marquee:hover .brand-marquee-track{animation-play-state:paused}}
- @keyframes brand-loop{to{transform:translateX(-50%)}}
- @media(max-width:760px){.brand-marquee-head h2{max-width:190px}.brand-marquee-set{gap:20px;padding-right:20px}.brand-marquee-track{animation-duration:36s}}
+ @media(max-width:760px){.brand-marquee-head h2{max-width:190px}.brand-marquee-set{gap:20px;padding-right:20px}}
  @media(prefers-reduced-motion:reduce){.brand-marquee-track{animation:none;width:100%;transform:none}.brand-marquee-set{flex-wrap:wrap;min-width:0;width:100%;justify-content:center;padding:0;gap:18px}.brand-marquee-set li{width:calc(33.333% - 18px);min-width:120px}.brand-marquee-set[aria-hidden]{display:none}.brand-marquee-window{mask-image:none;-webkit-mask-image:none}.brand-marquee-head button{display:none}}
 </style>
 <script>
@@ -39,6 +38,7 @@ const brands=[
  brandPause?.addEventListener('click',()=>{
   const paused=brandRegion!.classList.toggle('is-paused');
   brandPause.setAttribute('aria-pressed',String(paused));
-  brandPause.textContent=paused?'Resume logos ▶':'Pause logos Ⅱ';
+  const label=brandPause.querySelector('[data-brand-pause-label]');
+  if(label)label.textContent=paused?'Resume logos':'Pause logos';
  });
 </script>

@@ -41,7 +41,6 @@ export function initHomeMotion() {
       });
       document.querySelectorAll('.section-heading,.faq-intro,.studio-copy,.conversation-copy').forEach(heading=>{
         enter(heading.children,heading,{y:desktop?72:25,stagger:.14});
-        gsap.fromTo(heading,{'--heading-rule':0},{'--heading-rule':1,duration:1.25,ease:'power3.inOut',scrollTrigger:{trigger:heading,start:'top 85%',once:true}});
         heading.querySelectorAll('.editorial').forEach(word=>gsap.fromTo(word,{'--accent-progress':0},{'--accent-progress':1,duration:1.15,ease:'power2.inOut',scrollTrigger:{trigger:heading,start:'top 78%',once:true}}));
       });
       document.querySelectorAll('.work-row').forEach((card,index)=>{

@@ -1,4 +1,5 @@
 ---
+import ActionIcon from './ActionIcon.astro';
 import { site } from '../data/site';
 interface Props {campaign?:boolean;}
 const {campaign=false}=Astro.props;
@@ -7,12 +8,12 @@ const nav = [ {href:'/work/',label:'Work'}, {href:'/services/',label:'Services'}
 <header class="site-header" data-header>
   <div class="nav-shell container">
     <a class="logo-link" href="/" aria-label="Ashbi Design home"><img src="/images/ashbi/logo.png" alt="Ashbi" width="200" height="71" /></a>
-    {campaign ? <nav class="campaign-nav" aria-label="Campaign navigation"><a class="campaign-proof-link" href="#campaign-project-heading" aria-label="See the work"><span class="campaign-proof-label">See the work</span><span class="campaign-proof-label-mobile" aria-hidden="true">Work ↓</span></a><a class="button button-light" href={site.bookingUrl} data-track="booking_calendar_click">Book a call ↗</a></nav> : <><nav id="main-nav" class="site-nav" aria-label="Main navigation">
+    {campaign ? <nav class="campaign-nav" aria-label="Campaign navigation"><a class="campaign-proof-link" href="#campaign-project-heading" aria-label="See the work"><span class="campaign-proof-label">See the work</span><span class="campaign-proof-label-mobile" aria-hidden="true">Work <ActionIcon name="down" /></span></a><a class="button button-light" href={site.bookingUrl} data-track="booking_calendar_click">Book a call <ActionIcon name="external" /></a></nav> : <><nav id="main-nav" class="site-nav" aria-label="Main navigation">
       {nav.map(item => <a href={item.href} aria-current={Astro.url.pathname.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>)}
-      <a class="mobile-book" href={site.bookingUrl} data-track="booking_calendar_click">Book a call <span aria-hidden="true">↗</span></a>
+      <a class="mobile-book" href={site.bookingUrl} data-track="booking_calendar_click">Book a call <ActionIcon name="external" /></a>
     </nav>
-    <a class="button button-light nav-book" href={site.bookingUrl} data-track="booking_calendar_click">Book a call <span aria-hidden="true">↗</span></a>
-    <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="main-nav" data-menu-toggle><span></span><span></span></button></>}
+    <a class="button button-light nav-book" href={site.bookingUrl} data-track="booking_calendar_click">Book a call <ActionIcon name="external" /></a>
+    <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="main-nav" data-menu-toggle><span aria-hidden="true"></span><span aria-hidden="true"></span></button></>}
   </div>
 </header>
 

@@ -3,32 +3,32 @@
     "kind": "service",
     "label": "Brand identity & strategy",
     "content": {
-      "summary": "Give your business a clear point of view and a visual identity people can recognise.",
-      "fit": "For a new business finding its voice, or an established brand ready for its next chapter."
+      "summary": "Build a recognisable brand, from what you stand for to how you show up.",
+      "fit": "For a new product brand, a rebrand or a focused refresh."
     }
   },
   "service:web-design": {
     "kind": "service",
     "label": "Web design & development",
     "content": {
-      "summary": "A considered website that tells your story clearly and makes the next step easy.",
-      "fit": "For businesses launching a site, improving an existing experience, or bringing an established brand online."
+      "summary": "A website that makes your offer clear and helps visitors shop, enquire or take the next step.",
+      "fit": "For a new website, an ecommerce store or a redesign of the site you have."
     }
   },
   "service:packaging-design-services": {
     "kind": "service",
     "label": "Packaging design",
     "content": {
-      "summary": "Bring your brand to the shelf, the doorstep, and the moment someone opens it.",
-      "fit": "For CPG and DTC brands launching a product, expanding a range, or refreshing an existing pack."
+      "summary": "Help customers understand the product and recognise your brand across the range.",
+      "fit": "For a product launch, a new variant or a packaging refresh."
     }
   },
   "service:design-and-dev-subscription": {
     "kind": "service",
     "label": "Ongoing creative support",
     "content": {
-      "summary": "A familiar creative and development partner for the work that keeps coming.",
-      "fit": "For teams with an established direction and recurring design or website needs."
+      "summary": "Keep campaigns, sales materials and website updates connected to your brand.",
+      "fit": "For teams with an established direction and recurring creative work."
     }
   },
   "campaign:shopify-design": {
@@ -109,7 +109,7 @@
       "intro": "A beauty website with an editorial rhythm.",
       "context": "A digital expression of Clypse Beauty, bringing product imagery, brand personality, and clear calls to action together.",
       "approach": "Bold headlines and generous imagery establish a visual rhythm across desktop and mobile layouts.",
-      "outcome": "Explore the website composition, from its first impression to its product storytelling.",
+      "outcome": "Bold headlines and generous product imagery give the desktop and mobile layouts a shared editorial rhythm.",
       "cardAsset": "default-card",
       "heroAsset": "default-hero"
     }
@@ -210,10 +210,10 @@
     "kind": "project",
     "label": "Della",
     "content": {
-      "intro": "Campaign creative for Della Rice.",
-      "context": "Della’s rice range now appears in a refreshed visual system. The images on this page show the current products from Della’s website.",
-      "approach": "After The Lads Studio’s Della rebrand, Bianca and Ashbi supported follow-on creative. Ashbi’s portfolio identifies a campaign composition as its deliverable. The new packs shown here belong to the wider rebrand and are included for context.",
-      "outcome": "Explore the current Della product family alongside Ashbi’s documented campaign role.",
+      "intro": "An ongoing creative partnership with Della Rice.",
+      "context": "Bianca and Ashbi support Della beyond a single campaign, building on the brand’s established visual direction.",
+      "approach": "Our work with Della carries that direction into campaign artwork and ongoing creative support. Campaign composition is one part of the wider partnership.",
+      "outcome": "A creative partner familiar with the brand and ready for the next piece of work.",
       "cardAsset": "default-card",
       "heroAsset": "default-hero"
     }
@@ -237,7 +237,7 @@
       "intro": "A colourful shop for plant-based food and everyday favourites.",
       "context": "Chef Tanya’s Kitchen brings its seitan range and merchandise together in one online shop. The original Figma layouts show how the product range, navigation and purchasing controls work together.",
       "approach": "Bright product panels distinguish the range, while a consistent grid gives each item a clear name and add-to-cart action. The green and yellow brand palette carries through navigation and the footer.",
-      "outcome": "Shown here is the original shop design. Live implementation and performance results are not part of this case study.",
+      "outcome": "Consistent product cards bring names and add-to-cart actions into one colourful browsing layout. Shown here is the original website design.",
       "cardAsset": "default-card",
       "heroAsset": "default-hero"
     }
@@ -249,7 +249,7 @@
       "intro": "A botanical storefront built around a varied supplement range.",
       "context": "Ancient Bliss brings a range of herbal supplements into one storefront. The original design files include desktop and mobile home layouts, a supplement collection and product detail pages.",
       "approach": "A pale botanical palette and prominent product photography introduce the brand. Consistent collection cards organise each product’s name, price and purchase action, while the shared navigation connects the range with brand and quality information.",
-      "outcome": "These original Figma exports show the website design. This case study does not claim measured sales results or verify the live implementation.",
+      "outcome": "Shared navigation and consistent product cards organise the supplement range across desktop and mobile layouts. Shown here is the original website design.",
       "cardAsset": "default-card",
       "heroAsset": "default-hero"
     }
@@ -267,9 +267,10 @@
     "kind": "article",
     "label": "Mastering Illustration Styles in Graphic Design",
     "content": {
-      "title": "Mastering Illustration Styles in Graphic Design",
+      "title": "Choosing illustration for your product brand",
       "summary": "Choose illustration around what your product brand needs to communicate, where the artwork will appear and how your team will use it.",
-      "body": "<p>Choosing an illustration style is a brand decision before it is a matter of taste. A playful character, a detailed ingredient drawing and a simple graphic symbol each do a different job. Start by naming the job your artwork needs to do.</p><h2>Decide what the image should explain</h2><p>Is it helping customers recognise a flavour, understand how to use a product or connect with the brand’s personality? One image does not need to do all three. Agree the priority before collecting references.</p><h2>Choose a visual language with a purpose</h2><ul><li><strong>Simple line work:</strong> useful when the composition needs small, repeatable symbols or supporting details.</li><li><strong>Bold graphic shapes:</strong> worth exploring when the identity depends on colour and a recognisable silhouette.</li><li><strong>Character-led artwork:</strong> a direction to consider when expression and storytelling are central to the brand.</li><li><strong>Detailed drawings:</strong> can make room for ingredients, craft or a more descriptive product story.</li></ul><p>These are starting points for exploration. Review examples beside your typography, colour palette and product photography before choosing.</p><h2>Test the smallest application</h2><p>Put a draft on the actual pack size and in a mobile product card. Details that look appealing on a large presentation may disappear at a small scale. Discuss line weight, contrast and reproduction with the designer and production partner.</p><h2>Plan a family, not one isolated picture</h2><p>If several variants need artwork, define the shared rules: viewpoint, proportions, colour use and level of detail. Decide how a future product can join the range without looking like it belongs to another brand.</p><h2>Give the designer a useful brief</h2><ul><li>The audience and the idea the illustration should communicate.</li><li>Brand files and examples of existing applications.</li><li>Formats, dimensions and production constraints.</li><li>The number of artworks and variants needed.</li><li>Where the finished work will be used, including any licensing requirements to agree.</li></ul><h2>Review it as part of the system</h2><p>Look at the illustration alongside the product name, information hierarchy and other brand elements. The goal is a coherent presentation. Marin’s project is a useful place to explore how graphic elements, colour and type can share a recognisable direction across applications.</p>"
+      "body": "<p>Choosing an illustration style is a brand decision before it is a matter of taste. A playful character, a detailed ingredient drawing and a simple graphic symbol each do a different job. Start by naming the job your artwork needs to do.</p><h2>Decide what the image should explain</h2><p>Is it helping customers recognise a flavour, understand how to use a product or connect with the brand’s personality? One image does not need to do all three. Agree the priority before collecting references.</p><h2>Choose a visual language with a purpose</h2><ul><li><strong>Simple line work:</strong> useful when the composition needs small, repeatable symbols or supporting details.</li><li><strong>Bold graphic shapes:</strong> worth exploring when the identity depends on colour and a recognisable silhouette.</li><li><strong>Character-led artwork:</strong> a direction to consider when expression and storytelling are central to the brand.</li><li><strong>Detailed drawings:</strong> can make room for ingredients, craft or a more descriptive product story.</li></ul><p>These are starting points for exploration. Review examples beside your typography, colour palette and product photography before choosing.</p><h2>Test the smallest application</h2><p>Put a draft on the actual pack size and in a mobile product card. Details that look appealing on a large presentation may disappear at a small scale. Discuss line weight, contrast and reproduction with the designer and production partner.</p><h2>Plan a family, not one isolated picture</h2><p>If several variants need artwork, define the shared rules: viewpoint, proportions, colour use and level of detail. Decide how a future product can join the range without looking like it belongs to another brand.</p><h2>Give the designer a useful brief</h2><ul><li>The audience and the idea the illustration should communicate.</li><li>Brand files and examples of existing applications.</li><li>Formats, dimensions and production constraints.</li><li>The number of artworks and variants needed.</li><li>Where the finished work will be used, including any licensing requirements to agree.</li></ul><h2>Review it as part of the system</h2><p>Look at the illustration alongside the product name, information hierarchy and other brand elements. The goal is a coherent presentation. Marin’s project is a useful place to explore how graphic elements, colour and type can share a recognisable direction across applications.</p>",
+      "shortTitle": "Illustration for your brand"
     }
   },
   "article:brand-designer-what-is-it-and-how-to-become-one": {

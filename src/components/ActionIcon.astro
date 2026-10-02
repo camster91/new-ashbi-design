@@ -1,0 +1,16 @@
+---
+type Name = 'external' | 'forward' | 'back' | 'down' | 'mail' | 'plus' | 'pause' | 'play';
+interface Props {name:Name;}
+const {name}=Astro.props;
+const paths:Record<Name,string>={
+ external:'M7 17 17 7M7 7h10v10',
+ forward:'M5 12h14m-6-6 6 6-6 6',
+ back:'M19 12H5m6-6-6 6 6 6',
+ down:'M12 5v14m-6-6 6 6 6-6',
+ mail:'M4 5h16v14H4zM4 6l8 7 8-7',
+ plus:'M12 5v14M5 12h14',
+ pause:'M9 5v14M15 5v14',
+ play:'m8 5 11 7-11 7z',
+};
+---
+<svg class="action-icon" data-icon={name} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d={paths[name]} /></svg>

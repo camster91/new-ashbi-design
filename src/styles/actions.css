@@ -1,0 +1,29 @@
+/* Shared action sizing and feedback, independent of the icon's font or device. */
+.action-icon{display:inline-block;flex:0 0 20px;width:20px;height:20px;vertical-align:middle;pointer-events:none}
+body :is(.button,.offer-link,.offer-detail,.text-link,.round-link,.mobile-book,.ongoing-plan-link,.campaign-proof-link){display:inline-flex;align-items:center;gap:16px;min-height:44px}
+body :is(.button,.offer-link,.mobile-book,.ongoing-plan-link){min-height:54px}
+body :is(.button,.offer-link,.offer-detail,.text-link,.round-link,.mobile-book,.ongoing-plan-link,.campaign-proof-link,button,summary){-webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:transform .2s ease,background-color .2s ease,color .2s ease,box-shadow .2s ease}
+body button{min-height:44px}
+body summary{min-height:44px;align-items:center}
+/* The desktop booking CTA must stay out of the compact mobile header. */
+@media(max-width:760px){.nav-book{display:none!important}}
+body :is(.hero-reel-controls button,.work-carousel-controls button,.motion-toggle,.menu-toggle){min-width:44px;display:inline-flex;align-items:center;justify-content:center}
+body :is(.proof-motion-toggle,[data-brand-pause]){display:inline-flex;align-items:center;justify-content:center;gap:10px}
+body :is(a,button,summary):focus-visible{outline:3px solid var(--ink);outline-offset:3px;box-shadow:0 0 0 3px var(--cream),0 0 0 6px var(--ink)}
+body :is(button:disabled,[aria-disabled="true"]){opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+[aria-pressed="false"] .motion-icon-play,[aria-pressed="true"] .motion-icon-pause{display:none}
+.faq-list summary .action-icon,.campaign-faq summary .action-icon{margin-left:auto;transition:transform .2s ease}
+details[open]>summary .action-icon[data-icon="plus"]{transform:rotate(45deg)}
+@media(hover:hover){
+ body :is(.button,.offer-link,.ongoing-plan-link,button):not(:disabled):not([aria-disabled="true"]):hover{transform:translateY(-2px);box-shadow:0 5px 14px #292c5026}
+ body :is(.offer-detail,.text-link,.round-link,.mobile-book,.campaign-proof-link):hover{gap:16px}
+ body :is(a,button):hover .action-icon[data-icon="forward"]{transform:translateX(3px)}
+ body :is(a,button):hover .action-icon[data-icon="back"]{transform:translateX(-3px)}
+ body :is(a,button):hover .action-icon[data-icon="external"]{transform:translate(3px,-3px)}
+ body :is(a,button):hover .action-icon[data-icon="down"]{transform:translateY(3px)}
+}
+body :is(.button,.offer-link,.ongoing-plan-link,button):not(:disabled):not([aria-disabled="true"]):active{transform:scale(.98);box-shadow:none}
+.action-icon{transition:transform .2s ease}
+@media(prefers-reduced-motion:reduce){body :is(a,button,summary),.action-icon{transition:none!important}body :is(a,button,summary),.action-icon:not([data-icon="plus"]){transform:none!important}}
+body.motion-paused :is(a,button,summary),body.motion-paused .action-icon{transition:none!important}
+body.motion-paused :is(a,button,summary),body.motion-paused .action-icon:not([data-icon="plus"]){transform:none!important}
