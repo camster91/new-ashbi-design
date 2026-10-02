@@ -1,4 +1,5 @@
 ---
+import ActionIcon from './ActionIcon.astro';
 import {testimonials} from '../data/site';
 const rows=[
   ['kate','sabrina','alan'],
@@ -13,5 +14,5 @@ const rows=[
       </div>)}
     </div>)}
   </div>
-  <button class="proof-motion-toggle" type="button" data-proof-pause aria-pressed="false" aria-label="Pause testimonial motion"><span aria-hidden="true">Ⅱ</span><span data-proof-pause-label>Pause motion</span></button>
+  <button class="proof-motion-toggle" type="button" data-proof-pause aria-pressed="false" aria-label="Pause testimonial motion"><span class="motion-icon-pause"><ActionIcon name="pause" /></span><span class="motion-icon-play"><ActionIcon name="play" /></span><span data-proof-pause-label>Pause motion</span></button>
 </div>

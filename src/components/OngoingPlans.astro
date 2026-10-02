@@ -1,16 +1,17 @@
 ---
+import ActionIcon from './ActionIcon.astro';
 import WorkCarouselControls from './WorkCarouselControls.astro';
 interface Props { compact?: boolean }
 const {compact=false}=Astro.props;
 const plans=[
   {hours:'20',price:'$999',name:'Creative assistance',fit:'For existing Ashbi identity clients with a smaller, steady list of needs.',includes:['A monthly priority list','Design and development tasks within the agreed hours','One shared review and feedback flow'],note:'Available to existing Ashbi identity clients'},
-  {hours:'40',price:'$1,999',name:'Creative support',fit:'For growing teams with regular campaigns, content, or website updates.',includes:['A monthly planning conversation','Design and development tasks within the agreed hours','A clear queue and agreed review points'],note:'A flexible ongoing partnership'},
+  {hours:'40',price:'$1,999',name:'Creative support',fit:'For growing teams with regular campaigns, content, or website updates.',includes:['A monthly planning conversation','Design and development tasks within the agreed hours','A clear queue and agreed review points'],note:'For regular creative and website work'},
   {hours:'80',price:'$3,999',name:'Creative partnership',fit:'For teams with a larger, continuous stream of creative and digital work.',includes:['A dedicated monthly plan','Design and development tasks within the agreed hours','Priority scheduling agreed in advance'],note:'For sustained creative capacity'},
 ];
 ---
 <section class:list={['ongoing-plans',{'ongoing-plans-compact':compact}]} aria-labelledby={compact?'ongoing-detail-heading':'ongoing-heading'} id={compact?'ongoing-options':'ongoing-pricing'}>
   <div class="container">
-    <div class="ongoing-intro"><div><span class="eyebrow">ONGOING SUPPORT / MONTHLY PRICING</span><h2 id={compact?'ongoing-detail-heading':'ongoing-heading'}>Good work keeps <em>moving.</em></h2></div><p>When the next request is already on its way, choose a level of monthly creative capacity that fits your team. We confirm priorities, deliverables, and availability together before work begins.</p></div>
+    <div class="ongoing-intro"><div><span class="eyebrow">ONGOING SUPPORT / MONTHLY PRICING</span><h2 id={compact?'ongoing-detail-heading':'ongoing-heading'}>Good work keeps <em>moving.</em></h2></div><p>Choose 20, 40 or 80 hours of monthly creative support for the work ahead. We agree priorities, timing and availability before we begin.</p></div>
     <div class="ongoing-grid" id={compact?'campaign-ongoing-plans':'service-ongoing-plans'} data-work-carousel role="region" aria-label="Monthly creative support options" tabindex="0">{plans.map((plan,index)=><article class="ongoing-card reveal">
       <div class="ongoing-card-top"><span>0{index+1} / 03</span><span>MONTHLY CAPACITY</span></div>
       <div class="ongoing-hours"><strong>{plan.hours}</strong><span>hours<br />per month</span></div>
@@ -18,10 +19,10 @@ const plans=[
       <p class="ongoing-price"><strong>{plan.price}</strong><span> / month</span></p>
       <ul>{plan.includes.map(item=><li>{item}</li>)}</ul>
       <p class="ongoing-note">{plan.note}</p>
-      <a href={`/contact/?service=design-and-dev-subscription&plan=${plan.hours}-hours#project-brief`}>Discuss this option <span aria-hidden="true">↗</span></a>
+      <a class="ongoing-plan-link" href={`/contact/?service=design-and-dev-subscription&plan=${plan.hours}-hours#project-brief`}>Discuss this option <ActionIcon name="forward" /></a>
     </article>)}</div>
     <WorkCarouselControls target={compact?'campaign-ongoing-plans':'service-ongoing-plans'} itemLabel="monthly plan" />
-    <div class="ongoing-bottom"><p>Need a different cadence or a larger one-off build? We’ll shape a separate scope around it. The final hours, deliverables, timing, and fee are confirmed in your proposal.</p><a class="text-link" href={compact?'/contact/?service=design-and-dev-subscription#project-brief':'/services/design-and-dev-subscription/'}>{compact?'Tell us what you need ↗':'Explore ongoing support ↗'}</a></div>
+    <div class="ongoing-bottom"><p>Need a different cadence or a larger project? We’ll discuss a separate scope. Your proposal confirms the hours, deliverables, timing and fee.</p><a class="text-link" href={compact?'/contact/?service=design-and-dev-subscription#project-brief':'/services/design-and-dev-subscription/'}>{compact?'Tell us what you need':'Explore ongoing support'} <ActionIcon name="forward" /></a></div>
   </div>
 </section>
 <style>

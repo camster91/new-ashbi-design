@@ -282,3 +282,8 @@ img[src*="/bpm/web-"]{object-fit:contain!important;background:#f5eee2}
 /* Keep in-page destinations readable beneath the fixed navigation. More
    specific section offsets (such as the project brief) remain authoritative. */
 :where(main, main section[id]){scroll-margin-block-start:96px}
+
+/* Continuous loops remain draggable without capturing vertical page scrolling. */
+.hero-reel,.proof-marquee-window,.brand-marquee-window{touch-action:pan-y pinch-zoom;cursor:grab;user-select:none;scroll-behavior:auto}
+.hero-reel.is-dragging,.proof-marquee-window.is-dragging,.brand-marquee-window.is-dragging{cursor:grabbing}
+@media(prefers-reduced-motion:reduce){.hero-reel-set[aria-hidden="true"]{display:none}.hero-reel,.proof-marquee-window,.brand-marquee-window{touch-action:auto}}
