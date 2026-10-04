@@ -7,7 +7,7 @@ const {limit = 4, projects = commerceProjects, intro="The brief, the decisions, 
 const list = projects.slice(0, limit);
 ---
 <section class="section container work-feature" id="selected-work" aria-labelledby="work-heading">
-  <div class="section-heading"><span class="eyebrow">SELECTED WORK</span><h2 id="work-heading">Off the shelf.<br /><em class="editorial">Into the everyday.</em></h2><p>{intro}</p></div>
+  <div class="section-heading"><span class="eyebrow">SELECTED WORK</span><h2 id="work-heading">A closer look<br /><em class="editorial">at our work.</em></h2><p>{intro}</p></div>
   <div class="work-list" id="featured-work-carousel" data-work-carousel aria-label="Selected projects" tabindex="0">
     {list.map((project, index) => <article class="work-row reveal">
       <div class="work-photo"><a href={`/work/${project.slug}/`} aria-label={`View ${project.name} case study`}><img class:list={{'image-contain-marin':project.slug==='marin-food','image-contain-bpm':project.slug==='bpm'}} src={project.cardImage||project.image} style={`object-position:${project.cardImagePosition||'center'}`} alt={project.cardImageAlt||project.imageAlt||`${project.name} project by Ashbi`} loading="lazy" width="1200" height="800" /></a><span class="work-index">0{index + 1} / 0{list.length}</span></div>

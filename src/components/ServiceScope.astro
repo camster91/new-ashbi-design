@@ -7,7 +7,7 @@ const {service}=Astro.props;
 const offer=offers.find(item=>item.serviceSlug===service.slug)!;
 ---
 <section class="section container scope-section" aria-labelledby="scope-heading">
-  <div class="scope-lead"><span class="eyebrow">A SCOPE THAT FITS</span><h2 id="scope-heading">Start with the work <em>that matters.</em></h2><p>{offer.description} We agree the exact deliverables, review stages, and timing together before the project begins.</p><a class="button button-lime" href={`/contact/?service=${service.slug}#project-brief`}>Tell us about your project <ActionIcon name="forward" /></a></div>
+  <div class="scope-lead"><span class="eyebrow">A SCOPE THAT FITS</span><h2 id="scope-heading">Plan your <em>project with us.</em></h2><p>{offer.description} We agree the exact deliverables, review stages, and timing together before the project begins.</p><a class="button button-lime" href={`/contact/?service=${service.slug}#project-brief`}>Tell us about your project <ActionIcon name="forward" /></a></div>
   <div class="scope-detail"><span class="eyebrow">A USEFUL STARTING POINT</span><h3>{offer.title}</h3><p>{offer.fit}</p><ul>{offer.includes.map(item=><li>{item}</li>)}</ul><p class="scope-note">Every project is scoped to its needs. We’ll discuss budget and schedule during discovery.</p></div>
 </section>
 <style>
