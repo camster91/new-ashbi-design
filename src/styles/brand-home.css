@@ -34,6 +34,7 @@
 [data-home-motion] #home-services-carousel .offer-image{margin-bottom:20px}
 [data-home-motion] .process-section .section-heading{max-width:780px}
 [data-home-motion] .faq-section .faq-intro{max-width:360px}
+[data-home-motion] .faq-section .faq-intro h2{font-size:clamp(2.7rem,4.5vw,4rem)}
 [data-home-motion] .conversation-expressive{margin-top:16px}
 [data-home-motion] .studio-section{border-top:1px solid var(--brand-ink);gap:clamp(30px,6vw,90px)}
 [data-home-motion] .studio-photo{border-radius:50% 50% 8px 8px;background:var(--brand-powder)}
