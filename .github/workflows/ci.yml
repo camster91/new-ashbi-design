@@ -27,7 +27,7 @@ jobs:
         env:
           PUBLIC_ENQUIRY_MODE: ${{ vars.PREVIEW_ENQUIRY_MODE || 'mailgun' }}
           PUBLIC_HUB_INQUIRY_BASE: ${{ vars.PREVIEW_HUB_INQUIRY_BASE }}
-          PUBLIC_ENQUIRY_ENDPOINT: ${{ vars.PREVIEW_ENQUIRY_ENDPOINT }}
+          PUBLIC_ENQUIRY_ENDPOINT: ${{ vars.PREVIEW_ENQUIRY_ENDPOINT || '/api/enquiries' }}
       - run: npm run check:links
       - run: npm run check:sitemap
       - run: npm run check:content
