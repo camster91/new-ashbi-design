@@ -1,46 +1,111 @@
-# Ashbi Design local redesign
+# Ashbi Design website
 
-Astro implementation of Ashbi's brand and web studio site, adapted from the Aeline template. Pushes to `main` run CI and deploy the verified static build to `https://preview.ashbi.ca`. The main `ashbi.ca` domain and the separate enquiry service are outside this workflow.
+The next version of the Ashbi Design studio site: a static Astro build with a portfolio, services, campaign pages, articles and a small Node gateway for enquiries and editorial content.
 
-## Run locally
+![Ashbi Design social card featuring CocoFro packaging work](public/images/ashbi/og-default.webp)
 
-Requires Node 22.12 or later (tested with Node 26).
+## What it is
+
+Ashbi Design is a Toronto branding and web studio for growing businesses, with a focus on CPG, DTC and packaging. This repo is a ground-up rebuild of the studio's public site in Astro. It ships as a fully static site for speed and simplicity, while a separate, optional Node service handles brief submissions and a private editor for site copy. The public pages never depend on that service being up: without it, the contact form falls back to an email draft.
+
+The site is built for review before launch on the main domain. Every push to `main` runs the full verification pipeline in GitHub Actions.
+
+## Key features
+
+- **Portfolio and case studies**: project pages with responsive image galleries (multiple widths per image), project context, approach, deliverables and outcomes, plus a filterable work archive.
+- **Services, pricing and campaigns**: service detail pages, ongoing plan options and focused campaign landing pages that carry service and project context into the brief.
+- **Insights**: articles migrated from the previous site on their original URL slugs, plus buyer guides linked to real work and services.
+- **Legacy URL coverage**: older portfolio routes (`/branding-projects/`, `/web-design-projects/`) are kept so existing links keep working.
+- **Enquiry flow**: a brief form that can post to a Mailgun-backed gateway or to the studio's client Hub, with consent and privacy-version handling. Online submission stays off until an endpoint is configured.
+- **Private editorial CMS**: an authenticated `/admin/content` editor for homepage, service, campaign, project and article copy with drafts, review, approval, revision history, stale-write protection and CSRF checks. Approved edits are exported as JSON and applied to source through a validated CLI, so the public build stays static and reviewable.
+- **Draft layout previews**: render a saved draft in the real Astro layouts in an isolated directory, with a draft banner and `noindex`.
+- **Privacy-first measurement**: page views and conversion events are emitted as local `ashbi:analytics` CustomEvents with no network calls and no form values, ready to connect to a consent-appropriate analytics handler.
+- **Build-time quality gates**: scripts check every built internal link and fragment, the sitemap and the rendered CMS content before a build is accepted.
+- **Motion**: GSAP-driven animations, a looping logo and quote scroller, and a work carousel.
+
+## Tech stack
+
+- [Astro](https://astro.build) 7 (static output) with `@astrojs/sitemap`
+- TypeScript
+- GSAP for animation
+- Inter and Plus Jakarta Sans via Fontsource
+- Node.js (22.12+) gateway in `server/` for enquiries and the content editor, with Mailgun for email delivery and a Dockerfile for packaging
+- Node's built-in test runner, plus Python `unittest` for one ops helper
+- GitHub Actions CI
+
+## Getting started
+
+Requires Node 22.12 or later.
 
 ```sh
 npm install
 npm run dev
 ```
 
-Open `http://127.0.0.1:4321/`. To verify the static output, run `npm run build` and `npm run preview`.
+Open `http://127.0.0.1:4321/`.
+
+To build and serve the static output:
+
+```sh
+npm run build
+npm run preview
+```
+
+### Optional build settings
+
+All are public build-time variables; none are required for local development.
+
+| Variable | Purpose |
+|---|---|
+| `PUBLIC_ENQUIRY_MODE` | `mailgun` (default) or `hub` |
+| `PUBLIC_ENQUIRY_ENDPOINT` | Enables direct brief submission to the enquiry gateway |
+| `PUBLIC_HUB_INQUIRY_BASE` | Base URL for Hub mode |
+| `PUBLIC_BOOKING_URL` | Overrides the "Book a call" destination |
+| `SITE_URL` | Canonical site URL for the sitemap (defaults to the production domain) |
+
+### Enquiry and content gateway
+
+```sh
+npm run enquiry-server
+```
+
+The gateway needs its own private configuration (staff login, Mailgun and storage settings). See the [enquiry contract](docs/enquiry-contract.md) and the [editorial workflow](docs/website-cms.md) for the request contract, setup and the content review process.
+
+## Testing and checks
+
+```sh
+npm test               # unit and integration tests (tests/*.test.ts)
+npm run typecheck      # tsc --noEmit
+npm run build
+npm run check:links    # every internal link and fragment in dist/
+npm run check:sitemap
+npm run check:content  # rendered CMS content and release gates
+```
+
+CI runs all of the above, plus the Python ops test (`python3 -m unittest discover -s ops/tests`), on every pull request and push to `main`.
+
+## Project structure
+
+```
+src/
+  pages/        routes: home, work, services, pricing, campaigns, insights, legacy URLs
+  components/   Astro components (hero, galleries, pricing, FAQ, booking, etc.)
+  data/         site, projects, services, insights and CMS-editable JSON
+  lib/          content validation, enquiry, analytics and Hub helpers
+  scripts/      client-side interaction and motion
+  styles/       tokens and page styles
+server/         enquiry gateway, private admin and content store
+ops/            content apply/preview tools and build checks
+tests/          Node test suites
+docs/           content, enquiry and CMS documentation
+public/         images, fonts and icons
+```
 
 ## Content and assets
 
-- `src/data/site.ts`: project stories, services, process, testimonials, FAQs, and booking destination.
-- `src/data/insights.ts`: articles migrated from Ashbi's public site, keeping their original URL slugs.
-- `public/images/ashbi/`: optimized images from Ashbi's public portfolio and team pages plus the site's social image.
-- `src/styles/ashbi.css` and `src/scripts/ashbi.ts`: visual system and interaction behavior.
+- `src/data/site.ts`: projects, services, process, testimonials, FAQs and the booking destination.
+- `src/data/insights.ts`: articles migrated from the previous site, keeping their original slugs.
+- `src/data/home-content.json` and `src/data/editorial-content.json`: copy managed through the editor.
+- `public/images/ashbi/`: optimized images from Ashbi's public portfolio and team pages.
 
-Book a call opens the public Google Calendar event “30 min with Bianca.” `PUBLIC_BOOKING_URL` can override that destination for a future booking provider. Verify the event page before release; no booking credentials belong in the static build.
-
-The homepage selects CocoFro, Blend, and Clypse Beauty for its detailed stories. The hero and Work archive show the broader original public portfolio, including Tyson Media and SplashTown. Other existing public portfolio URLs remain available in the project archive. Newer projects require public-use approval and verified assets before adding them.
-
-## Review before launch
-
-- Verify the “30 min with Bianca” Google Calendar event on preview and after launch.
-- Confirm all project descriptions, team details, and testimonial attribution with Ashbi.
-- Review privacy/legal copy against the final hosting, analytics, booking, and email setup.
-- Decide production hosting and redirects for historical URLs, then run full staging QA. Preview deployment is documented in [the VPS preview runbook](docs/preview-deployment.md).
-
-## Content expansion and checks
-
-See [implementation notes](docs/content-expansion.md), [original URL inventory](docs/legacy-url-inventory.md), and [enquiry delivery contract](docs/enquiry-contract.md).
-
-```sh
-npm test
-npm run typecheck
-npm run build
-```
-
-`PUBLIC_ENQUIRY_ENDPOINT` enables direct brief submission only after the Mailgun gateway and private admin in `server/` are deployed, configured, and verified. Until then, the form offers an email draft and keeps online submission disabled. The Astro site remains static; setup is described in [the enquiry contract](docs/enquiry-contract.md).
-
-Measurement uses local `ashbi:analytics` CustomEvents without network transmission or personal form values. The events distinguish page views, contact and brief CTA clicks, calendar clicks, form starts, and confirmed brief acceptance. Only allowlisted service, campaign, and project slugs can accompany a brief click. Connect a consent-appropriate analytics handler before measuring production conversion; a calendar click is not a completed appointment.
+Portfolio work is only added with public-use approval and real, verified assets. More notes: [content expansion](docs/content-expansion.md) and [original URL inventory](docs/legacy-url-inventory.md).
