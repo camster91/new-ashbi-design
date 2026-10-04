@@ -5,10 +5,10 @@ import {site,projects} from '../data/site';
 interface Props {workshop?:boolean;}
 const {workshop=false}=Astro.props;
 const title=workshop?'Brand strategy workshop':'Brand identity design';
-const summary=workshop?'Make the important brand decisions before designing the next thing. A focused workshop helps your team agree on audience, positioning and creative priorities.':'Turn an agreed direction into a visual identity your team can use across packaging, websites and everyday communications.';
+const summary=workshop?'Agree your brand direction before commissioning an identity. A focused workshop helps your team agree on audience, positioning and creative priorities.':'Turn an agreed direction into a visual identity your team can use across packaging, websites and everyday communications.';
 const steps=workshop?[
  {title:'Bring the business context',copy:'Share your offer, audience, existing research and the decisions holding the team up. Identify the people who need to contribute and approve the direction.'},
- {title:'Work through the choices',copy:'Explore audience needs, competitive context, positioning and the message your brand needs to communicate. Surface disagreements so they can become clear decisions.'},
+ {title:'Work through the choices',copy:'Explore audience needs, competitive context, positioning and the message your brand needs to communicate. Discuss where the team disagrees and decide what needs further research.'},
  {title:'Define the next brief',copy:'Document the agreed direction, open questions and priorities for design. Confirm the workshop format and outputs in the scope before booking.'}
 ]:[
  {title:'Start with a direction',copy:'Use your existing strategy or agree a discovery phase. Clarify what the identity should communicate and where it needs to work.'},
