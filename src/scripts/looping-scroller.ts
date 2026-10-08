@@ -1,5 +1,5 @@
 // Three identical sets keep the viewport covered while wrapping in either direction.
-export function initLoopingScroller(row: HTMLElement, selector: string, speed: number, paused: () => boolean) {
+export function initLoopingScroller(row: HTMLElement, selector: string, speed: number, paused: () => boolean, autoplayWithReducedMotion = false) {
  const set=row.querySelector<HTMLElement>(selector);
  if(!set)return;
  const preference=window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -11,13 +11,13 @@ export function initLoopingScroller(row: HTMLElement, selector: string, speed: n
  // Scroll offsets use layout pixels, unaffected by the hero's entrance scale.
  const width=()=>parseFloat(getComputedStyle(set).width);
  const wrap=()=>{
-  if(preference.matches)return;
+  if(preference.matches&&!autoplayWithReducedMotion)return;
   const size=width();
   if(!size)return;
   if(row.scrollLeft<size/2)row.scrollLeft+=size;
   else if(row.scrollLeft>size*1.5)row.scrollLeft-=size;
  };
- const centre=()=>{row.scrollLeft=preference.matches?0:width();fraction=0};
+ const centre=()=>{row.scrollLeft=preference.matches&&!autoplayWithReducedMotion?0:width();fraction=0};
  new ResizeObserver(centre).observe(set);
  new IntersectionObserver(([entry])=>{visible=entry.isIntersecting}).observe(row);
  preference.addEventListener('change',centre);
@@ -63,7 +63,7 @@ export function initLoopingScroller(row: HTMLElement, selector: string, speed: n
  });
  const advance=(now:number)=>{
   const elapsed=previous?Math.min(now-previous,64):0;previous=now;
-  if(visible&&!pointer&&!preference.matches&&!document.hidden&&!paused()&&!row.matches(':focus-visible')&&!row.querySelector(':focus-visible')){
+  if(visible&&!pointer&&(!preference.matches||autoplayWithReducedMotion)&&!document.hidden&&!paused()&&!row.matches(':focus-visible')&&!row.querySelector(':focus-visible')){
    fraction+=elapsed*speed;
    const pixels=Math.trunc(fraction);
    if(pixels){move(pixels);fraction-=pixels}

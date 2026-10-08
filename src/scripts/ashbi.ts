@@ -35,7 +35,7 @@ motion?.addEventListener('click',()=>{const paused=document.body.classList.toggl
 const motionPreference=window.matchMedia('(prefers-reduced-motion: reduce)');
 const pageMotionPaused=()=>document.body.classList.contains('motion-paused');
 const moveRows=[...document.querySelectorAll<HTMLElement>('[data-hero-reel]')].map((reel,index)=>{
- const move=initLoopingScroller(reel,'.hero-reel-set',(index===0?.014:.021)*(Number(reel.dataset.direction)||1),pageMotionPaused);
+ const move=initLoopingScroller(reel,'.hero-reel-set',(index===0?.014:.021)*(Number(reel.dataset.direction)||1),pageMotionPaused,true);
  return (direction:number)=>{
   const card=reel.querySelector<HTMLElement>('.reel-card');
   const set=reel.querySelector<HTMLElement>('.hero-reel-set');

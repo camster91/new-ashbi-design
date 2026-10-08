@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {initLoopingScroller} from '../src/scripts/looping-scroller.ts';
 
-test('loops continuously, holds during touch, resumes on release, and suppresses drag clicks',()=>{
+for(const explicitMotion of [false,true])test(`loops continuously, handles interaction and reduced-motion opt-in: ${explicitMotion}`,()=>{
  const names=['window','document','getComputedStyle','ResizeObserver','IntersectionObserver','requestAnimationFrame'];
  const originals=new Map(names.map(name=>[name,Object.getOwnPropertyDescriptor(globalThis,name)]));
  const preference=Object.assign(new EventTarget(),{matches:false});
@@ -26,7 +26,7 @@ test('loops continuously, holds during touch, resumes on release, and suppresses
   define('ResizeObserver',class{constructor(callback:()=>void){this.callback=callback}callback:()=>void;observe(){this.callback()}});
   define('IntersectionObserver',class{constructor(callback:(entries:unknown[])=>void){this.callback=callback}callback:(entries:unknown[])=>void;observe(){this.callback([{isIntersecting:true}])}});
   define('requestAnimationFrame',(callback:(now:number)=>void)=>{nextFrame=callback});
-  const move=initLoopingScroller(row as unknown as HTMLElement,'.set',1,()=>paused)!;
+  const move=initLoopingScroller(row as unknown as HTMLElement,'.set',1,()=>paused,explicitMotion)!;
   nextFrame(100);nextFrame(120);
   assert.equal(row.scrollLeft,1020);
   row.dispatchEvent(new Event('mouseenter'));nextFrame(140);
@@ -44,8 +44,8 @@ test('loops continuously, holds during touch, resumes on release, and suppresses
   move(-100);assert.equal(row.scrollLeft,1460,'reverse wrap preserves overshoot');
   paused=true;nextFrame(200);assert.equal(row.scrollLeft,1460);
   paused=false;preference.matches=true;preference.dispatchEvent(new Event('change'));
-  nextFrame(220);assert.equal(row.scrollLeft,0,'reduced motion disables autoplay');
-  move(100);assert.equal(row.scrollLeft,100,'manual browsing remains available');
+  nextFrame(220);assert.equal(row.scrollLeft,explicitMotion?1020:0,'explicit motion can run while default motion honours the preference');
+  move(100);assert.equal(row.scrollLeft,explicitMotion?1120:100,'manual browsing remains available');
  }finally{
   for(const [name,descriptor] of originals){if(descriptor)Object.defineProperty(globalThis,name,descriptor);else Reflect.deleteProperty(globalThis,name)}
  }
