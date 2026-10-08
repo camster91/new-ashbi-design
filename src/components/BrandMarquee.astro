@@ -37,7 +37,7 @@ const brands=[
  .brand-marquee-window:focus-visible{outline:3px solid #42467d;outline-offset:3px}
  @keyframes brand-drift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-33.333333%,0,0)}}
  @media(max-width:760px){.brand-marquee-head h2{max-width:190px}.brand-marquee-set{gap:18px;padding-right:18px}.brand-marquee-set li{width:96px;height:48px}.brand-marquee-set img{max-width:88px;max-height:38px}}
- @media(prefers-reduced-motion:reduce){.brand-marquee-track{animation-name:none;transform:none;will-change:auto}.brand-marquee-set[aria-hidden]{display:none}.brand-marquee-window{overflow-x:auto;mask-image:none;-webkit-mask-image:none}.brand-marquee:global(.motion-enabled) .brand-marquee-track{animation-name:brand-drift;will-change:transform}.brand-marquee:global(.motion-enabled) .brand-marquee-set[aria-hidden]{display:flex}.brand-marquee:global(.motion-enabled) .brand-marquee-window{overflow:hidden}}
+ @media(prefers-reduced-motion:reduce){.brand-marquee-track{animation-name:none;transform:none;will-change:auto}.brand-marquee-set[aria-hidden]{display:none}.brand-marquee-window{overflow-x:auto;mask-image:none;-webkit-mask-image:none}.brand-marquee:global(.motion-enabled) .brand-marquee-track{animation-name:brand-drift;animation-duration:48s!important;animation-iteration-count:infinite!important;will-change:transform}.brand-marquee:global(.motion-enabled) .brand-marquee-set[aria-hidden]{display:flex}.brand-marquee:global(.motion-enabled) .brand-marquee-window{overflow:hidden}}
 </style>
 <script>
  const brandRegion=document.querySelector('[data-brand-marquee]');
