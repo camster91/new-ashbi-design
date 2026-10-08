@@ -22,10 +22,10 @@ const homepageProjects=commerceProjects.map(project=>project.slug==='marin-food'
   cardImageAlt:'Marin Food gourmet butter packaging in five flavour variants',
 }:project);
 const heroProjects=homepageProjects.slice(0,12);
-// Read the first two columns top to bottom: Della, BPM, Marin Food, CocoFro.
+// Full, staggered project sets keep both looping rows covered on wide screens.
 const heroRows=[
-  heroProjects.slice(0,4),
-  heroProjects.slice(4),
+  heroProjects,
+  [...heroProjects.slice(6),...heroProjects.slice(0,6)],
 ];
 ---
 <BaseLayout title="Ashbi Design | Brand Identity, Packaging & Web Design" description="Ashbi is a Toronto creative studio for growing product brands. Work directly with Bianca and Cameron on brand identity, packaging and ecommerce websites.">
