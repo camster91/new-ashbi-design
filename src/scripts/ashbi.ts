@@ -44,10 +44,6 @@ const moveRows=[...document.querySelectorAll<HTMLElement>('[data-hero-reel]')].m
 });
 document.querySelector('[data-reel-prev]')?.addEventListener('click',()=>moveRows.forEach(move=>move(-1)));
 document.querySelector('[data-reel-next]')?.addEventListener('click',()=>moveRows.forEach(move=>move(1)));
-document.querySelectorAll<HTMLElement>('[data-brand-marquee]').forEach(region=>{
- const row=region.querySelector<HTMLElement>('.brand-marquee-window');
- if(row)initLoopingScroller(row,'.brand-marquee-set',.034,()=>pageMotionPaused()||region.classList.contains('is-paused'));
-});
 const proofMarquee=document.querySelector<HTMLElement>('[data-proof-marquee]');
 const proofPause=proofMarquee?.querySelector<HTMLButtonElement>('[data-proof-pause]');
 proofPause?.addEventListener('click',()=>{

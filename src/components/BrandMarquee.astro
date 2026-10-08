@@ -7,13 +7,17 @@ const brands=[
  {name:'CocoFro',src:'cocofro-logo.png',width:99,height:60},
  {name:'Chef Tanya’s Kitchen',src:'chef-tanya-logo.png',width:96,height:96},
  {name:'Ancient Bliss',src:'ancient-bliss-logo.png',width:75,height:90},
+ {name:'Mom Water',src:'mom-water-logo.png',width:400,height:285},
+ {name:'WaagBag',src:'waagbag-logo.png',width:200,height:105},
+ {name:'Clypse Beauty',src:'clypse-logo.png',width:1036,height:329},
+ {name:'SplashTown Water Parks',src:'splashtown-logo.png',width:400,height:224},
 ];
 ---
 <section class="client-strip container brand-marquee" aria-labelledby="brands-heading" data-brand-marquee>
  <div class="brand-marquee-head"><h2 class="eyebrow" id="brands-heading">A few of the brands we work with</h2><button type="button" data-brand-pause aria-pressed="false" aria-controls="brand-marquee-track"><span data-brand-pause-label>Pause logos</span><span class="motion-icon-pause"><ActionIcon name="pause" /></span><span class="motion-icon-play"><ActionIcon name="play" /></span></button></div>
- <div class="brand-marquee-window" tabindex="0" role="region" aria-label="Client logos. Swipe, drag, or use the arrow keys to browse.">
+ <div class="brand-marquee-window" tabindex="0" role="region" aria-label="Client logos">
   <div class="brand-marquee-track" id="brand-marquee-track">
-   {[0,1,2].map(copy=><ul class="brand-marquee-set" aria-hidden={copy!==1?'true':undefined}>{brands.map(brand=><li><img draggable="false" src={`/images/ashbi/brands/${brand.src}`} alt={copy===1?brand.name:''} width={brand.width} height={brand.height} style={`width:${brand.width}px;height:${brand.height}px`} loading="lazy" decoding="async" /></li>)}</ul>)}
+   {[0,1,2].map(copy=><ul class="brand-marquee-set" aria-hidden={copy!==0?'true':undefined}>{brands.map(brand=><li><img draggable="false" src={`/images/ashbi/brands/${brand.src}`} alt={copy===0?brand.name:''} width={brand.width} height={brand.height} loading="lazy" decoding="async" /></li>)}</ul>)}
   </div>
  </div>
 </section>
@@ -22,21 +26,29 @@ const brands=[
  .brand-marquee-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px}
  .brand-marquee-head h2{font-size:.68rem;line-height:1.5;letter-spacing:.14em;margin:0}
  .brand-marquee-head button{flex:none;min-height:44px;padding:8px 14px;border:1px solid #42467d;border-radius:30px;background:transparent;color:#2b2e52;font:inherit;font-size:.7rem}
- .brand-marquee-window{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;mask-image:linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 22px),transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 22px),transparent)}
- .brand-marquee-track{display:flex;width:max-content;}
- .brand-marquee-set{display:flex;min-width:min(calc(100vw - 28px),1440px);justify-content:space-around;align-items:center;gap:28px;list-style:none;padding:12px 28px 12px 0;margin:0;flex:none}
- .brand-marquee-set li{width:clamp(140px,15vw,210px);height:104px;display:flex;align-items:center;justify-content:center;flex:none}
- .brand-marquee-set img{object-fit:contain;max-width:100%;filter:none}
+ .brand-marquee-window{cursor:default;overflow:hidden;scrollbar-width:none;mask-image:linear-gradient(90deg,transparent,#000 20px,#000 calc(100% - 20px),transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 20px,#000 calc(100% - 20px),transparent)}
+ .brand-marquee-track{display:flex;width:max-content;animation:brand-drift 48s linear infinite;will-change:transform}
+ .brand-marquee-set{display:flex;align-items:center;gap:24px;list-style:none;padding:10px 24px 10px 0;margin:0;flex:none}
+ .brand-marquee-set li{width:112px;height:52px;display:flex;align-items:center;justify-content:center;flex:none}
+ .brand-marquee-set img{width:auto;height:auto;max-width:100px;max-height:44px;object-fit:contain}
+ .brand-marquee-set img[src$="mom-water-logo.png"]{filter:brightness(0)}
+ .brand-marquee:global(.is-paused) .brand-marquee-track,:global(body.motion-paused) .brand-marquee-track,.brand-marquee-window:focus-within .brand-marquee-track{animation-play-state:paused}
  .brand-marquee-window::-webkit-scrollbar{display:none}
  .brand-marquee-window:focus-visible{outline:3px solid #42467d;outline-offset:3px}
- @media(max-width:760px){.brand-marquee-head h2{max-width:190px}.brand-marquee-set{gap:20px;padding-right:20px}}
- @media(prefers-reduced-motion:reduce){.brand-marquee-track{animation:none;width:100%;transform:none}.brand-marquee-set{flex-wrap:wrap;min-width:0;width:100%;justify-content:center;padding:0;gap:18px}.brand-marquee-set li{width:calc(33.333% - 18px);min-width:120px}.brand-marquee-set[aria-hidden]{display:none}.brand-marquee-window{mask-image:none;-webkit-mask-image:none}.brand-marquee-head button{display:none}}
+ @keyframes brand-drift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-33.333333%,0,0)}}
+ @media(max-width:760px){.brand-marquee-head h2{max-width:190px}.brand-marquee-set{gap:18px;padding-right:18px}.brand-marquee-set li{width:96px;height:48px}.brand-marquee-set img{max-width:88px;max-height:38px}}
+ @media(prefers-reduced-motion:reduce){.brand-marquee-track{animation-name:none;transform:none;will-change:auto}.brand-marquee-set[aria-hidden]{display:none}.brand-marquee-window{overflow-x:auto;mask-image:none;-webkit-mask-image:none}.brand-marquee:global(.motion-enabled) .brand-marquee-track{animation-name:brand-drift;will-change:transform}.brand-marquee:global(.motion-enabled) .brand-marquee-set[aria-hidden]{display:flex}.brand-marquee:global(.motion-enabled) .brand-marquee-window{overflow:hidden}}
 </style>
 <script>
  const brandRegion=document.querySelector('[data-brand-marquee]');
  const brandPause=brandRegion?.querySelector<HTMLButtonElement>('[data-brand-pause]');
+ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches&&brandPause){
+  brandRegion?.classList.add('is-paused');brandPause.setAttribute('aria-pressed','true');
+  const label=brandPause.querySelector('[data-brand-pause-label]');if(label)label.textContent='Play logos';
+ }
  brandPause?.addEventListener('click',()=>{
   const paused=brandRegion!.classList.toggle('is-paused');
+  if(!paused)brandRegion!.classList.add('motion-enabled');
   brandPause.setAttribute('aria-pressed',String(paused));
   const label=brandPause.querySelector('[data-brand-pause-label]');
   if(label)label.textContent=paused?'Resume logos':'Pause logos';

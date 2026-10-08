@@ -8,3 +8,9 @@
 
 - chef-tanya-logo.png — original Figma Chef Tanya shop header, file RJPilIew1hRCZwsMTj0cG3, node 261:15. Unmodified PNG export; visually checked.
 - ancient-bliss-logo.png — original Figma Ancient Bliss header, file kXEGe5Ppq3VsekEzAnaEez, node 270:606. Unmodified PNG export; visually checked.
+
+Added 8 October 2026 from official client websites; unmodified downloads, checked against the existing Ashbi project/client records:
+- mom-water-logo.png — https://drinkmomwater.com/cdn/shop/files/Logo-Tag-2_400x.png?v=1781880602 ; official header. CSS uses a dark silhouette for contrast against the light strip.
+- waagbag-logo.png — https://waagbag.com/cdn/shop/files/waag_bag_logo_200x.png?v=1661269587 ; official header.
+- clypse-logo.png — https://www.clypsebeauty.com/wp-content/uploads/2024/01/clypse-logo-1-e1706546538211.png ; official site logo.
+- splashtown-logo.png — https://splashtown.ca/wp-content/uploads/2021/06/SplashtownNiagara-Logo-FINAL-01-e1648425068918.png ; official Canadian SplashTown website.
