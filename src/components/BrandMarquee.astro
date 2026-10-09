@@ -11,33 +11,49 @@ const brands=[
  {name:'WaagBag',src:'waagbag-logo.png',width:200,height:105},
  {name:'Clypse Beauty',src:'clypse-logo.png',width:1036,height:329},
  {name:'SplashTown Water Parks',src:'splashtown-logo.png',width:400,height:224},
+ {name:'Adobe',src:'adobe-logo.svg',width:65,height:35},
+ {name:'Adobe Express',src:'adobe-express-logo.svg',width:200,height:40},
+ {name:'Adobe Photoshop',src:'photoshop-logo.svg',width:40,height:40},
+ {name:'Curator Video',src:'curator-logo.png',width:257,height:67},
+ {name:'Extend Pharmacy',src:'extend-logo.png',width:1898,height:687},
+ {name:'SciRouter',src:'scirouter-logo.png',width:1200,height:400},
+ {name:'Honestly Texas',src:'honestly-texas-logo.jpg',width:600,height:600},
+ {name:'Earth Drilling',src:'earth-drilling-logo.png',width:3614,height:1334},
+ {name:'Specialty Rice',src:'specialty-rice-logo.png',width:2970,height:799},
+ {name:'Hospital News',src:'hospital-news-logo.png',width:1896,height:358},
+ {name:'321 Insight',src:'321-insight-logo.png',width:1766,height:374},
+ {name:'Joe’s Heating',src:'joes-heating-logo.png',width:129,height:96},
+ {name:'Better Sour',src:'better-sour-logo.png',width:300,height:93},
 ];
 ---
 <section class="client-strip brand-marquee motion-enabled" aria-labelledby="brands-heading" data-brand-marquee>
  <div class="brand-marquee-head container"><h2 class="eyebrow" id="brands-heading">A few of the brands we work with</h2><button type="button" data-brand-pause aria-pressed="false" aria-controls="brand-marquee-track"><span data-brand-pause-label>Pause logos</span><span class="motion-icon-pause"><ActionIcon name="pause" /></span><span class="motion-icon-play"><ActionIcon name="play" /></span></button></div>
- <div class="brand-marquee-window" tabindex="0" role="region" aria-label="Client logos">
+ <div class="brand-marquee-window" tabindex="0" role="region" aria-label="Client logos" style={`--brand-duration:${brands.length * 9}s`}>
   <div class="brand-marquee-track" id="brand-marquee-track">
-   {[0,1,2].map(copy=><ul class="brand-marquee-set" aria-hidden={copy!==0?'true':undefined}>{[...brands,...brands,...brands].map(brand=><li><img draggable="false" src={`/images/ashbi/brands/${brand.src}`} alt={copy===0?brand.name:''} width={brand.width} height={brand.height} loading="lazy" decoding="async" /></li>)}</ul>)}
+   {[0,1,2].map(copy=><ul class="brand-marquee-set" aria-hidden={copy!==0?'true':undefined}>{[...brands,...brands,...brands].map((brand,index)=><li aria-hidden={index>=brands.length?'true':undefined}><img draggable="false" src={`/images/ashbi/brands/${brand.src}`} alt={copy===0&&index<brands.length?brand.name:''} width={brand.width} height={brand.height} loading="eager" decoding="async" /></li>)}</ul>)}
   </div>
  </div>
 </section>
 <style>
  .client-strip.brand-marquee{display:block;min-width:0;width:100%;max-width:none;padding-inline:0}
- .brand-marquee-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px}
- .brand-marquee-head h2{font-size:.68rem;line-height:1.5;letter-spacing:.14em;margin:0}
+ .brand-marquee-head{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:16px;margin-bottom:18px}
+ .brand-marquee-head h2{min-width:0;font-size:.68rem;line-height:1.5;letter-spacing:.14em;margin:0}
  .brand-marquee-head button{flex:none;min-height:44px;padding:8px 14px;border:1px solid #42467d;border-radius:30px;background:transparent;color:#2b2e52;font:inherit;font-size:.7rem}
  .brand-marquee-window{cursor:default;overflow:hidden;scrollbar-width:none;mask-image:linear-gradient(90deg,transparent,#000 20px,#000 calc(100% - 20px),transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 20px,#000 calc(100% - 20px),transparent)}
- .brand-marquee-track{display:flex;width:max-content;animation:brand-drift 90s linear infinite;will-change:transform}
+ .brand-marquee-track{display:flex;width:max-content;animation:brand-drift var(--brand-duration,90s) linear infinite;will-change:transform}
  .brand-marquee-set{display:flex;align-items:center;gap:24px;list-style:none;padding:10px 24px 10px 0;margin:0;flex:none}
  .brand-marquee-set li{width:112px;height:52px;display:flex;align-items:center;justify-content:center;flex:none}
  .brand-marquee-set img{width:auto;height:auto;max-width:100px;max-height:44px;object-fit:contain}
  .brand-marquee-set img[src$="mom-water-logo.png"]{filter:brightness(0)}
+ .brand-marquee-set img[src$="hospital-news-logo.png"]{filter:brightness(0)}
+ .brand-marquee-set img[src$="scirouter-logo.png"]{filter:invert(1);mix-blend-mode:multiply}
+ .brand-marquee-set img[src$="honestly-texas-logo.jpg"]{mix-blend-mode:multiply}
  .brand-marquee:global(.is-paused) .brand-marquee-track,:global(body.motion-paused) .brand-marquee-track,.brand-marquee-window:focus-within .brand-marquee-track{animation-play-state:paused}
  .brand-marquee-window::-webkit-scrollbar{display:none}
  .brand-marquee-window:focus-visible{outline:3px solid #42467d;outline-offset:3px}
  @keyframes brand-drift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-33.333333%,0,0)}}
  @media(max-width:760px){.brand-marquee-head h2{max-width:190px}.brand-marquee-set{gap:18px;padding-right:18px}.brand-marquee-set li{width:96px;height:48px}.brand-marquee-set img{max-width:88px;max-height:38px}}
- @media(prefers-reduced-motion:reduce){.brand-marquee-track{animation-name:none;transform:none;will-change:auto}.brand-marquee-set[aria-hidden]{display:none}.brand-marquee-window{overflow-x:auto;mask-image:none;-webkit-mask-image:none}.brand-marquee:global(.motion-enabled) .brand-marquee-track{animation-name:brand-drift;animation-duration:90s!important;animation-iteration-count:infinite!important;will-change:transform}.brand-marquee:global(.motion-enabled) .brand-marquee-set[aria-hidden]{display:flex}.brand-marquee:global(.motion-enabled) .brand-marquee-window{overflow:hidden}}
+ @media(prefers-reduced-motion:reduce){.brand-marquee-track{animation-name:none;transform:none;will-change:auto}.brand-marquee-set[aria-hidden]{display:none}.brand-marquee-window{overflow-x:auto;mask-image:none;-webkit-mask-image:none}.brand-marquee:global(.motion-enabled) .brand-marquee-track{animation-name:brand-drift;animation-duration:var(--brand-duration,90s)!important;animation-iteration-count:infinite!important;will-change:transform}.brand-marquee:global(.motion-enabled) .brand-marquee-set[aria-hidden]{display:flex}.brand-marquee:global(.motion-enabled) .brand-marquee-window{overflow:hidden}}
 </style>
 <script>
  const brandRegion=document.querySelector('[data-brand-marquee]');
