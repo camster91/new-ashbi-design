@@ -26,10 +26,13 @@ export function createContentStore({directory,base,id='home',kind=/** @type {imp
       state=next;
     }finally{await rm(temp,{force:true});}
   };
-  const change=(revision,fn)=>{
+  const change=(revision,fn,{reconcileBaseline=null}={})=>{
     const job=queue.then(async()=>{
       if(revision!==state.revision)throw new Error('This draft changed. Reload before saving.');
-      if(state.baseRevision!==baseRevision)throw new Error('The website source changed. Reconcile this draft first.');
+      if(reconcileBaseline!==null){
+        if(reconcileBaseline!==baseRevision)throw new Error('The current source changed. Review it again before reconciling.');
+        if(state.baseRevision===baseRevision)throw new Error('This draft already uses the current source baseline.');
+      }else if(state.baseRevision!==baseRevision)throw new Error('The website source changed. Reconcile this draft first.');
       // Preserve the prior revision before changing the current draft.
       await mkdir(historyDir,{recursive:true,mode:0o700});
       const archive=path.join(historyDir,`${state.revision}.json`);
@@ -52,6 +55,13 @@ export function createContentStore({directory,base,id='home',kind=/** @type {imp
       }catch(error){if(error.code!=='ENOENT')throw error;}
     },
     get(){return {...structuredClone(state),sourceChanged:state.baseRevision!==baseRevision};},
+    reconciliation(){
+      return {sourceBaseline:baseRevision,differences:Object.keys(initial).filter(key=>initial[key]!==state.content[key]).map(key=>({field:key,source:initial[key],draft:state.content[key]}))};
+    },
+    reconcile(revision,sourceBaseline){
+      if(typeof sourceBaseline!=='string'||!/^[a-f0-9]{64}$/.test(sourceBaseline))return Promise.reject(new Error('Invalid source baseline'));
+      return change(revision,previous=>({...previous,baseRevision,content:validate(previous.content),revision:randomUUID(),status:'draft',updatedAt:now(),approvedAt:null}),{reconcileBaseline:sourceBaseline});
+    },
     save(content,revision){
       const validated=validate(content);
       return change(revision,previous=>({...previous,content:validated,revision:randomUUID(),status:'draft',updatedAt:now(),approvedAt:null}));

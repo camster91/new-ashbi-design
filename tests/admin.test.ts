@@ -116,7 +116,10 @@ test('admin setup, login, settings, test and enable require session and confirma
     assert.equal(denied.status,303);
     const leadPage=await fetch(`${origin}/admin/leads`,{headers:{Cookie:cookie}});
     assert.equal(leadPage.headers.get('cache-control'),'no-store');
+    assert.match(leadPage.headers.get('content-security-policy')||'',/default-src 'none'/);
+    assert.equal(leadPage.headers.get('x-robots-tag'),'noindex, nofollow');
     const leadHtml=await leadPage.text();
+    assert.match(leadHtml,/<!--email_off-->[\s\S]*isolated@example\.test[\s\S]*<!--\/email_off-->/);
     assert.match(leadHtml,/isolated@example.test/);
     assert.match(leadHtml,/&lt;script&gt;/);
     assert.equal(leadHtml.includes('<script>bad()'),false);

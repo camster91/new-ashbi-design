@@ -1,4 +1,5 @@
 import {commerceProjectSlugs} from '../data/commerce-project-slugs.ts';
+import {validMailbox} from './mailbox.ts';
 export const serviceOptions=['branding','web-design','packaging-design-services','design-and-dev-subscription','not-sure'] as const;
 export const campaignOptions=['creative-partner','shopify-design','packaging-design','brand-launch','website-redesign'] as const;
 export const planOptions=['20-hours','40-hours','80-hours'] as const;
@@ -16,7 +17,7 @@ export function validateBrief(brief:Brief):Errors {
   const errors:Errors={};
   for(const field of ['name','email','service','description'] as const)if(!brief[field])errors[field]='Please complete this field.';
   for(const field of Object.keys(limits) as (keyof Brief)[])if(brief[field].length>limits[field])errors[field]=`Please use ${limits[field]} characters or fewer.`;
-  if(brief.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(brief.email))errors.email='Please enter a valid email address.';
+  if(brief.email&&!validMailbox(brief.email))errors.email='Please enter a valid email address.';
   if(brief.service&&!serviceOptions.some(s=>s===brief.service))errors.service='Please choose one of the listed services.';
   if(brief.campaign&&!knownCampaign(brief.campaign))errors.campaign='Unknown campaign.';
   if(brief.project&&!knownProject(brief.project))errors.project='Unknown project.';

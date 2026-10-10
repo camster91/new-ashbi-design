@@ -16,6 +16,29 @@ async function withServer(deliver:(brief:typeof valid)=>Promise<void>,run:(url:s
 }
 const post=(url:string,body:unknown,headers:Record<string,string>={})=>fetch(url,{method:'POST',headers:{Origin:origin,'Content-Type':'application/json',...headers},body:typeof body==='string'?body:JSON.stringify(body)});
 
+test('network chunks split within UTF-8 characters preserve exact brief content',async()=>{
+ const description='An isolated café project with emoji 🧪.';
+ let received='';
+ await withServer(async brief=>{received=brief.description;},async url=>{
+  const body=Buffer.from(JSON.stringify({...valid,description}));
+  const first=body.indexOf(Buffer.from('é'))+1,second=body.indexOf(Buffer.from('🧪'))+2;
+  const status=await new Promise<number>((resolve,reject)=>{
+   const req=http.request(url,{method:'POST',headers:{Origin:origin,'Content-Type':'application/json'}},res=>{res.resume();res.once('end',()=>resolve(res.statusCode||0));});
+   req.once('error',reject);req.write(body.subarray(0,first));
+   setTimeout(()=>{req.write(body.subarray(first,second));setTimeout(()=>req.end(body.subarray(second)),20);},20);
+  });
+  assert.equal(status,200);assert.equal(received,description);
+ });
+});
+
+test('invalid single-mailbox characters are rejected before delivery',async()=>{
+ let calls=0;
+ await withServer(async()=>{calls++;},async url=>{
+  for(const email of ['qa,other@example.test','<qa>@example.test','qa@example.test>'])assert.equal((await post(url,{...valid,email})).status,400);
+  assert.equal(calls,0);
+ });
+});
+
 test('accepts a validated brief only after the delivery sink succeeds',async()=>{
   const delivered:unknown[]=[];
   await withServer(async brief=>{delivered.push(brief);},async url=>{

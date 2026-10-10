@@ -3,7 +3,9 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev --ignore-scripts && mkdir /data && chown node:node /data
 COPY server ./server
+COPY ops/recover-admin.mjs ./ops/recover-admin.mjs
 COPY src/lib/enquiry.ts ./src/lib/enquiry.ts
+COPY src/lib/mailbox.ts ./src/lib/mailbox.ts
 COPY src/data/commerce-project-slugs.ts ./src/data/commerce-project-slugs.ts
 COPY src/lib/editorial-assets.ts ./src/lib/editorial-assets.ts
 COPY src/data/editorial-assets.json ./src/data/editorial-assets.json
