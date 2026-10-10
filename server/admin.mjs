@@ -114,7 +114,7 @@ export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date
     try{
       const state=store.get();
       const session=sessionFor(req);
-      if(req.method==='GET'&&pathname==='/admin/setup'){
+      if(req.method==='GET'&&(pathname==='/admin/setup'||pathname==='/admin/login')){
         redirect(res,'/admin/');return true;
       }
       if(req.method==='GET'&&pathname==='/admin/'){

@@ -89,6 +89,9 @@ test('admin setup, login, settings, test and enable require session and confirma
   const post=(route:string,form:Record<string,string>,cookie='',requestOrigin=origin)=>fetch(`${origin}${route}`,{method:'POST',redirect:'manual',headers:{Origin:requestOrigin,Cookie:cookie,'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(form)});
   try{
     assert.match(await (await get()).text(),/Set up your studio login/);
+    const loginLink=await fetch(`${origin}/admin/login`,{redirect:'manual'});
+    assert.equal(loginLink.status,303);
+    assert.equal(loginLink.headers.get('location'),'/admin/');
     const setupLink=await fetch(`${origin}/admin/setup`,{redirect:'manual'});
     assert.equal(setupLink.status,303);
     assert.equal(setupLink.headers.get('location'),'/admin/');
