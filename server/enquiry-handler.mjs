@@ -34,7 +34,7 @@ export function createEnquiryHandler({origin, deliver, now = Date.now, trustedPr
     const key = clientIdentity(req,trustedProxyAddress);
     if (chargeBucket(attempts,key,{windowMs:WINDOW_MS,max:MAX_REQUESTS,now})) return reply(res, 429, {accepted: false});
 
-    let body = '';
+    const chunks = [];
     let bytes = 0;
     try {
       for await (const chunk of req) {
@@ -45,10 +45,10 @@ export function createEnquiryHandler({origin, deliver, now = Date.now, trustedPr
           reply(res, 413, {accepted: false});
           return;
         }
-        body += chunk;
+        chunks.push(chunk);
       }
       let input;
-      try { input = JSON.parse(body); } catch { return reply(res, 400, {accepted: false}); }
+      try { input = JSON.parse(Buffer.concat(chunks,bytes).toString('utf8')); } catch { return reply(res, 400, {accepted: false}); }
       if (!input || typeof input !== 'object' || Array.isArray(input)) return reply(res, 400, {accepted: false});
       // A hidden field catches simple form bots without collecting more visitor data.
       if (input.fax_number) return reply(res, 200, {accepted: true});

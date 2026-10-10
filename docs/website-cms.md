@@ -10,6 +10,10 @@ The store runs with the gateway's single-instance model. Drafts use atomic file 
 
 ## Review and build
 
+### Reconcile a changed source baseline
+
+When the editor says the source changed, compare **Current website source** with **Saved draft**. Confirm that you want to keep the saved words, then choose **Reconcile saved draft**. The server checks both the saved revision and current source baseline, archives the previous revision, and keeps the saved copy as a new unapproved draft. Reload and review again if either guard changed. Reconciliation does not approve, export or publish the copy; the normal review and approval steps still apply. Earlier history remains available, but incompatible older-source revisions cannot be restored directly.
+
 1. Sign in, save a draft and review its factual claims. The editor's review is a text review, not a full rendered page preview.
 2. Approve the saved revision and download its JSON export privately.
 3. Validate it without modifying source:

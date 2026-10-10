@@ -1,5 +1,5 @@
+import {validMailbox} from '../src/lib/mailbox.ts';
 const regions={US:'https://api.mailgun.net',EU:'https://api.eu.mailgun.net'};
-const emailPattern=/^[^\s@,<>\r\n]+@[^\s@,<>\r\n]+\.[^\s@,<>\r\n]+$/;
 const domainPattern=/^(?=.{4,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/;
 
 export function validateMailgunSettings(input){
@@ -7,7 +7,7 @@ export function validateMailgunSettings(input){
   const domain=String(input.domain||'').trim().toLowerCase();
   const from=String(input.from||'').trim().toLowerCase();
   const apiKey=String(input.apiKey||'').trim();
-  if(!regions[region]||!domainPattern.test(domain)||!emailPattern.test(from)||!from.endsWith(`@${domain}`)||apiKey.length<12||apiKey.length>500){
+  if(!regions[region]||!domainPattern.test(domain)||!validMailbox(from)||!from.endsWith(`@${domain}`)||apiKey.length<12||apiKey.length>500){
     throw new Error('Enter a valid region, sending domain, From address on that domain, and Mailgun sending key.');
   }
   return {region,domain,from,apiKey};
@@ -15,7 +15,7 @@ export function validateMailgunSettings(input){
 
 export async function sendMailgunMessage(config,{to,subject,text,replyTo=undefined,testMode=false},transport=fetch){
   const settings=validateMailgunSettings(config);
-  if(!emailPattern.test(to)||!subject||!text||replyTo&&!emailPattern.test(replyTo))throw new Error('Invalid message');
+  if(!validMailbox(to)||!subject||!text||replyTo&&!validMailbox(replyTo))throw new Error('Invalid message');
   const body=new FormData();
   body.set('from',`Ashbi <${settings.from}>`);
   body.set('to',to);

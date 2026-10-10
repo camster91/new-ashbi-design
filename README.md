@@ -71,6 +71,26 @@ npm run enquiry-server
 
 The gateway needs its own private configuration (staff login, Mailgun and storage settings). See the [enquiry contract](docs/enquiry-contract.md) and the [editorial workflow](docs/website-cms.md) for the request contract, setup and the content review process.
 
+### Offline admin password recovery
+
+The existing `cameron@ashbi.ca` staff identity can be recovered by a trusted server operator using `ops/recover-admin.mjs`. This requires filesystem access to the gateway's private `admin-state.json`; there is no public unauthenticated password-reset endpoint. Recovery does not decrypt or replace Mailgun settings, enabled delivery, content, or leads.
+
+Stop the gateway before applying recovery and keep it stopped until the command succeeds. The gateway caches its state, and the hash guard does not replace stopping concurrent writers. Obtain a read-only plan first:
+
+```sh
+node ops/recover-admin.mjs --state /private/data/admin-state.json
+```
+
+The plan prints configuration flags, the state SHA-256 and UID/GID, without secrets. Run apply on the POSIX host that owns the state, using the exact planned hash and expected state-owner UID. Choose a new credential file in a private directory, outside the repository, static website, and shared folders:
+
+```sh
+node ops/recover-admin.mjs --state /private/data/admin-state.json --apply --expected-sha <planned-state-sha> --expected-uid <state-owner-uid> --credential-file /private/operator/new-admin-login.txt
+```
+
+Apply generates a strong random password, saves it only in the new credential file (0600, owned by the invoking operator), retains an exact-byte backup next to the original state (0600), and atomically replaces only the password hash. State ownership and all other fields, including ciphertext and unknown fields, are preserved. Existing credential files, symlink paths, stale hashes, UID mismatches, and overlapping state/credential paths are rejected. Recovery requires permission to preserve the original state UID/GID; run as that owner or an explicitly authorized privileged operator. Windows apply is refused because Node's POSIX file modes cannot guarantee private Windows ACLs; read-only planning remains supported.
+
+Restart the gateway after success so it loads the new password and invalidates existing in-memory sessions. Log in, verify settings and saved records read-only, move the password into your password manager, and securely remove the temporary credential file. Retain the private rollback backup according to your recovery policy. If verification fails after replacement, keep the gateway stopped and review the exact-byte backup before an authorized rollback; do not repeatedly reset against an uncertain state. Recovery JSON output never includes the password. The CLI does not stop/restart the gateway or mutate content, leads, or delivery settings.
+
 ## Testing and checks
 
 ```sh

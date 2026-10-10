@@ -4,6 +4,7 @@ import {validateMailgunSettings} from './mailgun.mjs';
 import {clientIdentity,chargeBucket} from './client-identity.mjs';
 import {contentEditor} from './content-admin.mjs';
 import {previewAsset} from './content-preview-view.mjs';
+import {fieldsFor} from '../src/lib/content.ts';
 
 const ADMIN_EMAIL='cameron@ashbi.ca';
 const SESSION_MS=8*60*60*1000;
@@ -19,6 +20,7 @@ const notices={
   draft:'Website draft saved. The public site is unchanged.',
   approved:'Saved website copy approved for export. The public site is unchanged.',
   restored:'Earlier words restored as a new draft. Review and approve before export.',
+  reconciled:'Saved words reconciled with the current source as a new draft. Review and approve before export.',
 };
 const leadStates={pending:'Awaiting delivery result','delivery-failed':'Delivery needs review','accepted-by-mailgun':'Accepted by Mailgun'};
 const leadFields={email:'Email',company:'Company',website:'Website',service:'Interested in',timing:'Timing',plan:'Monthly option',campaign:'Campaign',project:'Project reference',description:'Project brief'};
@@ -39,7 +41,8 @@ const css=`:root{font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#272
 
 function page(content,{notice='',error=''}={}){
   const message=error?`<p class="notice error" role="alert">${esc(error)}</p>`:notice?`<p class="notice" role="status">${esc(notices[notice]||'')}</p>`:'';
-  return `<!doctype html><html lang="en-CA"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ashbi Admin</title><style>${css}</style></head><body><header><strong>ashbi.</strong><span>Private studio settings</span></header><main>${message}${content}</main></body></html>`;
+  // Keep private emails readable without allowing Cloudflare's injected decoder script.
+  return `<!doctype html><html lang="en-CA"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ashbi Admin</title><style>${css}</style></head><body><header><strong>ashbi.</strong><span>Private studio settings</span></header><main><!--email_off-->${message}${content}<!--/email_off--></main></body></html>`;
 }
 function sendHtml(res,status,html){
   res.writeHead(status,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow','X-Content-Type-Options':'nosniff','X-Frame-Options':'DENY','Referrer-Policy':'no-referrer','Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; img-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'"});
@@ -59,6 +62,13 @@ function setupPage(enabled,error=''){
 }
 function loginPage(error=''){
   return page(`<div class="intro"><span class="eyebrow">ASHBI ADMIN</span><h1>Welcome back, Cameron.</h1><p>Sign in to manage project brief delivery.</p></div><div class="card" style="max-width:560px"><form class="stack" method="post" action="/admin/login"><label>Email<input name="email" type="email" required autocomplete="username" value="${ADMIN_EMAIL}"></label><label>Password<input name="password" type="password" required autocomplete="current-password"></label><button type="submit">Sign in →</button></form></div>`,{error});
+}
+function reconciliationReview(doc,id,csrf){
+  const state=doc.store.get();
+  if(!state.sourceChanged)return '';
+  const review=doc.store.reconciliation();
+  const fields=fieldsFor(doc.kind);
+  return `<section class="card"><h2>Review current source and saved draft</h2><p>The website source changed. Compare the differences below. Reconciliation keeps your saved words, records the current source baseline and removes any earlier approval. It does not publish.</p>${review.differences.length?review.differences.map(item=>`<h3>${esc(fields[item.field]?.label||item.field)}</h3><dl><dt>Current website source</dt><dd>${esc(item.source)}</dd><dt>Saved draft</dt><dd>${esc(item.draft)}</dd></dl>`).join(''):'<p>The saved words match the current source after compatibility validation.</p>'}<form method="post" action="/admin/content/reconcile" class="stack"><input type="hidden" name="csrf" value="${esc(csrf)}"><input type="hidden" name="document" value="${esc(id)}"><input type="hidden" name="revision" value="${esc(state.revision)}"><input type="hidden" name="sourceBaseline" value="${esc(review.sourceBaseline)}"><label class="check"><input type="checkbox" name="confirm" value="yes" required>I compared the current source with the saved draft and want to keep the saved words as a new unapproved draft.</label><button class="secondary" type="submit">Reconcile saved draft</button></form></section>`;
 }
 function dashboard(state,csrf,notice,contentAvailable=false){
   const config=state.mailgun;
@@ -136,7 +146,7 @@ export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date
           res.writeHead(200,{'Content-Type':'application/json','Content-Disposition':`attachment; filename="ashbi-${id.replace(':','-')}-${draft?'draft':'approved'}.json"`,'Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow','X-Content-Type-Options':'nosniff'});
           res.end(JSON.stringify(snapshot,null,2));return true;
         }
-        sendHtml(res,200,page(contentEditor(doc.store.get(),session.csrf,{id,kind:doc.kind,label:doc.label,documents:documentList,previewAvailable:Boolean(previews),history:await doc.store.history()}),{notice:new URL(req.url,origin).searchParams.get('notice')||''}));return true;
+        sendHtml(res,200,page(reconciliationReview(doc,id,session.csrf)+contentEditor(doc.store.get(),session.csrf,{id,kind:doc.kind,label:doc.label,documents:documentList,previewAvailable:Boolean(previews),history:await doc.store.history()}),{notice:new URL(req.url,origin).searchParams.get('notice')||''}));return true;
       }
       if(req.method==='GET'&&pathname==='/admin/leads'){
         if(!state.password||!session){redirect(res,'/admin/');return true;}
@@ -198,6 +208,12 @@ export function createAdminHandler({store,origin,setupToken='',sendTest,now=Date
         if(!doc||value('confirm')!=='yes')throw new Error('Approval not confirmed');
         await doc.store.approve(value('revision'));
         redirect(res,contentUrl(id)+'&notice=approved');return true;
+      }
+      if(pathname==='/admin/content/reconcile'){
+        const id=value('document')||'home',doc=documentFor(id);
+        if(!doc||value('confirm')!=='yes')throw new Error('Reconciliation not confirmed');
+        await doc.store.reconcile(value('revision'),value('sourceBaseline'));
+        redirect(res,contentUrl(id)+'&notice=reconciled');return true;
       }
       if(pathname==='/admin/content/restore'){
         const id=value('document')||'home',doc=documentFor(id);

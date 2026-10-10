@@ -15,6 +15,16 @@ test('only configured HTTPS or same-origin endpoints are eligible',()=>{
  for(const endpoint of ['','http://example.test','//example.test','/\\example.test','https://user:pass@example.test'])assert.equal(validEndpoint(endpoint),false);
  assert.equal(validEndpoint('/api/enquiries'),true);assert.equal(validEndpoint('https://example.test/enquiries'),true);
 });
+test('mailbox characters rejected by delivery are rejected before the browser transmits',async()=>{
+ let calls=0;
+ const send=createBriefSender('/api/enquiries',async()=>{calls++;return Response.json({accepted:true});});
+ for(const email of ['one,two@example.test','<visitor>@example.test','visitor@example.test>','visitor@exa<mple.test','visitor@example.test\r\nBcc:other@example.test']){
+  assert.ok(validateBrief({...brief,email}).email,email);
+  assert.deepEqual(await send({...brief,email}),{ok:false,reason:'invalid'});
+ }
+ assert.equal(calls,0);
+ assert.deepEqual(validateBrief({...brief,email:'visitor+qa@example.test'}),{});
+});
 test('missing endpoint and invalid form never transmit',async()=>{
  let calls=0;const transport=(async()=>{calls++;throw new Error('should not run')}) as typeof fetch;
  assert.deepEqual(await createBriefSender('',transport)(brief),{ok:false,reason:'unavailable'});
