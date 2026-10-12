@@ -290,3 +290,8 @@ img[src*="/bpm/web-"]{object-fit:contain!important;background:#f5eee2}
 
 /* Homepage project motion is explicit; keep duplicates available for the loop. */
 @media(prefers-reduced-motion:reduce){[data-home-motion] .hero-reel-set[aria-hidden="true"]{display:flex}[data-home-motion] .motion-toggle{display:block}}
+
+/* Footer logo "dots → logo": canvas overlays the real image, which fades back in as the dots land. */
+[data-logo-dots]{position:relative;display:inline-block}
+[data-logo-dots] img{transition:opacity .45s ease}
+[data-logo-dots='armed'] img{opacity:0}

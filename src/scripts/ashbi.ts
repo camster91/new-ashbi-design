@@ -3,6 +3,8 @@ import './work-carousel';
 import './tracking';
 import './enquiry';
 import {initHomeMotion} from './home-motion';
+import {initRollingNumbers} from './rolling-number';
+import {initLogoDots} from './logo-dots';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
@@ -87,3 +89,5 @@ filters.forEach(btn=>btn.addEventListener('click',()=>{
 }));
 
 initHomeMotion();
+initRollingNumbers();
+initLogoDots();

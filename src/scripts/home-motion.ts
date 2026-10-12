@@ -111,8 +111,7 @@ export function initHomeMotion() {
       if(footer){
         const columns=footer.querySelector('.footer-grid');
         if(columns) enter(columns.children,footer,{y:desktop?60:24,stagger:.12});
-        const logo=footer.querySelector('.footer-lead img');
-        if(logo) enter(logo,footer,{scale:.85,rotation:-5,y:0,ease:'back.out(1.2)'});
+        // The footer logo animates itself (logo-dots.ts).
         const base=footer.querySelector('.footer-base');
         if(base) enter(base,footer,{y:15,delay:.25});
       }
