@@ -313,3 +313,15 @@ img[src*="/bpm/web-"]{object-fit:contain!important;background:#f5eee2}
 @keyframes submit-spin{to{transform:rotate(360deg)}}
 [data-submit][data-state]:disabled{opacity:1;filter:none;cursor:progress;background:var(--lime);color:var(--ink)}
 [data-submit][data-state='done']:disabled{background:var(--ink)}
+
+/* Contact "island → live": a pill on Bianca's portrait expands to show the studio's local time. */
+.contact-portrait{position:relative;min-width:0}
+.studio-island{position:absolute;top:16px;left:50%;z-index:2;display:flex;align-items:center;gap:9px;max-width:calc(100% - 32px);padding:9px 15px 9px 11px;border-radius:100px;background:#16182ef2;color:#fff;font-size:.74rem;font-weight:700;letter-spacing:.01em;white-space:nowrap;overflow:hidden;transform:translateX(-50%);box-shadow:0 12px 26px #10122a45;transition:max-width .7s cubic-bezier(.34,1.3,.64,1),padding .7s cubic-bezier(.34,1.3,.64,1)}
+.island-dot{flex:none;width:9px;height:9px;border-radius:50%;background:#8fe07a;box-shadow:0 0 0 0 #8fe07a99;animation:island-pulse 2.4s ease-out infinite}
+.island-text{transition:opacity .35s ease .25s}
+.studio-island[data-island='closed']{max-width:34px;padding:9px 12px}
+.studio-island[data-island='closed'] .island-text{opacity:0;transition-delay:0s}
+@keyframes island-pulse{70%{box-shadow:0 0 0 7px #8fe07a00}100%{box-shadow:0 0 0 0 #8fe07a00}}
+body.motion-paused .island-dot{animation:none}
+@media(prefers-reduced-motion:reduce){.island-dot{animation:none}.studio-island{transition:none}}
+@media(max-width:760px){.studio-island{top:14px;font-size:.7rem}}
