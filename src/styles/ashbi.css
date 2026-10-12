@@ -295,3 +295,21 @@ img[src*="/bpm/web-"]{object-fit:contain!important;background:#f5eee2}
 [data-logo-dots]{position:relative;display:inline-block}
 [data-logo-dots] img{transition:opacity .45s ease}
 [data-logo-dots='armed'] img{opacity:0}
+
+/* Brief submit "click → done": folds to a ring while sending, lands on a check when received. */
+[data-submit]{position:relative;overflow:hidden}
+[data-submit][data-state]{width:var(--submit-w);transition:width .45s cubic-bezier(.65,0,.35,1),padding .45s cubic-bezier(.65,0,.35,1),background-color .3s ease,box-shadow .3s ease}
+[data-submit][data-state]>:not(.submit-ring,.submit-check){transition:opacity .2s ease}
+[data-submit]:is([data-state='sending'],[data-state='done']){width:54px;padding:0;gap:0}
+[data-submit]:is([data-state='sending'],[data-state='done'])>:not(.submit-ring,.submit-check){opacity:0}
+[data-submit][data-state='done']{background:var(--ink);box-shadow:0 0 0 6px #e3f2a855}
+.submit-ring,.submit-check{position:absolute;left:50%;top:50%;width:24px;height:24px;margin:-12px 0 0 -12px;opacity:0;pointer-events:none}
+.submit-ring{border-radius:50%;border:2.5px solid #292c5033;border-top-color:var(--ink);transition:opacity .2s ease}
+[data-submit][data-state='sending'] .submit-ring{opacity:1;animation:submit-spin .8s linear infinite}
+.submit-check{fill:none;stroke:var(--lime);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.submit-check path{stroke-dasharray:1;stroke-dashoffset:1}
+[data-submit][data-state='done'] .submit-check{opacity:1}
+[data-submit][data-state='done'] .submit-check path{stroke-dashoffset:0;transition:stroke-dashoffset .45s cubic-bezier(.65,0,.35,1) .15s}
+@keyframes submit-spin{to{transform:rotate(360deg)}}
+[data-submit][data-state]:disabled{opacity:1;filter:none;cursor:progress;background:var(--lime);color:var(--ink)}
+[data-submit][data-state='done']:disabled{background:var(--ink)}

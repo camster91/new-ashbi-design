@@ -79,3 +79,7 @@
 
 .benefit-illustration{display:block;flex:none;width:64px;height:64px;color:var(--brand-ink,#2b2e52);margin-bottom:22px}
 @media(max-width:760px){.benefit-grid article{display:grid;grid-template-columns:64px minmax(0,1fr);gap:18px 20px;align-items:center}.benefit-grid article>.benefit-illustration{float:none;margin:0}.benefit-grid h3{margin:0;max-width:none}.benefit-grid p{grid-column:1/-1;clear:none}}
+/* Benefit icons draw themselves: strokes trace in, then fills fade up. */
+.benefit-illustration[data-draw] :is(path,circle,rect){stroke-dasharray:1;transition:stroke-dashoffset .9s cubic-bezier(.65,0,.35,1) var(--icon-delay,0ms),fill-opacity .45s ease calc(var(--icon-delay,0ms) + .6s)}
+.benefit-illustration[data-draw='armed'] :is(path,circle,rect){stroke-dashoffset:1;fill-opacity:0}
+.benefit-illustration[data-draw='drawn'] :is(path,circle,rect){stroke-dashoffset:0;fill-opacity:1}

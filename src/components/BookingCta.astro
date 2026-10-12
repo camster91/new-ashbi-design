@@ -11,14 +11,43 @@ if(project)briefParams.set('project',project);
 const brief=`/contact/${briefParams.size?`?${briefParams}`:''}#project-brief`;
 ---
 <section class:list={["conversation-cta container",{"conversation-expressive":expressive}]} aria-labelledby="cta-title">
-  <BookingPortrait />
+  <div class="booking-visual">
+    <BookingPortrait />
+    <div class="booking-slot-card" data-booking-demo aria-hidden="true">
+      <div class="slot-head"><span class="slot-dot"></span><span data-slot-title>Intro call · 30 min</span></div>
+      <div class="slot-days"><span>Mon</span><span class="is-picked">Tue</span><span>Wed</span><span>Thu</span></div>
+      <div class="slot-times"><span>9:30</span><span class="slot-target">10:00<b>Booked ✓</b></span><span>11:30</span></div>
+      <span class="slot-pointer"></span>
+    </div>
+  </div>
   {expressive && <div class="closing-character"><BrandAccent /></div>}
   <div class="conversation-copy"><span class="eyebrow">30 MINUTES WITH BIANCA</span><h2 id="cta-title">What’s next for your brand?</h2><p>A new product, a brand refresh or a website that needs attention? Tell Bianca what you have in mind. We’ll talk through where Ashbi can help.</p><div class="cta-actions"><a class="button button-lime" href={site.bookingUrl} target="_blank" rel="noopener" data-track="booking_calendar_click">Book a call <ActionIcon name="external" /></a><a class="button button-outline" href={brief}>Prepare a project brief <ActionIcon name="forward" /></a></div><a class="cta-email" href="mailto:hello@ashbi.ca">hello@ashbi.ca</a></div>
 </section>
 <style>
  .conversation-cta{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);align-items:center;gap:clamp(35px,7vw,110px);padding:clamp(28px,5vw,72px);background:var(--ink2);color:#fff;border-radius:24px;margin-bottom:24px}
+ .booking-visual{position:relative;min-width:0;max-width:340px}
  .conversation-cta :global(.booking-portrait){max-width:340px}.conversation-cta :global(.booking-portrait img){aspect-ratio:1;object-position:center 60%}
  .conversation-copy h2 em{color:inherit;font-style:normal}.conversation-copy h2{font-size:clamp(2.8rem,5vw,5.7rem);margin-bottom:28px}.conversation-copy p{max-width:580px;color:#e1e3ee}
  .cta-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.cta-email{display:inline-block;margin-top:22px;text-decoration:underline;text-underline-offset:4px;font-size:.9rem}
  @media(max-width:760px){.conversation-cta{grid-template-columns:1fr;gap:30px}.conversation-cta :global(.booking-portrait){display:grid;grid-template-columns:100px 1fr;align-items:center;gap:18px;max-width:none}.conversation-cta :global(.booking-portrait figcaption){padding:0}.conversation-copy h2 br{display:none}}
+ .booking-slot-card{position:absolute;right:-34px;bottom:74px;width:210px;padding:14px;border-radius:16px;background:#fffdf4;color:var(--ink);box-shadow:0 22px 44px #11132e66;font-size:.7rem;font-weight:700}
+ .slot-head{display:flex;align-items:center;gap:8px;margin-bottom:12px;letter-spacing:.02em}
+ .slot-dot{width:8px;height:8px;border-radius:50%;background:#9aa2c9;transition:background .3s}
+ .slot-days,.slot-times{display:grid;gap:6px}.slot-days{grid-template-columns:repeat(4,1fr);margin-bottom:8px}.slot-times{grid-template-columns:1fr}
+ .slot-days span{padding:6px 0;text-align:center;border-radius:8px;background:#eef0e8;color:#6b7180}
+ .slot-days .is-picked{background:var(--ink);color:#fff}
+ .slot-times span{position:relative;padding:8px 10px;border-radius:9px;border:1px solid #d8dcd6;overflow:hidden}
+ .slot-target b{position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;background:var(--lime);font-weight:800;transform:translateX(-101%);transition:transform .5s cubic-bezier(.65,0,.35,1)}
+ .slot-pointer{position:absolute;left:62%;top:120%;width:18px;height:18px;border-radius:50%;background:#29234d40;border:2px solid var(--ink);opacity:0;pointer-events:none;transition:left .7s cubic-bezier(.65,0,.35,1),top .7s cubic-bezier(.65,0,.35,1),opacity .3s,transform .15s}
+ [data-booking-demo='armed']{opacity:0;transform:translateY(18px) scale(.96)}
+ [data-booking-demo]{transition:opacity .5s ease,transform .6s cubic-bezier(.2,.8,.2,1)}
+ [data-booking-demo='pick'] .slot-pointer{opacity:1;left:52%;top:66%}
+ [data-booking-demo='press'] .slot-pointer{opacity:1;left:52%;top:66%;transform:scale(.7)}
+ [data-booking-demo='booked'] .slot-pointer{opacity:0;left:52%;top:66%}
+ :is([data-booking-demo='press'],[data-booking-demo='booked']) .slot-target{border-color:var(--ink)}
+ [data-booking-demo='booked'] .slot-target b{transform:none}
+ [data-booking-demo='booked'] .slot-dot,[data-booking-demo='done'] .slot-dot{background:#7cc36b}
+ [data-booking-demo='done'] .slot-target b{transform:none}
+ @media(max-width:1100px){.booking-slot-card{right:-20px;width:190px}}
+ @media(max-width:760px){.booking-visual{max-width:none}.booking-slot-card{display:none}}
 </style>
