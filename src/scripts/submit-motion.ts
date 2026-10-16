@@ -8,6 +8,7 @@ const nextFrame=()=>new Promise<void>(resolve=>requestAnimationFrame(()=>request
 
 export function submitMotion(button:HTMLButtonElement){
   let timer=0;
+  let revision=0;
   const ensureMarks=()=>{
     if(button.querySelector('.submit-ring'))return;
     button.insertAdjacentHTML('beforeend','<span class="submit-ring" aria-hidden="true"></span><svg class="submit-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" pathLength="1"/></svg>');
@@ -15,24 +16,31 @@ export function submitMotion(button:HTMLButtonElement){
   const settle=async()=>{
     // Grow back to the measured width, then hand sizing back to the stylesheet.
     button.dataset.state='measure';
-    window.setTimeout(()=>{if(button.dataset.state==='measure')delete button.dataset.state;},480);
+    timer=window.setTimeout(()=>{if(button.dataset.state==='measure')delete button.dataset.state;},480);
   };
   return {
     async start(){
-      if(reduced())return;
+      const current=++revision;
       window.clearTimeout(timer);
+      if(reduced()){delete button.dataset.state;return;}
       ensureMarks();
       button.style.setProperty('--submit-w',`${button.offsetWidth}px`);
       button.dataset.state='measure';
       await nextFrame();
+      // A fast response or a retry may already have superseded these frames.
+      if(current!==revision)return;
+      if(reduced()){delete button.dataset.state;return;}
       button.dataset.state='sending';
     },
     done(){
+      revision++;
+      window.clearTimeout(timer);
       if(!button.dataset.state)return;
       button.dataset.state='done';
       timer=window.setTimeout(settle,2400);
     },
     reset(){
+      revision++;
       if(!button.dataset.state)return;
       window.clearTimeout(timer);
       void settle();
