@@ -1,0 +1,28 @@
+---
+/**
+ * Apple-style odometer number. Renders the final value by default (no JS,
+ * reduced motion and paused motion all show it as-is); rolling-number.ts arms
+ * reels that are still below the fold and rolls them in on scroll.
+ */
+interface Props { value: string; class?: string }
+const {value,class:className}=Astro.props;
+const reel=Array.from({length:20},(_,i)=>i%10);
+---
+<span class:list={['rolling-number',className]} data-rolling-number>
+  <span class="visually-hidden">{value}</span>
+  <span class="rolling-number-face" aria-hidden="true">{Array.from(value).map(char=>/\d/.test(char)
+    ?<span class="rolling-digit" style={`--digit:${char}`}><span class="rolling-reel">{reel.map(d=><span>{d}</span>)}</span></span>
+    :<span class="rolling-static">{char}</span>)}</span>
+</span>
+<style>
+  .rolling-number{display:inline-flex;position:relative}
+  .visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+  .rolling-number-face{display:inline-flex;font-variant-numeric:tabular-nums}
+  .rolling-digit,.rolling-static{display:inline-block;height:1em;line-height:1}
+  .rolling-digit{overflow:hidden;padding-inline:.01em}
+  .rolling-reel{display:flex;flex-direction:column;transform:translateY(calc((10 + var(--digit)) * -5%))}
+  .rolling-reel>span{display:block;height:1em}
+  /* Armed = waiting below the fold at 0; rolled = travelling to the real value. */
+  [data-rolling-number][data-roll='armed'] .rolling-reel{transform:translateY(0)}
+  [data-rolling-number][data-roll='rolled'] .rolling-reel{transition:transform 1.5s cubic-bezier(.16,1,.3,1) var(--roll-delay,0ms)}
+</style>

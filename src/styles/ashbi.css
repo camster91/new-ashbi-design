@@ -290,3 +290,38 @@ img[src*="/bpm/web-"]{object-fit:contain!important;background:#f5eee2}
 
 /* Homepage project motion is explicit; keep duplicates available for the loop. */
 @media(prefers-reduced-motion:reduce){[data-home-motion] .hero-reel-set[aria-hidden="true"]{display:flex}[data-home-motion] .motion-toggle{display:block}}
+
+/* Footer logo "dots → logo": canvas overlays the real image, which fades back in as the dots land. */
+[data-logo-dots]{position:relative;display:inline-block}
+[data-logo-dots] img{transition:opacity .45s ease}
+[data-logo-dots='armed'] img{opacity:0}
+
+/* Brief submit "click → done": folds to a ring while sending, lands on a check when received. */
+[data-submit]{position:relative;overflow:hidden}
+[data-submit][data-state]{width:var(--submit-w);transition:width .45s cubic-bezier(.65,0,.35,1),padding .45s cubic-bezier(.65,0,.35,1),background-color .3s ease,box-shadow .3s ease}
+[data-submit][data-state]>:not(.submit-ring,.submit-check){transition:opacity .2s ease}
+[data-submit]:is([data-state='sending'],[data-state='done']){width:54px;padding:0;gap:0}
+[data-submit]:is([data-state='sending'],[data-state='done'])>:not(.submit-ring,.submit-check){opacity:0}
+[data-submit][data-state='done']{background:var(--ink);box-shadow:0 0 0 6px #e3f2a855}
+.submit-ring,.submit-check{position:absolute;left:50%;top:50%;width:24px;height:24px;margin:-12px 0 0 -12px;opacity:0;pointer-events:none}
+.submit-ring{border-radius:50%;border:2.5px solid #292c5033;border-top-color:var(--ink);transition:opacity .2s ease}
+[data-submit][data-state='sending'] .submit-ring{opacity:1;animation:submit-spin .8s linear infinite}
+.submit-check{fill:none;stroke:var(--lime);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.submit-check path{stroke-dasharray:1;stroke-dashoffset:1}
+[data-submit][data-state='done'] .submit-check{opacity:1}
+[data-submit][data-state='done'] .submit-check path{stroke-dashoffset:0;transition:stroke-dashoffset .45s cubic-bezier(.65,0,.35,1) .15s}
+@keyframes submit-spin{to{transform:rotate(360deg)}}
+[data-submit][data-state]:disabled{opacity:1;filter:none;cursor:progress;background:var(--lime);color:var(--ink)}
+[data-submit][data-state='done']:disabled{background:var(--ink)}
+
+/* Contact "island → live": a pill on Bianca's portrait expands to show the studio's local time. */
+.contact-portrait{position:relative;min-width:0}
+.studio-island{position:absolute;top:16px;left:50%;z-index:2;display:flex;align-items:center;gap:9px;max-width:calc(100% - 32px);padding:9px 15px 9px 11px;border-radius:100px;background:#16182ef2;color:#fff;font-size:.74rem;font-weight:700;letter-spacing:.01em;white-space:nowrap;overflow:hidden;transform:translateX(-50%);box-shadow:0 12px 26px #10122a45;transition:max-width .7s cubic-bezier(.34,1.3,.64,1),padding .7s cubic-bezier(.34,1.3,.64,1)}
+.island-dot{flex:none;width:9px;height:9px;border-radius:50%;background:#8fe07a;box-shadow:0 0 0 0 #8fe07a99;animation:island-pulse 2.4s ease-out infinite}
+.island-text{transition:opacity .35s ease .25s}
+.studio-island[data-island='closed']{max-width:34px;padding:9px 12px}
+.studio-island[data-island='closed'] .island-text{opacity:0;transition-delay:0s}
+@keyframes island-pulse{70%{box-shadow:0 0 0 7px #8fe07a00}100%{box-shadow:0 0 0 0 #8fe07a00}}
+body.motion-paused .island-dot{animation:none}
+@media(prefers-reduced-motion:reduce){.island-dot{animation:none}.studio-island{transition:none}}
+@media(max-width:760px){.studio-island{top:14px;font-size:.7rem}}

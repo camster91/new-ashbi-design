@@ -1,6 +1,7 @@
 ---
 import ActionIcon from './ActionIcon.astro';
 import WorkCarouselControls from './WorkCarouselControls.astro';
+import RollingNumber from './RollingNumber.astro';
 interface Props { compact?: boolean }
 const {compact=false}=Astro.props;
 const plans=[
@@ -14,9 +15,9 @@ const plans=[
     <div class="ongoing-intro"><div><span class="eyebrow">ONGOING SUPPORT / MONTHLY PRICING</span><h2 id={compact?'ongoing-detail-heading':'ongoing-heading'}>Monthly creative support plans and pricing.</h2></div><p>Choose 20, 40 or 80 hours of monthly creative support for the work ahead. We agree priorities, timing and availability before we begin.</p></div>
     <div class="ongoing-grid" id={compact?'campaign-ongoing-plans':'service-ongoing-plans'} data-work-carousel role="region" aria-label="Monthly creative support options" tabindex="0">{plans.map((plan,index)=><article class="ongoing-card reveal">
       <div class="ongoing-card-top"><span>0{index+1} / 03</span><span>MONTHLY CAPACITY</span></div>
-      <div class="ongoing-hours"><strong>{plan.hours}</strong><span>hours<br />per month</span></div>
+      <div class="ongoing-hours"><strong><RollingNumber value={plan.hours} /></strong><span>hours<br />per month</span></div>
       <h3>{plan.name}</h3><p class="ongoing-fit">{plan.fit}</p>
-      <p class="ongoing-price"><strong>{plan.price}</strong><span> / month</span></p>
+      <p class="ongoing-price"><strong><RollingNumber value={plan.price} /></strong><span> / month</span></p>
       <ul>{plan.includes.map(item=><li>{item}</li>)}</ul>
       <p class="ongoing-note">{plan.note}</p>
       <a class="ongoing-plan-link" href={`/contact/?service=design-and-dev-subscription&plan=${plan.hours}-hours#project-brief`}>Discuss this option <ActionIcon name="forward" /></a>

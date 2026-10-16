@@ -1,0 +1,78 @@
+---
+/**
+ * "Sketch → site" + "Alerts → stack" for the web design hero. Sits inside the
+ * hero figure, over the real image. A wireframe draws itself, wipes away to
+ * reveal the finished website, then illustrative store notifications stack up.
+ *
+ * The real image is always in the HTML. The sketch only plays when the inline
+ * script below opts in before first paint, so there is no flash and no-JS or
+ * reduced-motion visitors simply see the finished image.
+ */
+const alerts=[
+  {title:'New order',meta:'Online store · just now',icon:'bag'},
+  {title:'Added to cart',meta:'2 items · 1 min ago',icon:'cart'},
+  {title:'Back in stock',meta:'Restock alert sent',icon:'bell'},
+];
+---
+<script is:inline>
+  try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.dataset.sketch='play';}catch(e){}
+</script>
+<div class="sketch-stage" aria-hidden="true">
+  <svg viewBox="0 0 900 700" preserveAspectRatio="none" fill="none">
+    <g stroke="#292c50" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="40" y="36" width="820" height="628" rx="22" pathLength="1" style="--d:0s" />
+      <path d="M40 104h820" pathLength="1" style="--d:.1s" />
+      <circle cx="84" cy="70" r="14" pathLength="1" style="--d:.15s" />
+      <path d="M560 70h60M650 70h60M740 70h80" pathLength="1" style="--d:.2s" />
+      <path d="M86 170h300M86 214h240M86 268h190" pathLength="1" style="--d:.3s" />
+      <rect x="86" y="310" width="150" height="46" rx="23" pathLength="1" style="--d:.4s" />
+      <rect x="470" y="150" width="344" height="260" rx="16" pathLength="1" style="--d:.35s" />
+      <path d="M470 150l344 260M814 150L470 410" pathLength="1" style="--d:.5s" />
+      <rect x="86" y="460" width="220" height="160" rx="14" pathLength="1" style="--d:.55s" />
+      <rect x="340" y="460" width="220" height="160" rx="14" pathLength="1" style="--d:.62s" />
+      <rect x="594" y="460" width="220" height="160" rx="14" pathLength="1" style="--d:.69s" />
+    </g>
+  </svg>
+  <span class="sketch-note">WIREFRAME</span>
+</div>
+<div class="store-alerts" data-store-alerts aria-hidden="true">
+  {alerts.map(alert=><div class="store-alert">
+    <span class="store-alert-icon">
+      {alert.icon==='bag'&&<svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>}
+      {alert.icon==='cart'&&<svg viewBox="0 0 24 24"><path d="M3 4h2l2.4 11h10.2L20 8H6.2"/><circle cx="9" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></svg>}
+      {alert.icon==='bell'&&<svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15Z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>}
+    </span>
+    <span><b>{alert.title}</b><small>{alert.meta}</small></span>
+  </div>)}
+</div>
+<style>
+  .sketch-stage{display:none}
+  :global(html[data-sketch='play']) .sketch-stage{display:block;position:absolute;inset:0;z-index:2;border-radius:22px;background:#fffdf4;overflow:hidden;animation:sketch-wipe .85s cubic-bezier(.65,0,.35,1) 1.35s both}
+  .sketch-stage svg{position:absolute;inset:0;width:100%;height:100%}
+  .sketch-stage :is(rect,path,circle){stroke-dasharray:1;stroke-dashoffset:1;animation:sketch-draw .75s cubic-bezier(.65,0,.35,1) calc(.15s + var(--d,0s)) forwards}
+  .sketch-note{position:absolute;right:20px;bottom:18px;padding:7px 11px;border-radius:100px;background:var(--lime);color:var(--ink);font-size:.62rem;font-weight:800;letter-spacing:.12em}
+  @keyframes sketch-draw{to{stroke-dashoffset:0}}
+  /* The finished site sweeps in from the left, like turning the page. */
+  @keyframes sketch-wipe{from{clip-path:inset(0 0 0 0)}to{clip-path:inset(0 0 0 100%)}}
+
+  .store-alerts{position:absolute;z-index:3;top:20px;right:20px;width:min(250px,62%);height:62px;pointer-events:none}
+  .store-alert{position:absolute;inset:0;display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:16px;background:#fffdf4f5;color:var(--ink);box-shadow:0 16px 34px #13152d40;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);transform-origin:50% 0;transition:transform .6s cubic-bezier(.34,1.36,.64,1),opacity .4s ease}
+  .store-alert>*{transition:opacity .25s ease}
+  .store-alert b{display:block;font-size:.8rem;line-height:1.2}
+  .store-alert small{display:block;font-size:.68rem;color:#5d6475;line-height:1.3}
+  .store-alert-icon{display:grid;place-items:center;flex:none;width:36px;height:36px;border-radius:11px;background:var(--ink)}
+  .store-alert-icon svg{width:18px;height:18px;fill:none;stroke:var(--lime);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  /* Settled stack (no JS / reduced motion): newest in front, two peeking behind. */
+  .store-alert:nth-child(1){transform:translateY(-24px) scale(.88);opacity:.5}
+  .store-alert:nth-child(2){transform:translateY(-12px) scale(.94);opacity:.8}
+  .store-alert:nth-child(3){z-index:1}
+  .store-alert:is(:nth-child(1),:nth-child(2))>*{opacity:0}
+  /* Played by store-alerts.ts: data-shown counts how many have arrived. */
+  [data-store-alerts][data-shown] .store-alert{transform:translateY(120%) scale(.9);opacity:0}
+  [data-store-alerts][data-shown] .store-alert>*{opacity:1}
+  [data-store-alerts][data-shown='1'] .store-alert:nth-child(1),[data-store-alerts][data-shown='2'] .store-alert:nth-child(2),[data-store-alerts][data-shown='3'] .store-alert:nth-child(3){transform:none;opacity:1;z-index:1}
+  [data-store-alerts][data-shown='2'] .store-alert:nth-child(1),[data-store-alerts][data-shown='3'] .store-alert:nth-child(2){transform:translateY(-12px) scale(.94);opacity:.8}
+  [data-store-alerts][data-shown='3'] .store-alert:nth-child(1){transform:translateY(-24px) scale(.88);opacity:.5}
+  [data-store-alerts]:is([data-shown='2'],[data-shown='3']) .store-alert:nth-child(1)>*,[data-store-alerts][data-shown='3'] .store-alert:nth-child(2)>*{opacity:0}
+  @media(max-width:760px){.store-alerts{top:14px;right:14px;width:min(220px,70%)}}
+</style>
