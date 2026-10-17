@@ -1,0 +1,194 @@
+{
+  "/images/ashbi/ancient-bliss/home.webp": [
+    {
+      "src": "/images/ashbi/responsive/ancient-bliss/home-360.webp",
+      "width": 360
+    },
+    {
+      "src": "/images/ashbi/responsive/ancient-bliss/home-720.webp",
+      "width": 720
+    },
+    {
+      "src": "/images/ashbi/responsive/ancient-bliss/home-1080.webp",
+      "width": 1080
+    }
+  ],
+  "/images/ashbi/bpm/web-hero-720.webp": [
+    {
+      "src": "/images/ashbi/responsive/bpm/web-hero-720-360.webp",
+      "width": 360
+    },
+    {
+      "src": "/images/ashbi/responsive/bpm/web-hero-720-720.webp",
+      "width": 720
+    }
+  ],
+  "/images/ashbi/chef-tanya/shop.webp": [
+    {
+      "src": "/images/ashbi/responsive/chef-tanya/shop-360.webp",
+      "width": 360
+    },
+    {
+      "src": "/images/ashbi/responsive/chef-tanya/shop-720.webp",
+      "width": 720
+    },
+    {
+      "src": "/images/ashbi/responsive/chef-tanya/shop-1080.webp",
+      "width": 1080
+    }
+  ],
+  "/images/ashbi/clypse-main.webp": [
+    {
+      "src": "/images/ashbi/responsive/clypse-main-360.webp",
+      "width": 360
+    },
+    {
+      "src": "/images/ashbi/responsive/clypse-main-720.webp",
+      "width": 720
+    },
+    {
+      "src": "/images/ashbi/responsive/clypse-main-1080.webp",
+      "width": 1080
+    }
+  ],
+  "/images/ashbi/commerce/better-sour-web-01.webp": [
+    {
+      "src": "/images/ashbi/responsive/commerce/better-sour-web-01-360.webp",
+      "width": 360
+    },
+    {
+      "src": "/images/ashbi/responsive/commerce/better-sour-web-01-720.webp",
+      "width": 720
+    },
+    {
+      "src": "/images/ashbi/responsive/commerce/better-sour-web-01-1080.webp",
+      "width": 1080
+    }
+  ],
+  "/images/ashbi/commerce/della-current-hero.webp": [
+    {
+      "src": "/images/ashbi/responsive/commerce/della-current-hero-360.webp",
+      "width": 360
+    },
+    {
+      "src": "/images/ashbi/responsive/commerce/della-current-hero-720.webp",
+      "width": 720
+    },
+    {
+      "src": "/images/ashbi/responsive/commerce/della-current-hero-1080.webp",
+      "width": 1080
+    }
+  ],
+  "/images/ashbi/commerce/mom-water-web-01.webp": [
+    {
+      "src": "/images/ashbi/responsive/commerce/mom-water-web-01-360.webp",
+      "width": 360
+    },
+    {
+      "src": "/images/ashbi/responsive/commerce/mom-water-web-01-720.webp",
+      "width": 720
+    },
+    {
+      "src": "/images/ashbi/responsive/commerce/mom-water-web-01-1080.webp",
+      "width": 1080
+    }
+  ],
+  "/images/ashbi/gallery/cocofro-01-1200.webp": [
+    {
+      "src": "/images/ashbi/responsive/gallery/cocofro-01-1200-360.webp",
+      "width": 360
+    },
+    {
+      "src": "/images/ashbi/responsive/gallery/cocofro-01-1200-720.webp",
+      "width": 720
+    },
+    {
+      "src": "/images/ashbi/responsive/gallery/cocofro-01-1200-1080.webp",
+      "width": 1080
+    }
+  ],
+  "/images/ashbi/gallery/marin-food-05-1800.webp": [
+    {
+      "src": "/images/ashbi/responsive/gallery/marin-food-05-1800-360.webp",
+      "width": 360
+    },
+    {
+      "src": "/images/ashbi/responsive/gallery/marin-food-05-1800-720.webp",
+      "width": 720
+    },
+    {
+      "src": "/images/ashbi/responsive/gallery/marin-food-05-1800-1080.webp",
+      "width": 1080
+    }
+  ],
+  "/images/ashbi/gemzy.webp": [
+    {
+      "src": "/images/ashbi/responsive/gemzy-360.webp",
+      "width": 360
+    },
+    {
+      "src": "/images/ashbi/responsive/gemzy-720.webp",
+      "width": 720
+    },
+    {
+      "src": "/images/ashbi/responsive/gemzy-1080.webp",
+      "width": 1080
+    }
+  ],
+  "/images/ashbi/hopscotch.webp": [
+    {
+      "src": "/images/ashbi/responsive/hopscotch-360.webp",
+      "width": 360
+    },
+    {
+      "src": "/images/ashbi/responsive/hopscotch-720.webp",
+      "width": 720
+    },
+    {
+      "src": "/images/ashbi/responsive/hopscotch-1080.webp",
+      "width": 1080
+    }
+  ],
+  "/images/ashbi/shongoni-skin.webp": [
+    {
+      "src": "/images/ashbi/responsive/shongoni-skin-360.webp",
+      "width": 360
+    },
+    {
+      "src": "/images/ashbi/responsive/shongoni-skin-720.webp",
+      "width": 720
+    },
+    {
+      "src": "/images/ashbi/responsive/shongoni-skin-1080.webp",
+      "width": 1080
+    }
+  ],
+  "/images/ashbi/tres.webp": [
+    {
+      "src": "/images/ashbi/responsive/tres-360.webp",
+      "width": 360
+    },
+    {
+      "src": "/images/ashbi/responsive/tres-720.webp",
+      "width": 720
+    },
+    {
+      "src": "/images/ashbi/responsive/tres-1080.webp",
+      "width": 1080
+    }
+  ],
+  "/images/ashbi/waagbag.webp": [
+    {
+      "src": "/images/ashbi/responsive/waagbag-360.webp",
+      "width": 360
+    },
+    {
+      "src": "/images/ashbi/responsive/waagbag-720.webp",
+      "width": 720
+    },
+    {
+      "src": "/images/ashbi/responsive/waagbag-1080.webp",
+      "width": 1080
+    }
+  ]
+}
