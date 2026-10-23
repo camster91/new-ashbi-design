@@ -18,7 +18,8 @@ export async function handleRequest(request,transport=fetch){
       response.headers.set('X-Ashbi-Hosting','vps-gateway');
       return response;
     }
-    const target=new URL(url.pathname,PAGES_ORIGIN);
+    const target=new URL(PAGES_ORIGIN);
+    target.pathname=url.pathname;
     const headers=new Headers();
     for(const name of ['accept','accept-encoding','if-none-match','if-modified-since','range','if-range']){
       const value=request.headers.get(name);if(value)headers.set(name,value);

@@ -23,7 +23,7 @@ The Worker deliberately sends `/admin`, `/admin/*`, `/api`, `/api/*` and `/healt
 
 ## Verification
 
-The Cloudflare hosted build completed successfully. Local validation passed typecheck, 84 tests (one pre-existing test skipped), three Python ops tests, build, 3,454 internal link/asset checks, 283 fragment checks, a sitemap containing 45 canonical indexable URLs and 163 CMS placements across 36 page bodies. Eight new tests cover migration routing, credentials, redirects, private requests, error handling and 404 preservation. No dependencies were changed.
+The Cloudflare hosted build completed successfully. Local validation passed typecheck, 85 tests (one pre-existing test skipped), three Python ops tests, build, 3,454 internal link/asset checks, 283 fragment checks, a sitemap containing 45 canonical indexable URLs and 163 CMS placements across 36 page bodies. Nine new tests cover migration routing, credentials, redirects, private requests, error handling and 404 preservation. No dependencies were changed.
 
 Production HTTP checks confirmed `/`, `/contact/`, `/work/`, `/sitemap-index.xml` and `/robots.txt` return 200 with `X-Ashbi-Hosting: cloudflare-pages`; a nonexistent route returns 404. `/admin/` returns 200 and the enquiry API rejects GET with 405, both with `X-Ashbi-Hosting: vps-gateway` and `Cache-Control: no-store`. `/health` returns the existing origin's 404; it is not a working production health probe. The public homepage rendered in a real desktop browser. Form validation and transport logic are covered by automated tests; no real enquiry or email was sent. Authenticated admin operations, inbox receipt, and mobile/tablet browser verification remain pending.
 
@@ -45,3 +45,7 @@ Then verify homepage/contact/admin responses and lead handling. Future Pages rel
 3. Implement and test the enquiry API, idempotency, rate limits, delivery status and admin/editor storage on Cloudflare. Import encrypted data through a private migration path and retain a verified backup.
 4. Verify actual delivery with an explicitly authorized test, authenticated admin access and representative mobile/tablet/desktop flows. Switch private paths only after acceptance checks pass.
 5. Inventory other VPS services and subdomains before considering retirement. The ashbi.ca migration does not authorize deleting unrelated services or cancelling the VPS subscription.
+
+## Final hardening update pending reconnection
+
+The initial Worker deployment and production route checks succeeded. A final review added a regression test and changed static upstream URL construction so double-slash paths cannot select a different host. The new test failed before the correction and passes afterward. The corrected Worker passed typecheck and all 85 tests (one existing skip), but Cloudflare rejected its upload because the app connection requires reauthentication. The previous Worker version remains deployed. Reconnect Cloudflare and deploy the corrected `edge/worker.mjs` before treating edge hardening as complete.

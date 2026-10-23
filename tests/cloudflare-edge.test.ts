@@ -43,6 +43,14 @@ test('missing static pages preserve their 404 status',async()=>{
   const response=await handleRequest(new Request('https://www.ashbi.ca/missing'),async()=>new Response('missing',{status:404}));
   assert.equal(response.status,404);
 });
+test('a double-slash path cannot change the Pages upstream host',async()=>{
+  const response=await handleRequest(new Request('https://www.ashbi.ca//untrusted.example/path'),async input=>{
+    assert.ok(input instanceof Request);
+    assert.equal(new URL(input.url).hostname,'ashbi-design.pages.dev');
+    return new Response('missing',{status:404});
+  });
+  assert.equal(response.status,404);
+});
 test('failed gateway requests return an error without retrying a submission',async()=>{
   let calls=0;
   const response=await handleRequest(new Request('https://www.ashbi.ca/api/enquiries',{method:'POST',body:'{}'}),async()=>{calls++;throw Error('offline');});
