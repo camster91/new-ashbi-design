@@ -37,7 +37,8 @@ export function initHomeMotion() {
       const stage = hero.querySelector('.hero-reel-stage');
       if(stage) drift(stage,hero,{y:desktop?72:10,scale:desktop?.94:1},{y:desktop?-65:-8,scale:1});
       document.querySelectorAll('.brand-marquee-head').forEach(row=>{
-        enter(row.children,row,{y:desktop?48:22,scale:.72,rotation:desktop?-7:0,stagger:.17,ease:'back.out(1.25)'});
+        // Only the heading animates; tilting the Pause button left it stuck slanted.
+        enter(row.querySelector('h2'),row,{y:desktop?48:22,ease:'power3.out'});
       });
       document.querySelectorAll('.section-heading,.faq-intro,.studio-copy,.conversation-copy').forEach(heading=>{
         enter(heading.children,heading,{y:desktop?72:25,stagger:.14});
