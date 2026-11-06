@@ -3,4 +3,95 @@ import ActionIcon from '../components/ActionIcon.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import BookingCta from '../components/BookingCta.astro';
 ---
-<BaseLayout title="Branding Agency in Toronto | Ashbi Design" description="A Toronto design studio for brand identity, packaging, and websites."><main id="main"><section class="interior-hero container"><span class="eyebrow">TORONTO BRANDING STUDIO</span><h1>Branding agency in Toronto for product brands.</h1><p>Work directly with Bianca and Cameron on brand strategy, visual identity, packaging and websites. We help your team create a consistent brand across the materials customers see.</p><a class="button button-lime" href="/services/branding/">Explore branding <ActionIcon name="forward" /></a></section><BookingCta /></main></BaseLayout>
+
+<BaseLayout
+  title="Toronto Branding Agency for Product Brands | Ashbi Design"
+  description="Work with a Toronto branding studio on your product launch or rebrand. See how Ashbi connects brand identity, retail packaging and ecommerce."
+>
+  <main id="main">
+    <section class="interior-hero container">
+      <span class="eyebrow">TORONTO BRANDING STUDIO</span>
+      <h1>Branding for product companies launching or growing in Toronto.</h1>
+      <p>Ashbi Design is a Toronto studio led by Bianca and Cameron. We work with founders and marketing teams on the decisions that shape how a product looks on a shelf, in a retailer’s pitch deck and in an online shop.</p>
+      <a class="button button-lime" href="/contact/?service=branding#project-brief">
+        Tell us about your brand <ActionIcon name="forward" />
+      </a>
+    </section>
+
+    <section class="section container toronto-branding" aria-labelledby="toronto-branding-needs">
+      <span class="eyebrow">WHEN TO BRING US IN</span>
+      <h2 id="toronto-branding-needs">What are you getting ready for?</h2>
+      <div class="toronto-grid">
+        <article>
+          <h3>Pitching a retailer</h3>
+          <p>Bring the pack format, planned flavours or variants, and any buyer requirements you already have. We can align the identity, packaging and sell sheet so a buyer can see what the product is and how the range fits together.</p>
+          <a href="/services/packaging-design-services/">Explore packaging design</a>
+        </article>
+        <article>
+          <h3>Launching online</h3>
+          <p>Give customers a clear reason to buy from a small product photo. We design the brand and its online applications together, from product imagery to the way you explain the differences between variants.</p>
+          <a href="/services/web-design/">Explore web design</a>
+        </article>
+        <article>
+          <h3>Refreshing an existing brand</h3>
+          <p>Show us the labels, assets and channels your customers already recognise. We can identify what to keep, what has stopped working and which materials need to change first.</p>
+          <a href="/services/branding/">Explore brand strategy and identity</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section container toronto-branding" aria-labelledby="toronto-branding-work">
+      <span class="eyebrow">SELECTED PRODUCT WORK</span>
+      <h2 id="toronto-branding-work">See how the identity carries across formats.</h2>
+      <div class="toronto-grid toronto-work">
+        <article>
+          <h3>CocoFro</h3>
+          <p>Brand identity, packaging artwork and product renders for a freeze-dried dessert range. Distinct colours help set the flavours apart while the packs still read as one range.</p>
+          <a href="/branding-projects/cocofro/">View the CocoFro case study</a>
+        </article>
+        <article>
+          <h3>Marin Food</h3>
+          <p>Brand identity and packaging for a gourmet butter range, carried into its website, sell sheets and brand deck.</p>
+          <a href="/branding-projects/marin-food/">View the Marin Food case study</a>
+        </article>
+      </div>
+    </section>
+
+    <BookingCta service="branding" />
+  </main>
+</BaseLayout>
+
+<style>
+  .toronto-branding h2 {
+    max-width: 24ch;
+  }
+
+  .toronto-grid {
+    display: grid;
+    gap: clamp(20px, 4vw, 48px);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: clamp(24px, 4vw, 48px);
+  }
+
+  .toronto-work {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .toronto-grid article {
+    border-top: 1px solid currentColor;
+    padding-top: 20px;
+  }
+
+  .toronto-grid a {
+    display: inline-block;
+    margin-top: 8px;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  @media (max-width: 740px) {
+    .toronto-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
