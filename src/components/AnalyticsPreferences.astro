@@ -1,0 +1,22 @@
+---
+const id = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
+const enabled = import.meta.env.ASHBI_DRAFT_PREVIEW !== '1' && typeof id === 'string' && /^G-[A-Z0-9]+$/.test(id);
+---
+{enabled && (
+  <div class="analytics-preferences" data-analytics-preferences data-measurement-id={id} hidden>
+    <label>
+      <input type="checkbox" data-analytics-choice />
+      Allow Google Analytics to measure successful enquiries
+    </label>
+    <p>This is optional and does not affect your enquiry. You can change this setting any time on our <a href="/privacy/">privacy page</a>.</p>
+  </div>
+)}
+<script>
+  import '../scripts/lead-analytics';
+</script>
+<style>
+  .analytics-preferences { margin-block: 1.25rem; }
+  label { display: flex; align-items: baseline; gap: .65rem; cursor: pointer; }
+  input { flex: none; }
+  p { margin: .25rem 0 0 1.65rem; }
+</style>
