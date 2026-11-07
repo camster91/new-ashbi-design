@@ -18,7 +18,8 @@
     "preview:content": "node --experimental-strip-types ops/preview-content.mjs",
     "prepare:content-release": "node --experimental-strip-types ops/prepare-content-release.mjs",
     "check:content": "node --experimental-strip-types ops/check-built-content.mjs",
-    "enquiry-server": "node --experimental-strip-types server/index.mjs"
+    "enquiry-server": "node --experimental-strip-types server/index.mjs",
+    "generate:card-images": "node ops/generate-card-images.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",

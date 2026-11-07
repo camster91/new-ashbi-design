@@ -1,4 +1,5 @@
 ---
+import {cardSrcset, heroCardSizes} from '../lib/card-images';
 import BenefitIllustration from '../components/BenefitIllustration.astro';
 import ActionIcon from '../components/ActionIcon.astro';
 import rawHomeContent from '../data/home-content.json';
@@ -34,7 +35,7 @@ const heroRows=[
     <div class="hero-character"><BrandAccent /></div><div class="hero-copy"><span class="eyebrow">{homeContent.heroEyebrow}</span><h1 id="hero-title">Make your brand worth a second look.</h1><p>{homeContent.heroIntro}</p><div class="hero-actions"><a class="button button-lime" href={site.bookingUrl} data-track="booking_calendar_click">Book a call <ActionIcon name="external" /></a><a class="button button-outline" href="#selected-work">Explore our work <ActionIcon name="down" /></a></div></div>
     <div class="hero-reel-stage" role="region" aria-label="Ashbi project gallery">
       {heroRows.map((row,rowIndex)=><div class={`hero-reel hero-reel-${rowIndex===0?'back':'front'}`} data-hero-reel data-direction={rowIndex===0?-1:1} tabindex="0" aria-label={`${rowIndex===0?'Upper':'Lower'} project row. Swipe or use the arrow keys to browse.`}>
-        {[0,1,2].map(copy=><div class="hero-reel-set" aria-hidden={copy!==1?'true':undefined}>{row.map((project,i)=><a class="reel-card" draggable="false" href={`/work/${project.slug}/`} tabindex={copy!==1?-1:undefined} aria-label={`View ${project.name} case study`}><img src={project.cardImage||project.image} alt="" style={`object-position:${project.cardImagePosition||'center'}`} width="480" height="360" loading={copy===1&&i<5?'eager':'lazy'} fetchpriority={rowIndex===0&&copy===1&&i===0?'high':undefined} /></a>)}</div>)}
+        {[0,1,2].map(copy=><div class="hero-reel-set" aria-hidden={copy!==1?'true':undefined}>{row.map((project,i)=><a class="reel-card" draggable="false" href={`/work/${project.slug}/`} tabindex={copy!==1?-1:undefined} aria-label={`View ${project.name} case study`}><img src={project.cardImage||project.image} srcset={cardSrcset(project.cardImage||project.image)} sizes={heroCardSizes} alt="" style={`object-position:${project.cardImagePosition||'center'}`} width="480" height="360" loading={copy===1&&i<5?'eager':'lazy'} fetchpriority={rowIndex===0&&copy===1&&i===0?'high':undefined} /></a>)}</div>)}
       </div>)}
       <div class="hero-reel-controls"><button type="button" data-reel-prev aria-label="Scroll projects left"><ActionIcon name="back" /></button><button type="button" data-reel-next aria-label="Scroll projects right"><ActionIcon name="forward" /></button></div>
     </div>
