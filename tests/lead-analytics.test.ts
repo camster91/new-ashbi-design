@@ -14,7 +14,9 @@ test('GA4 loads only on confirmed success with consent and stops after withdrawa
   const storage = new Map<string, string>();
   const scripts: { src: string }[] = [];
   let onChange: (() => void) | undefined;
-  const checkbox = { checked: true, addEventListener: (_name: string, callback: () => void) => { onChange = callback; } };
+  const checkbox = { checked: true, defaultChecked: false, addEventListener: (_name: string, callback: () => void) => { onChange = callback; } };
+  // Native form.reset() restores a checkbox from its defaultChecked value.
+  const resetForm = () => { checkbox.checked = checkbox.defaultChecked; };
   const window = {
     dataLayer: [] as ArrayLike<unknown>[],
     addEventListener: (name: string, callback: (event: unknown) => void) => events.set(name, callback),
@@ -47,6 +49,10 @@ test('GA4 loads only on confirmed success with consent and stops after withdrawa
   onChange?.();
   for (const event of ['page_view', 'brief_start', 'brief_failure', 'email_click']) emit(event);
   assert.equal(scripts.length, 0);
+  // The enquiry handler resets the form before emitting confirmed success.
+  resetForm();
+  assert.equal(checkbox.checked, true);
+  assert.equal(storage.get('ashbi:analytics-consent:v1'), 'granted');
   emit('brief_success');
   assert.equal(scripts.length, 1);
   const commands = window.dataLayer.map(command => Array.from(command));
@@ -56,6 +62,9 @@ test('GA4 loads only on confirmed success with consent and stops after withdrawa
 
   checkbox.checked = false;
   onChange?.();
+  resetForm();
+  assert.equal(checkbox.checked, false);
+  assert.equal(storage.has('ashbi:analytics-consent:v1'), false);
   emit('brief_success');
   assert.equal(window.dataLayer.length, 3);
   assert.equal(Reflect.get(window, 'ga-disable-G-TEST123'), true);

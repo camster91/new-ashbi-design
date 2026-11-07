@@ -19,6 +19,7 @@ if (choice && measurementId && /^G-[A-Z0-9]+$/.test(measurementId)) {
   function syncChoice() {
     const allowed = isAllowed();
     choice!.checked = allowed;
+    choice!.defaultChecked = allowed;
     Object.assign(gaWindow, { [disableKey]: !allowed });
   }
 
