@@ -13,6 +13,12 @@ const draftPreview=import.meta.env.ASHBI_DRAFT_PREVIEW==='1';
 const canonical = new URL(canonicalPath || Astro.url.pathname, Astro.site).toString();
 const ogImage = new URL(image, Astro.site).toString();
 const schema = JSON.stringify({ '@context': 'https://schema.org', '@type': 'Organization', name: site.name, url: Astro.site?.toString(), logo: new URL('/images/ashbi/logo.png', Astro.site).toString(), email: site.email, address: { '@type': 'PostalAddress', addressLocality: 'Toronto', addressRegion: 'ON', addressCountry: 'CA' } }).replace(/</g,'\\u003c');
+const websiteSchema = Astro.url.pathname === '/' ? JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: site.name,
+  url: canonical,
+}).replace(/</g, '\\u003c') : undefined;
 ---
 <!doctype html>
 <html lang="en-CA">
@@ -34,6 +40,7 @@ const schema = JSON.stringify({ '@context': 'https://schema.org', '@type': 'Orga
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/png" href="/images/ashbi/logo.png" />
     <script type="application/ld+json" set:html={schema} />
+    {websiteSchema && <script type="application/ld+json" set:html={websiteSchema} />}
   </head>
   <body data-brand-interior={Astro.url.pathname!=='/'?true:undefined}>
     <a class="skip-link" href="#main">Skip to content</a>
