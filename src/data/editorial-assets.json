@@ -411,8 +411,8 @@
   },
   "della": {
     "default-hero": {
-      "src": "/images/ashbi/commerce/della-current-hero.webp",
-      "alt": "Current Della Rice Arborio bag held against a lavender background",
+      "src": "/images/ashbi/della/kehe-summer-show-1080.webp",
+      "alt": "Della Rice social artwork for the KeHE Summer Show with an Arborio bag on lavender",
       "label": "Current case-study image"
     },
     "default-card": {
@@ -439,6 +439,21 @@
       "src": "/images/ashbi/commerce/della-current-regenerative.webp",
       "alt": "Current Della Rice regenerative Long Grain Light Brown Rice bag",
       "label": "Current Della Rice regenerative Long Grain Light Brown Rice bag"
+    },
+    "della-kehe-summer-show": {
+      "src": "/images/ashbi/della/kehe-summer-show-1080.webp",
+      "alt": "Della Rice social artwork for the KeHE Summer Show with an Arborio bag on lavender",
+      "label": "Della Rice social artwork for the KeHE Summer Show with an Arborio bag on lavender"
+    },
+    "della-expo-west": {
+      "src": "/images/ashbi/della/expo-west-1080.webp",
+      "alt": "Della Rice Expo West social artwork with three rice varieties on a dark green background",
+      "label": "Della Rice Expo West social artwork with three rice varieties on a dark green background"
+    },
+    "della-unfi-holiday-show": {
+      "src": "/images/ashbi/della/unfi-holiday-show-1080.webp",
+      "alt": "Della Rice UNFI East Holiday and Winter Show social artwork with a red rice pouch",
+      "label": "Della Rice UNFI East Holiday and Winter Show social artwork with a red rice pouch"
     }
   },
   "bpm": {
@@ -471,6 +486,11 @@
       "src": "/images/ashbi/bpm/pack-open-1600.webp",
       "alt": "BPM Bergamot and Lime box render, opened, used in the website design",
       "label": "BPM Bergamot and Lime box render, opened, used in the website design"
+    },
+    "shop-design": {
+      "src": "/images/ashbi/bpm/web-shop-1440.webp",
+      "alt": "BPM Shop design with green Bergamot and Lime and teal Unscented product cards",
+      "label": "BPM Shop design with green Bergamot and Lime and teal Unscented product cards"
     }
   },
   "chef-tanya": {

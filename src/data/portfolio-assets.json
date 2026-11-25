@@ -772,12 +772,22 @@
   ],
   "della": [
     {
-      "src": "/images/ashbi/commerce/della-current-hero.webp",
-      "srcset": "/images/ashbi/commerce/della-current-hero.webp 1600w",
-      "width": 1600,
-      "height": 1201,
-      "alt": "Current Della Rice Arborio bag held against a lavender background",
-      "source": "https://dellarice.com/wp-content/uploads/2026/02/ChatGPT-Image-Oct-27-2025-12_10_14-PM-1-copy.png"
+      "id": "della-expo-west",
+      "src": "/images/ashbi/della/expo-west-1080.webp",
+      "srcset": "/images/ashbi/della/expo-west-540.webp 540w, /images/ashbi/della/expo-west-1080.webp 1080w",
+      "width": 1080,
+      "height": 1080,
+      "alt": "Della Rice Expo West social artwork with three rice varieties on a dark green background",
+      "source": "https://www.figma.com/design/SSdN94Kcjpvr5h5fFntf6x/Della?node-id=106-465"
+    },
+    {
+      "id": "della-unfi-holiday-show",
+      "src": "/images/ashbi/della/unfi-holiday-show-1080.webp",
+      "srcset": "/images/ashbi/della/unfi-holiday-show-540.webp 540w, /images/ashbi/della/unfi-holiday-show-1080.webp 1080w",
+      "width": 1080,
+      "height": 1080,
+      "alt": "Della Rice UNFI East Holiday and Winter Show social artwork with a red rice pouch",
+      "source": "https://www.figma.com/design/SSdN94Kcjpvr5h5fFntf6x/Della?node-id=292-4"
     },
     {
       "src": "/images/ashbi/commerce/della-current-natural.webp",
@@ -794,14 +804,6 @@
       "height": 911,
       "alt": "Current Della Rice organic Jasmine White Rice bag",
       "source": "https://dellarice.com/wp-content/uploads/2026/04/Organic_634_front.png"
-    },
-    {
-      "src": "/images/ashbi/commerce/della-current-regenerative.webp",
-      "srcset": "/images/ashbi/commerce/della-current-regenerative.webp 900w",
-      "width": 900,
-      "height": 911,
-      "alt": "Current Della Rice regenerative Long Grain Light Brown Rice bag",
-      "source": "https://dellarice.com/wp-content/uploads/2026/04/Regen_12337_front.png"
     }
   ],
   "bpm": [
