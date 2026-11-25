@@ -806,11 +806,13 @@
   ],
   "bpm": [
     {
-      "src": "/images/ashbi/bpm/web-home-1440.webp",
-      "srcset": "/images/ashbi/bpm/web-home-720.webp 720w, /images/ashbi/bpm/web-home-1440.webp 1440w",
+      "id": "bpm-web-shop",
+      "src": "/images/ashbi/bpm/web-shop-1440.webp",
+      "srcset": "/images/ashbi/bpm/web-shop-720.webp 720w, /images/ashbi/bpm/web-shop-1440.webp 1440w",
       "width": 1440,
-      "height": 1080,
-      "alt": "Top of the BPM homepage design: hero, benefits bar, and product line-up"
+      "height": 1010,
+      "alt": "BPM Shop design with green Bergamot and Lime and teal Unscented product cards",
+      "source": "https://www.figma.com/design/REGkhZvykpOP4XmN7EKSnh/BPM---Updates?node-id=42-1366"
     },
     {
       "src": "/images/ashbi/bpm/web-product-1440.webp",

@@ -5,6 +5,7 @@ Exports are unedited crops of the real frames. No recreated layouts or copy.
 
 - web-hero-*.webp — Home frame 42:985, crop y 0–897 (announcement bar, nav, hero)
 - web-home-*.webp — Home frame 42:985, crop y 0–1080 (hero, benefits ticker, top of line-up)
+- web-shop-*.webp — Shop frame 42:1366, crop y 0–1010 (navigation, filters and first product row)
 - web-product-*.webp — Product Detail frame 42:1635, crop y 0–1080
 - web-range-banner-*.webp — Home frame 42:985, crop y 6038–6634 ("Upgrade your daily routine" section)
 - range-trio-880.webp — same section, x 560–1440 (three-product composition)
