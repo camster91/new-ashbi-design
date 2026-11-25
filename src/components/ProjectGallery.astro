@@ -1,7 +1,51 @@
 ---
+import ActionIcon from './ActionIcon.astro';
 import type {GalleryImage} from '../data/site';
+
 interface Props {images:GalleryImage[];name:string;}
 const {images,name}=Astro.props;
 const rows=Array.from({length:Math.ceil(images.length/2)},(_,i)=>images.slice(i*2,i*2+2));
 ---
-<section class="container portfolio-gallery" aria-label={`${name} project gallery`}>{rows.map((row,i)=><div class:list={['gallery-pair',{'gallery-pair-reverse':i%2===1,'gallery-pair-single':row.length===1}]}>{row.map(img=><figure class="reveal"><img src={img.src} srcset={img.srcset} sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1488px) 56vw, 820px" width={img.width} height={img.height} alt={img.alt} loading="lazy" decoding="async" /></figure>)}</div>)}</section>
+<section class="container portfolio-gallery" aria-label={`${name} project gallery`} data-project-gallery>
+  {rows.map((row,i)=><div class:list={['gallery-pair',{'gallery-pair-reverse':i%2===1,'gallery-pair-single':row.length===1}]}>
+    {row.map(img=><figure class="reveal">
+      <a class="gallery-image-link" href={img.src} aria-label={`Enlarge image: ${img.alt}`}>
+        <img src={img.src} srcset={img.srcset} sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1488px) 56vw, 820px" width={img.width} height={img.height} alt={img.alt} loading="lazy" decoding="async" />
+        <span class="gallery-image-icon"><ActionIcon name="plus" /></span>
+      </a>
+    </figure>)}
+  </div>)}
+  <dialog class="gallery-viewer" aria-label={`${name} artwork detail`}>
+    <form method="dialog"><button type="submit">Close image</button></form>
+    <img alt="" />
+  </dialog>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-project-gallery]').forEach(gallery=>{
+    const dialog=gallery.querySelector('dialog')!;
+    const fullImage=dialog.querySelector('img')!;
+    gallery.querySelectorAll<HTMLAnchorElement>('.gallery-image-link').forEach(link=>{
+      link.addEventListener('click',event=>{
+        if(event.defaultPrevented||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||typeof dialog.showModal!=='function')return;
+        event.preventDefault();
+        fullImage.alt=link.querySelector('img')!.alt;
+        fullImage.src=link.href;
+        dialog.showModal();
+        dialog.scrollTop=0;
+      });
+    });
+    dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close();});
+    dialog.addEventListener('close',()=>fullImage.removeAttribute('src'));
+  });
+</script>
+
+<style>
+  .gallery-image-link{position:relative;display:block;border-radius:20px;cursor:zoom-in}
+  .gallery-image-icon{position:absolute;right:12px;bottom:12px;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;border:1px solid #fff}
+  .gallery-viewer{width:min(96vw,1440px);max-width:none;max-height:94dvh;padding:0;border:1px solid var(--line);border-radius:16px;background:var(--cream);color:var(--ink)}
+  .gallery-viewer::backdrop{background:#17182bdb}
+  .gallery-viewer form{position:sticky;top:0;display:flex;justify-content:flex-end;padding:12px;background:var(--cream)}
+  .gallery-viewer button{min-height:44px;padding:8px 18px;border:1px solid currentColor;border-radius:999px;background:transparent;color:inherit;font-weight:700}
+  .gallery-viewer img{width:auto;height:auto;max-width:100%;margin-inline:auto}
+</style>
